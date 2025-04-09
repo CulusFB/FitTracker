@@ -1,4 +1,5 @@
 {
   "hello": "Hello",
-  "add_activity": "Add activity"
+  "add_activity": "Add activity",
+  "create_exercise": "Create an exercise"
 }

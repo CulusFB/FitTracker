@@ -24,6 +24,8 @@ class MessageLookup extends MessageLookupByLibrary {
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "add_activity":
             MessageLookupByLibrary.simpleMessage("Добавить упражнение"),
+        "create_exercise":
+            MessageLookupByLibrary.simpleMessage("Создать упражнение"),
         "hello": MessageLookupByLibrary.simpleMessage("Привет")
       };
 }

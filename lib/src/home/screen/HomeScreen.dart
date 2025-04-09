@@ -1,4 +1,5 @@
 import 'package:fit_tracker/generated/l10n.dart';
+import 'package:fit_tracker/src/home/screen/NewActivityScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_advanced_calendar/flutter_advanced_calendar.dart';
 
@@ -15,13 +16,11 @@ class _HomeScreen extends State<Homescreen> with TickerProviderStateMixin {
     DateTime.now(),
     DateTime(2022, 10, 10),
   ];
-  late final TabController _tabController;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     _dates = [DateTime.now()];
-    _tabController = TabController(length: 2, vsync: this);
   }
 
   @override
@@ -41,20 +40,11 @@ class _HomeScreen extends State<Homescreen> with TickerProviderStateMixin {
             ElevatedButton(
                 onPressed: () => {
                       showModalBottomSheet(
+                          useSafeArea: true,
+                          isScrollControlled: true,
                           context: context,
                           builder: (context) {
-                            return Column(
-                              children: [
-                                TabBar(
-                                    controller: _tabController,
-                                    tabs: <Widget>[
-                                      Tab(
-                                        text: "Упражнения",
-                                      ),
-                                      Tab(text: "Программы")
-                                    ])
-                              ],
-                            );
+                            return NewActivityScreen();
                           })
                     },
                 child: Text(S.of(context).add_activity))

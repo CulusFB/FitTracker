@@ -69,6 +69,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Create an exercise`
+  String get create_exercise {
+    return Intl.message(
+      'Create an exercise',
+      name: 'create_exercise',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
