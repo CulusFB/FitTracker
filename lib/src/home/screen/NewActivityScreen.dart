@@ -18,27 +18,31 @@ class _NewActivityScreen extends State<NewActivityScreen>
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(5),
-      child: Column(
-        children: [
-          SearchBar(),
-          TabBar.secondary(controller: _tabController, tabs: <Widget>[
-            Tab(
-              text: "Упражнения",
-            ),
-            Tab(text: "Программы")
+    return Column(
+      children: [
+        Container(
+          padding: EdgeInsets.all(10),
+          child: SearchBar(
+            elevation: WidgetStatePropertyAll(0),
+            leading: Icon(Icons.search),
+            hintText: 'Поиск',
+          ),
+        ),
+        TabBar.secondary(controller: _tabController, tabs: <Widget>[
+          Tab(
+            text: "Упражнения",
+          ),
+          Tab(text: "Программы")
+        ]),
+        Expanded(
+          child: TabBarView(controller: _tabController, children: [
+            ActivityScreen(),
+            Column(
+              children: [Text('test2')],
+            )
           ]),
-          Expanded(
-            child: TabBarView(controller: _tabController, children: [
-              ActivityScreen(),
-              Column(
-                children: [Text('test2')],
-              )
-            ]),
-          )
-        ],
-      ),
+        )
+      ],
     );
   }
 }

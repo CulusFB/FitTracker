@@ -21,9 +21,10 @@ class _ActivityScreen extends State<ActivityScreen>
       padding: EdgeInsets.only(top: 10),
       child: Column(
         children: [
-          SizedBox(
+          Container(
+            padding: EdgeInsets.all(5),
             width: MediaQuery.of(context).size.width,
-            height: 60,
+            height: 80,
             child: FilledButton(
                 onPressed: () {},
                 child: Container(
