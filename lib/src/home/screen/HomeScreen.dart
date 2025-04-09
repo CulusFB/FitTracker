@@ -10,7 +10,6 @@ class Homescreen extends StatefulWidget {
 }
 
 class _HomeScreen extends State<Homescreen> with TickerProviderStateMixin {
-  late List<DateTime> _dates;
   final _controller = AdvancedCalendarController.today();
   final events = <DateTime>[
     DateTime.now(),
@@ -18,9 +17,7 @@ class _HomeScreen extends State<Homescreen> with TickerProviderStateMixin {
   ];
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    _dates = [DateTime.now()];
   }
 
   @override
