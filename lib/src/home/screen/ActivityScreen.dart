@@ -1,15 +1,21 @@
 import 'package:fit_tracker/generated/l10n.dart';
 import 'package:fit_tracker/src/home/widgets/TileActivity.dart';
+import 'package:fit_tracker/src/themes/FilledButtonTheme.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class ActivityScreen extends StatefulWidget {
-  const ActivityScreen({super.key});
+  const ActivityScreen({super.key, required this.activityName});
+  final String activityName;
   @override
-  State<ActivityScreen> createState() => _ActivityScreen();
+  State<ActivityScreen> createState() =>
+      _ActivityScreen(activityName: activityName);
 }
 
 class _ActivityScreen extends State<ActivityScreen>
     with TickerProviderStateMixin {
+  _ActivityScreen({required this.activityName});
+  final String activityName;
   @override
   void initState() {
     super.initState();
@@ -17,36 +23,43 @@ class _ActivityScreen extends State<ActivityScreen>
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.only(top: 10),
-      child: Column(
-        children: [
-          Container(
-            padding: EdgeInsets.all(5),
-            width: MediaQuery.of(context).size.width,
-            height: 80,
-            child: FilledButton(
-                onPressed: () {},
-                child: Container(
-                  padding: EdgeInsets.all(10),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(S.of(context).create_exercise),
-                      Icon(Icons.add)
-                    ],
-                  ),
+    return SafeArea(
+      child: Container(
+        padding: EdgeInsets.all(10),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+                padding: EdgeInsets.all(10),
+                child: Text(
+                  activityName,
+                  style: GoogleFonts.roboto(fontSize: 30),
                 )),
-          ),
-          TileActivity(activityName: 'Растяжка', activityCount: 3),
-          TileActivity(activityName: 'Кардио', activityCount: 3),
-          TileActivity(activityName: 'Грудь', activityCount: 2),
-          TileActivity(activityName: 'Спина', activityCount: 3),
-          TileActivity(activityName: 'Руки', activityCount: 3),
-          TileActivity(activityName: 'Ноги', activityCount: 3),
-          TileActivity(activityName: 'Плечи', activityCount: 3),
-          TileActivity(activityName: 'Пресс', activityCount: 3),
-        ],
+            Container(
+              padding: EdgeInsets.all(10),
+              width: MediaQuery.of(context).size.width,
+              height: 80,
+              child: FilledButton(
+                  style: FilledButtonStyle(),
+                  onPressed: () {},
+                  child: Text(
+                    S.of(context).add_activity,
+                  )),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            TileActivity(activityName: "Растяжка грудных мышц"),
+            Spacer(),
+            IconButton.filled(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              icon: Icon(Icons.arrow_back),
+              iconSize: 30,
+            )
+          ],
+        ),
       ),
     );
   }

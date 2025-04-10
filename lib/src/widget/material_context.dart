@@ -1,7 +1,7 @@
-import 'dart:ui';
-
 import 'package:fit_tracker/generated/l10n.dart';
 import 'package:fit_tracker/src/home/screen/HomeScreen.dart';
+import 'package:fit_tracker/src/themes/ThemeDark.dart';
+import 'package:fit_tracker/src/themes/ThemeLight.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
@@ -20,6 +20,7 @@ class _MaterialContextApp extends State<MaterialContextApp> {
 
   @override
   Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
     return MaterialApp(
         localizationsDelegates: const [
           S.delegate,
@@ -28,9 +29,8 @@ class _MaterialContextApp extends State<MaterialContextApp> {
           GlobalCupertinoLocalizations.delegate
         ],
         supportedLocales: S.delegate.supportedLocales,
-        theme: ThemeData(colorSchemeSeed: Colors.blueAccent),
-        darkTheme: ThemeData(
-            colorSchemeSeed: Colors.blueAccent, brightness: Brightness.dark),
+        theme: createLightTheme(textTheme),
+        darkTheme: createDarkTheme(textTheme),
         themeMode: ThemeMode.system,
         debugShowCheckedModeBanner: false,
         showSemanticsDebugger: false,

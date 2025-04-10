@@ -12,6 +12,8 @@ dependencies:
   flutter_advanced_calendar: ^1.4.3
   flutter_localizations:
     sdk: flutter
+  google_fonts: ^6.2.1
+  path_provider_foundation: ^2.4.1
 
 dev_dependencies:
   flutter_test:

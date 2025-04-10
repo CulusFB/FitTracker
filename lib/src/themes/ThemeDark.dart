@@ -1,0 +1,72 @@
+import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+
+ThemeData createDarkTheme(TextTheme textTheme) {
+  return ThemeData(
+      colorSchemeSeed: Colors.blueAccent,
+      brightness: Brightness.dark,
+      textTheme: GoogleFonts.latoTextTheme(textTheme).copyWith(
+          labelLarge: GoogleFonts.roboto(
+            textStyle: textTheme.bodyLarge,
+            fontWeight: FontWeight.bold,
+            fontSize: 18,
+          ),
+          labelMedium: GoogleFonts.roboto(
+              textStyle: textTheme.bodyMedium,
+              fontWeight: FontWeight.bold,
+              fontSize: 18),
+          labelSmall: GoogleFonts.roboto(
+              textStyle: textTheme.bodySmall,
+              fontWeight: FontWeight.bold,
+              fontSize: 18),
+          headlineLarge: GoogleFonts.roboto(
+              textStyle: textTheme.bodyLarge,
+              fontWeight: FontWeight.bold,
+              fontSize: 18),
+          headlineMedium: GoogleFonts.roboto(
+              textStyle: textTheme.bodyMedium,
+              fontWeight: FontWeight.bold,
+              fontSize: 18),
+          headlineSmall: GoogleFonts.roboto(
+              textStyle: textTheme.bodySmall,
+              fontWeight: FontWeight.bold,
+              fontSize: 18),
+          displayLarge: GoogleFonts.roboto(
+              textStyle: textTheme.bodyLarge,
+              fontWeight: FontWeight.bold,
+              fontSize: 18),
+          displayMedium: GoogleFonts.roboto(
+              textStyle: textTheme.bodyMedium,
+              fontWeight: FontWeight.bold,
+              fontSize: 18),
+          displaySmall: GoogleFonts.roboto(
+              textStyle: textTheme.bodySmall,
+              fontWeight: FontWeight.bold,
+              fontSize: 18),
+          titleMedium: GoogleFonts.roboto(
+              textStyle: textTheme.bodyMedium,
+              fontWeight: FontWeight.bold,
+              fontSize: 18,
+              color: Colors.grey[50]),
+          titleSmall: GoogleFonts.roboto(
+              textStyle: textTheme.bodySmall,
+              fontWeight: FontWeight.bold,
+              fontSize: 18),
+          titleLarge: GoogleFonts.roboto(
+              textStyle: textTheme.bodyLarge,
+              fontWeight: FontWeight.bold,
+              fontSize: 18),
+          bodyLarge: GoogleFonts.roboto(
+              textStyle: textTheme.bodyLarge,
+              fontWeight: FontWeight.bold,
+              fontSize: 16),
+          bodySmall: GoogleFonts.roboto(
+              textStyle: textTheme.bodySmall,
+              fontWeight: FontWeight.bold,
+              fontSize: 18),
+          bodyMedium: GoogleFonts.roboto(
+              textStyle: textTheme.bodyMedium,
+              fontWeight: FontWeight.bold,
+              fontSize: 16,
+              color: Colors.grey[50])));
+}

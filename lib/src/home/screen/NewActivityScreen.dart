@@ -1,4 +1,4 @@
-import 'package:fit_tracker/src/home/screen/ActivityScreen.dart';
+import 'package:fit_tracker/src/home/screen/ListActivityScreen.dart';
 import 'package:flutter/material.dart';
 
 class NewActivityScreen extends StatefulWidget {
@@ -36,7 +36,7 @@ class _NewActivityScreen extends State<NewActivityScreen>
         ]),
         Expanded(
           child: TabBarView(controller: _tabController, children: [
-            ActivityScreen(),
+            ListActivityScreen(),
             Column(
               children: [Text('test2')],
             )
