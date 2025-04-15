@@ -1,3 +1,5 @@
+import 'package:fit_tracker/DB/crud/muscleGroup_crud.dart';
+import 'package:fit_tracker/DB/models/muscleGroup.dart';
 import 'package:fit_tracker/generated/l10n.dart';
 import 'package:fit_tracker/src/home/widgets/TileListActivity.dart';
 import 'package:fit_tracker/src/themes/FilledButtonTheme.dart';
@@ -11,9 +13,15 @@ class ListActivityScreen extends StatefulWidget {
 
 class _ListActivityScreen extends State<ListActivityScreen>
     with TickerProviderStateMixin {
+  List<MuscleGroup> poolMuscleGroup = [];
   @override
   void initState() {
     super.initState();
+    _asyncGetActivityList();
+  }
+
+  _asyncGetActivityList() async {
+    poolMuscleGroup = await getAllMuscleGroup();
   }
 
   @override
@@ -40,14 +48,14 @@ class _ListActivityScreen extends State<ListActivityScreen>
                   ),
                 )),
           ),
-          TileListActivity(activityName: 'Растяжка', activityCount: 3),
-          TileListActivity(activityName: 'Кардио', activityCount: 3),
-          TileListActivity(activityName: 'Грудь', activityCount: 2),
-          TileListActivity(activityName: 'Спина', activityCount: 3),
-          TileListActivity(activityName: 'Руки', activityCount: 3),
-          TileListActivity(activityName: 'Ноги', activityCount: 3),
-          TileListActivity(activityName: 'Плечи', activityCount: 3),
-          TileListActivity(activityName: 'Пресс', activityCount: 3),
+          Column(
+            children: poolMuscleGroup
+                .map((muscleGroup) => TileListActivity(
+                      activityName: muscleGroup.Name_ru as String,
+                      activityCount: 1,
+                    ))
+                .toList(),
+          )
         ],
       ),
     );

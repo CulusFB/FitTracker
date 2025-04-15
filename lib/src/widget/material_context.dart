@@ -22,6 +22,7 @@ class _MaterialContextApp extends State<MaterialContextApp> {
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     return MaterialApp(
+        title: 'Fit Tracker',
         localizationsDelegates: const [
           S.delegate,
           GlobalMaterialLocalizations.delegate,
