@@ -22,6 +22,7 @@ class _ListActivityScreen extends State<ListActivityScreen>
 
   _asyncGetActivityList() async {
     poolMuscleGroup = await getAllMuscleGroup();
+    setState(() {});
   }
 
   @override
@@ -51,8 +52,7 @@ class _ListActivityScreen extends State<ListActivityScreen>
           Column(
             children: poolMuscleGroup
                 .map((muscleGroup) => TileListActivity(
-                      activityName: muscleGroup.Name_ru as String,
-                      activityCount: 1,
+                      muscleGroup: muscleGroup,
                     ))
                 .toList(),
           )

@@ -1,5 +1,6 @@
 {
   "hello": "Привет",
   "add_activity": "Добавить упражнение",
-  "create_exercise": "Создать упражнение"
+  "create_exercise": "Создать упражнение",
+  "name_activity": "Название упражнения"
 }

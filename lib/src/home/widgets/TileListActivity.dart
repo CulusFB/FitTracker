@@ -1,24 +1,31 @@
+import 'package:fit_tracker/DB/crud/poolActivity_crud.dart';
+import 'package:fit_tracker/DB/models/muscleGroup.dart';
+import 'package:fit_tracker/DB/models/poolActivity.dart';
 import 'package:fit_tracker/src/home/screen/ActivityScreen.dart';
 import 'package:flutter/material.dart';
 
 class TileListActivity extends StatefulWidget {
-  const TileListActivity(
-      {super.key, required this.activityName, required this.activityCount});
-  final String activityName;
-  final int activityCount;
+  const TileListActivity({super.key, required this.muscleGroup});
+  final MuscleGroup muscleGroup;
   @override
-  State<TileListActivity> createState() => _TileListActivity(
-      activityCount: activityCount, activityName: activityName);
+  State<TileListActivity> createState() =>
+      _TileListActivity(muscleGroup: muscleGroup);
 }
 
 class _TileListActivity extends State<TileListActivity>
     with TickerProviderStateMixin {
-  _TileListActivity({required this.activityCount, required this.activityName});
-  final String activityName;
-  final int activityCount;
+  _TileListActivity({required this.muscleGroup});
+  final MuscleGroup muscleGroup;
+  late List<PoolActivity> idPoolActivity = [];
   @override
   void initState() {
     super.initState();
+    _asyncGetPoolActivity();
+  }
+
+  _asyncGetPoolActivity() async {
+    idPoolActivity = await getPoolActivityMuscleGroupID(muscleGroup.id);
+    setState(() {});
   }
 
   @override
@@ -31,9 +38,12 @@ class _TileListActivity extends State<TileListActivity>
             context: context,
             builder: (context) {
               return ActivityScreen(
-                activityName: activityName,
+                muscleGroup: muscleGroup,
+                poolActivityList: idPoolActivity,
               );
-            });
+            }).whenComplete(() {
+          _asyncGetPoolActivity();
+        });
       },
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -46,12 +56,12 @@ class _TileListActivity extends State<TileListActivity>
               SizedBox(
                 width: 10,
               ),
-              Text(activityName),
+              Text(muscleGroup.Name_ru as String),
             ],
           ),
           Row(
             children: [
-              Text(activityCount.toString()),
+              Text(idPoolActivity.length.toString()),
               SizedBox(
                 width: 10,
               ),

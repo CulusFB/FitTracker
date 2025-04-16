@@ -25,6 +25,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "add_activity": MessageLookupByLibrary.simpleMessage("Add activity"),
         "create_exercise":
             MessageLookupByLibrary.simpleMessage("Create an exercise"),
-        "hello": MessageLookupByLibrary.simpleMessage("Hello")
+        "hello": MessageLookupByLibrary.simpleMessage("Hello"),
+        "name_activity": MessageLookupByLibrary.simpleMessage("Name activity")
       };
 }
