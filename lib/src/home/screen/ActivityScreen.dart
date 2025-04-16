@@ -70,14 +70,17 @@ class _ActivityScreen extends State<ActivityScreen>
             SizedBox(
               height: 20,
             ),
-            Column(
-              children: poolActivityList
-                  .map((poolActivity) => TileActivity(
-                        activityName: poolActivity.Name_ru as String,
-                      ))
-                  .toList(),
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  children: poolActivityList
+                      .map((poolActivity) => TileActivity(
+                            activityName: poolActivity.Name_ru as String,
+                          ))
+                      .toList(),
+                ),
+              ),
             ),
-            Spacer(),
             IconButton.filled(
               onPressed: () {
                 Navigator.pop(context);

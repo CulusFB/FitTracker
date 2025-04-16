@@ -4,7 +4,8 @@ import 'package:fit_tracker/DB/models/poolActivity.dart';
 newPoolActivity(PoolActivity poolActivity) async {
   final db = await DBProvider.db.database;
   var res = await db.insert('PoolActivity', poolActivity.toJson());
-  return res;
+  poolActivity.id = res;
+  return poolActivity;
 }
 
 getPoolActivityId(int id) async {
