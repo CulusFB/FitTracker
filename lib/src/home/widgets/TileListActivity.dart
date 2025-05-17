@@ -1,4 +1,4 @@
-import 'package:fit_tracker/DB/crud/poolActivity_crud.dart';
+import 'package:fit_tracker/DB/DataManager.dart';
 import 'package:fit_tracker/DB/models/muscleGroup.dart';
 import 'package:fit_tracker/DB/models/poolActivity.dart';
 import 'package:fit_tracker/src/home/screen/ActivityScreen.dart';
@@ -16,16 +16,11 @@ class _TileListActivity extends State<TileListActivity>
     with TickerProviderStateMixin {
   _TileListActivity({required this.muscleGroup});
   final MuscleGroup muscleGroup;
-  late List<PoolActivity> idPoolActivity = [];
+  late List<PoolActivity> idPoolActivity =
+      DataManager.instance.getPoolActivityMuscleGroup(muscleGroup.id);
   @override
   void initState() {
     super.initState();
-    _asyncGetPoolActivity();
-  }
-
-  _asyncGetPoolActivity() async {
-    idPoolActivity = await getPoolActivityMuscleGroupID(muscleGroup.id);
-    setState(() {});
   }
 
   @override
@@ -42,7 +37,7 @@ class _TileListActivity extends State<TileListActivity>
                 poolActivityList: idPoolActivity,
               );
             }).whenComplete(() {
-          _asyncGetPoolActivity();
+          setState(() {});
         });
       },
       title: Row(

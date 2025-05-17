@@ -1,4 +1,4 @@
-import 'package:fit_tracker/DB/crud/poolActivity_crud.dart';
+import 'package:fit_tracker/DB/DataManager.dart';
 import 'package:fit_tracker/DB/models/muscleGroup.dart';
 import 'package:fit_tracker/DB/models/poolActivity.dart';
 import 'package:fit_tracker/generated/l10n.dart';
@@ -57,9 +57,9 @@ class _ActivityScreen extends State<ActivityScreen>
                           return AddActivityScreen(
                             muscleGroup: muscleGroup,
                           );
-                        }).whenComplete(() async {
-                      poolActivityList =
-                          await getPoolActivityMuscleGroupID(muscleGroup.id);
+                        }).whenComplete(() {
+                      poolActivityList = DataManager.instance
+                          .getPoolActivityMuscleGroup(muscleGroup.id);
                       setState(() {});
                     });
                   },

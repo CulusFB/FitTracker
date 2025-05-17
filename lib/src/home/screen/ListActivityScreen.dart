@@ -1,4 +1,4 @@
-import 'package:fit_tracker/DB/crud/muscleGroup_crud.dart';
+import 'package:fit_tracker/DB/DataManager.dart';
 import 'package:fit_tracker/DB/models/muscleGroup.dart';
 import 'package:fit_tracker/generated/l10n.dart';
 import 'package:fit_tracker/src/home/widgets/TileListActivity.dart';
@@ -13,16 +13,10 @@ class ListActivityScreen extends StatefulWidget {
 
 class _ListActivityScreen extends State<ListActivityScreen>
     with TickerProviderStateMixin {
-  List<MuscleGroup> poolMuscleGroup = [];
+  List<MuscleGroup> poolMuscleGroup = DataManager.instance.muscleGroup;
   @override
   void initState() {
     super.initState();
-    _asyncGetActivityList();
-  }
-
-  _asyncGetActivityList() async {
-    poolMuscleGroup = await getAllMuscleGroup();
-    setState(() {});
   }
 
   @override

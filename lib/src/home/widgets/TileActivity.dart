@@ -18,6 +18,10 @@ class _TileActivity extends State<TileActivity> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(onTap: () {}, title: Text(activityName));
+    return ListTile(
+      onTap: () {},
+      title: Text(activityName),
+      minVerticalPadding: 20,
+    );
   }
 }

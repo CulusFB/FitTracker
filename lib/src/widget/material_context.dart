@@ -1,3 +1,4 @@
+import 'package:fit_tracker/DB/DataManager.dart';
 import 'package:fit_tracker/generated/l10n.dart';
 import 'package:fit_tracker/src/home/screen/HomeScreen.dart';
 import 'package:fit_tracker/src/themes/ThemeDark.dart';
@@ -16,6 +17,12 @@ class MaterialContextApp extends StatefulWidget {
 class _MaterialContextApp extends State<MaterialContextApp> {
   void initState() {
     super.initState();
+    initDataManager();
+  }
+
+  initDataManager() async {
+    DataManager dataManager = DataManager.instance;
+    await dataManager.initDataManager();
   }
 
   @override
