@@ -30,7 +30,8 @@ ThemeData createDarkTheme(TextTheme textTheme) {
           headlineSmall: GoogleFonts.roboto(
               textStyle: textTheme.bodySmall,
               fontWeight: FontWeight.bold,
-              fontSize: 18),
+              color: Colors.grey[50],
+              fontSize: 20),
           displayLarge: GoogleFonts.roboto(
               textStyle: textTheme.bodyLarge,
               fontWeight: FontWeight.bold,

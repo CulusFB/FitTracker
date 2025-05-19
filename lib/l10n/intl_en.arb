@@ -2,5 +2,7 @@
   "hello": "Hello",
   "add_activity": "Add activity",
   "create_exercise": "Create an exercise",
-  "name_activity": "Name activity"
+  "name_activity": "Name activity",
+  "label": "Label",
+  "edit": "Edit"
 }

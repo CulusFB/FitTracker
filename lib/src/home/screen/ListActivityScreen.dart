@@ -43,13 +43,15 @@ class _ListActivityScreen extends State<ListActivityScreen>
                   ),
                 )),
           ),
-          SingleChildScrollView(
-            child: Column(
-              children: poolMuscleGroup
-                  .map((muscleGroup) => TileListActivity(
-                        muscleGroup: muscleGroup,
-                      ))
-                  .toList(),
+          Expanded(
+            child: SingleChildScrollView(
+              child: Column(
+                children: poolMuscleGroup
+                    .map((muscleGroup) => TileListActivity(
+                          muscleGroup: muscleGroup,
+                        ))
+                    .toList(),
+              ),
             ),
           )
         ],

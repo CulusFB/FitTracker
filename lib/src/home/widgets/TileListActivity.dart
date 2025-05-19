@@ -32,11 +32,10 @@ class _TileListActivity extends State<TileListActivity>
             isScrollControlled: true,
             context: context,
             builder: (context) {
-              return ActivityScreen(
-                muscleGroup: muscleGroup,
-                poolActivityList: idPoolActivity,
-              );
+              return ActivityScreen(muscleGroup: muscleGroup);
             }).whenComplete(() {
+          idPoolActivity =
+              DataManager.instance.getPoolActivityMuscleGroup(muscleGroup.id);
           setState(() {});
         });
       },

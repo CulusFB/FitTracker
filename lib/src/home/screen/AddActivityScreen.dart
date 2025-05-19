@@ -6,28 +6,41 @@ import 'package:fit_tracker/src/themes/FilledButtonTheme.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+// ignore: must_be_immutable
 class AddActivityScreen extends StatefulWidget {
-  const AddActivityScreen({
-    super.key,
-    required this.muscleGroup,
-  });
+  AddActivityScreen(
+      {super.key, required this.muscleGroup, PoolActivity? poolActivity})
+      : poolActivity = poolActivity ?? PoolActivity();
   final MuscleGroup muscleGroup;
+  PoolActivity poolActivity;
   @override
-  State<AddActivityScreen> createState() => _AddActivityScreen(
-        muscleGroup: muscleGroup,
-      );
+  State<AddActivityScreen> createState() =>
+      _AddActivityScreen(muscleGroup: muscleGroup, poolActivity: poolActivity);
 }
 
 class _AddActivityScreen extends State<AddActivityScreen>
     with TickerProviderStateMixin {
-  _AddActivityScreen({
-    required this.muscleGroup,
-  });
+  _AddActivityScreen({required this.muscleGroup, PoolActivity? poolActivity})
+      : poolActivity = poolActivity ?? PoolActivity();
+  PoolActivity poolActivity;
   TextEditingController textController = TextEditingController();
+  TextEditingController labelController = TextEditingController();
   final MuscleGroup muscleGroup;
   @override
   void initState() {
+    if (poolActivity.id != 0) {
+      textController.text = poolActivity.Name_ru as String;
+      labelController.text =
+          poolActivity.label != null ? poolActivity.label as String : '';
+    }
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    textController.dispose();
+    labelController.dispose();
+    super.dispose();
   }
 
   @override
@@ -54,29 +67,90 @@ class _AddActivityScreen extends State<AddActivityScreen>
                 hintText: S.of(context).name_activity,
               ),
             ),
+            textController.text != ''
+                ? TextField(
+                    controller: labelController,
+                    decoration: InputDecoration(hintText: S.of(context).label),
+                  )
+                : SizedBox(),
+            poolActivity.id != 0
+                ? SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    child: TextButton(
+                        onPressed: () {
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  //TODO: Добавить intl
+                                  title: Text('Вы уверены?'),
+                                  content: Text(
+                                      'История выполнений и статистика не сохранятся. Это действие нельзя отменить.'),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: Text('Отмена'),
+                                    ),
+                                    TextButton(
+                                      onPressed: () async {
+                                        await DataManager.instance
+                                            .deleteActivity(poolActivity.id);
+                                        Navigator.of(context).pop();
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: Text('Да'),
+                                    ),
+                                  ],
+                                );
+                              });
+                        },
+                        child: Text(
+                          "Удалить упражнение",
+                          style: TextStyle(color: Colors.redAccent),
+                        )),
+                  )
+                : SizedBox(),
             Spacer(),
             Row(
               spacing: 10,
               children: [
-                IconButton.filled(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  icon: Icon(Icons.arrow_back),
-                  iconSize: 30,
+                SizedBox(
+                  height: 45,
+                  child: IconButton.filled(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    icon: Icon(Icons.arrow_back),
+                    iconSize: 30,
+                  ),
                 ),
                 textController.text != ''
                     ? Expanded(
+                        child: SizedBox(
+                        height: 45,
                         child: FilledButton(
                             style: FilledButtonStyle(),
                             onPressed: () async {
-                              await DataManager.instance.newActivity(
-                                  PoolActivity(
-                                      Name_ru: textController.text,
-                                      MuscleGroupId: muscleGroup.id));
+                              if (poolActivity.id != 0) {
+                                poolActivity.Name_ru = textController.text;
+                                poolActivity.label = labelController.text;
+                                await DataManager.instance
+                                    .updateActivity(poolActivity);
+                              } else {
+                                await DataManager.instance.newActivity(
+                                    PoolActivity(
+                                        Name_ru: textController.text,
+                                        label: labelController.text != ''
+                                            ? labelController.text
+                                            : null,
+                                        MuscleGroupId: muscleGroup.id));
+                              }
                               Navigator.pop(context);
                             },
-                            child: Text("Сохранить")))
+                            child: Text("Сохранить")),
+                      ))
                     : SizedBox()
               ],
             )

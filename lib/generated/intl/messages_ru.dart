@@ -28,6 +28,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Создать упражнение"),
         "hello": MessageLookupByLibrary.simpleMessage("Привет"),
         "name_activity":
-            MessageLookupByLibrary.simpleMessage("Название упражнения")
+            MessageLookupByLibrary.simpleMessage("Название упражнения"),
+        "label": MessageLookupByLibrary.simpleMessage("Подпись"),
+        "edit": MessageLookupByLibrary.simpleMessage("Изменить")
       };
 }

@@ -8,6 +8,17 @@ newPoolActivity(PoolActivity poolActivity, DBProvider dbProvider) async {
   return poolActivity;
 }
 
+updatePoolActivity(PoolActivity poolActivity, DBProvider dbProvider) async {
+  final db = await dbProvider.database;
+  await db.update('PoolActivity', poolActivity.toJson(),
+      where: 'id = ?', whereArgs: [poolActivity.id]);
+  return poolActivity;
+}
+
+deletePoolActivity(int id, DBProvider dbProvider) async {
+  final db = await dbProvider.database;
+  await db.delete('PoolActivity', where: 'id = ?', whereArgs: [id]);
+}
 // getPoolActivityId(int id) async {
 //   final db = await DBProvider.db.database;
 //   var res = await db.query("PoolActivity", where: 'id = ?', whereArgs: [id]);

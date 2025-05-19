@@ -9,23 +9,30 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class ActivityScreen extends StatefulWidget {
-  const ActivityScreen(
-      {super.key, required this.muscleGroup, required this.poolActivityList});
+  const ActivityScreen({super.key, required this.muscleGroup});
   final MuscleGroup muscleGroup;
-  final List<PoolActivity> poolActivityList;
   @override
-  State<ActivityScreen> createState() => _ActivityScreen(
-      muscleGroup: muscleGroup, poolActivityList: poolActivityList);
+  State<ActivityScreen> createState() =>
+      _ActivityScreen(muscleGroup: muscleGroup);
 }
 
 class _ActivityScreen extends State<ActivityScreen>
     with TickerProviderStateMixin {
-  _ActivityScreen({required this.muscleGroup, required this.poolActivityList});
+  _ActivityScreen({required this.muscleGroup});
   final MuscleGroup muscleGroup;
-  List<PoolActivity> poolActivityList;
+  late List<PoolActivity> poolActivityList;
+  late TileController tileController;
   @override
   void initState() {
+    tileController = TileController();
+    poolActivityList =
+        DataManager.instance.getPoolActivityMuscleGroup(muscleGroup.id);
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   @override
@@ -57,8 +64,8 @@ class _ActivityScreen extends State<ActivityScreen>
                           return AddActivityScreen(
                             muscleGroup: muscleGroup,
                           );
-                        }).whenComplete(() {
-                      poolActivityList = DataManager.instance
+                        }).whenComplete(() async {
+                      poolActivityList = await DataManager.instance
                           .getPoolActivityMuscleGroup(muscleGroup.id);
                       setState(() {});
                     });
@@ -75,19 +82,77 @@ class _ActivityScreen extends State<ActivityScreen>
                 child: Column(
                   children: poolActivityList
                       .map((poolActivity) => TileActivity(
-                            activityName: poolActivity.Name_ru as String,
+                            key: Key(poolActivity.id.toString()),
+                            poolActivity: poolActivity,
+                            tileController: tileController,
+                            onChange: () {
+                              setState(() {});
+                            },
                           ))
                       .toList(),
                 ),
               ),
             ),
-            IconButton.filled(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              icon: Icon(Icons.arrow_back),
-              iconSize: 30,
-            )
+            tileController.enableActivity.isEmpty
+                ? IconButton.filled(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    icon: Icon(Icons.arrow_back),
+                    iconSize: 30,
+                  )
+                : Row(
+                    children: [
+                      SizedBox(
+                        height: 45,
+                        child: FilledButton.icon(
+                          iconAlignment: IconAlignment.start,
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          icon: Icon(
+                            Icons.arrow_back,
+                            size: 30,
+                          ),
+                          //TODO: Добавить intl
+                          label: Text(
+                              'Выбрать: ${tileController.enableActivity.length}'),
+                        ),
+                      ),
+                      Spacer(),
+                      tileController.enableActivity.length == 1
+                          ? SizedBox(
+                              height: 45,
+                              child: FilledButton(
+                                  onPressed: () {
+                                    showModalBottomSheet(
+                                        useSafeArea: true,
+                                        isScrollControlled: true,
+                                        context: context,
+                                        builder: (context) {
+                                          return AddActivityScreen(
+                                            muscleGroup: muscleGroup,
+                                            poolActivity: tileController
+                                                .enableActivity.values.first,
+                                          );
+                                        }).whenComplete(() async {
+                                      List<PoolActivity> new_poolActivityList =
+                                          await DataManager.instance
+                                              .getPoolActivityMuscleGroup(
+                                                  muscleGroup.id);
+                                      if (new_poolActivityList.length !=
+                                          poolActivityList.length) {
+                                        tileController.enableActivity.clear();
+                                        poolActivityList = new_poolActivityList;
+                                      }
+
+                                      setState(() {});
+                                    });
+                                  },
+                                  child: Text(S.of(context).edit)))
+                          : SizedBox()
+                    ],
+                  )
           ],
         ),
       ),

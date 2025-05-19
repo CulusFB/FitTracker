@@ -36,6 +36,18 @@ class DataManager {
     return activity;
   }
 
+  updateActivity(PoolActivity _poolActivity) async {
+    PoolActivity activity = await updatePoolActivity(_poolActivity, dbProvider);
+    poolActivity.removeWhere((poolActivity) => poolActivity.id == activity.id);
+    poolActivity.add(activity);
+    return activity;
+  }
+
+  deleteActivity(int id) async {
+    await deletePoolActivity(id, dbProvider);
+    poolActivity.removeWhere((poolActivity) => poolActivity.id == id);
+  }
+
   //load data method-> load all data in db
   //getters method for get data
   //methods for add, edit, remove data

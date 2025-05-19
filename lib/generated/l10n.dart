@@ -89,6 +89,26 @@ class S {
       args: [],
     );
   }
+
+  /// `Name activity`
+  String get label {
+    return Intl.message(
+      'Label',
+      name: 'label',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Name activity`
+  String get edit {
+    return Intl.message(
+      'Edit',
+      name: 'edit',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
