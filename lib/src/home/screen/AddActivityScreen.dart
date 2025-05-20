@@ -45,8 +45,8 @@ class _AddActivityScreen extends State<AddActivityScreen>
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Container(
+    return Scaffold(
+      body: Container(
         padding: EdgeInsets.all(10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -113,46 +113,49 @@ class _AddActivityScreen extends State<AddActivityScreen>
                   )
                 : SizedBox(),
             Spacer(),
-            Row(
-              spacing: 10,
-              children: [
-                SizedBox(
-                  height: 45,
-                  child: IconButton.filled(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    icon: Icon(Icons.arrow_back),
-                    iconSize: 30,
+            Container(
+              padding: EdgeInsets.only(bottom: 10),
+              child: Row(
+                spacing: 10,
+                children: [
+                  SizedBox(
+                    height: 45,
+                    child: IconButton.filled(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      icon: Icon(Icons.arrow_back),
+                      iconSize: 30,
+                    ),
                   ),
-                ),
-                textController.text != ''
-                    ? Expanded(
-                        child: SizedBox(
-                        height: 45,
-                        child: FilledButton(
-                            style: FilledButtonStyle(),
-                            onPressed: () async {
-                              if (poolActivity.id != 0) {
-                                poolActivity.Name_ru = textController.text;
-                                poolActivity.label = labelController.text;
-                                await DataManager.instance
-                                    .updateActivity(poolActivity);
-                              } else {
-                                await DataManager.instance.newActivity(
-                                    PoolActivity(
-                                        Name_ru: textController.text,
-                                        label: labelController.text != ''
-                                            ? labelController.text
-                                            : null,
-                                        MuscleGroupId: muscleGroup.id));
-                              }
-                              Navigator.pop(context);
-                            },
-                            child: Text("Сохранить")),
-                      ))
-                    : SizedBox()
-              ],
+                  textController.text != ''
+                      ? Expanded(
+                          child: SizedBox(
+                          height: 45,
+                          child: FilledButton(
+                              style: FilledButtonStyle(),
+                              onPressed: () async {
+                                if (poolActivity.id != 0) {
+                                  poolActivity.Name_ru = textController.text;
+                                  poolActivity.label = labelController.text;
+                                  await DataManager.instance
+                                      .updateActivity(poolActivity);
+                                } else {
+                                  await DataManager.instance.newActivity(
+                                      PoolActivity(
+                                          Name_ru: textController.text,
+                                          label: labelController.text != ''
+                                              ? labelController.text
+                                              : null,
+                                          MuscleGroupId: muscleGroup.id));
+                                }
+                                Navigator.pop(context);
+                              },
+                              child: Text("Сохранить")),
+                        ))
+                      : SizedBox()
+                ],
+              ),
             )
           ],
         ),

@@ -39,6 +39,7 @@ class _TileActivity extends State<TileActivity> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return ListTile(
       internalAddSemanticForOnTap: false,
+      splashColor: Colors.transparent,
       selected: isSelected,
       onTap: () {
         isSelected = !isSelected;

@@ -1,6 +1,7 @@
 import 'package:fit_tracker/DB/DataManager.dart';
 import 'package:fit_tracker/DB/models/muscleGroup.dart';
 import 'package:fit_tracker/generated/l10n.dart';
+import 'package:fit_tracker/src/home/screen/SelectMuscleGroupScreen.dart';
 import 'package:fit_tracker/src/home/widgets/TileListActivity.dart';
 import 'package:fit_tracker/src/themes/FilledButtonTheme.dart';
 import 'package:flutter/material.dart';
@@ -31,7 +32,17 @@ class _ListActivityScreen extends State<ListActivityScreen>
             height: 80,
             child: FilledButton(
                 style: FilledButtonStyle(),
-                onPressed: () {},
+                onPressed: () {
+                  showModalBottomSheet(
+                      useSafeArea: true,
+                      isScrollControlled: true,
+                      context: context,
+                      builder: (context) {
+                        return SelectMuscleGroupScreen();
+                      }).whenComplete(() {
+                    poolMuscleGroup = DataManager.instance.muscleGroup;
+                  });
+                },
                 child: Container(
                   padding: EdgeInsets.all(10),
                   child: Row(

@@ -1,20 +1,20 @@
 import 'package:fit_tracker/DB/DataManager.dart';
 import 'package:fit_tracker/DB/models/muscleGroup.dart';
 import 'package:fit_tracker/DB/models/poolActivity.dart';
-import 'package:fit_tracker/src/home/screen/ActivityScreen.dart';
+import 'package:fit_tracker/src/home/screen/AddActivityScreen.dart';
 import 'package:flutter/material.dart';
 
-class TileListActivity extends StatefulWidget {
-  const TileListActivity({super.key, required this.muscleGroup});
+class TileListActivitySelect extends StatefulWidget {
+  const TileListActivitySelect({super.key, required this.muscleGroup});
   final MuscleGroup muscleGroup;
   @override
-  State<TileListActivity> createState() =>
-      _TileListActivity(muscleGroup: muscleGroup);
+  State<TileListActivitySelect> createState() =>
+      _TileListActivitySelect(muscleGroup: muscleGroup);
 }
 
-class _TileListActivity extends State<TileListActivity>
+class _TileListActivitySelect extends State<TileListActivitySelect>
     with TickerProviderStateMixin {
-  _TileListActivity({required this.muscleGroup});
+  _TileListActivitySelect({required this.muscleGroup});
   final MuscleGroup muscleGroup;
   late List<PoolActivity> idPoolActivity;
   @override
@@ -22,6 +22,10 @@ class _TileListActivity extends State<TileListActivity>
     idPoolActivity =
         DataManager.instance.getPoolActivityMuscleGroup(muscleGroup.id);
     super.initState();
+  }
+
+  void exit() {
+    Navigator.pop(context);
   }
 
   @override
@@ -33,12 +37,9 @@ class _TileListActivity extends State<TileListActivity>
             isScrollControlled: true,
             context: context,
             builder: (context) {
-              return ActivityScreen(muscleGroup: muscleGroup);
-            }).whenComplete(() {
-          idPoolActivity =
-              DataManager.instance.getPoolActivityMuscleGroup(muscleGroup.id);
-          setState(() {});
-        });
+              return AddActivityScreen(muscleGroup: muscleGroup);
+            }).whenComplete(exit);
+        // Navigator.pop(context);
       },
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,

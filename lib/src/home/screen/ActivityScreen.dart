@@ -1,4 +1,5 @@
 import 'package:fit_tracker/DB/DataManager.dart';
+import 'package:fit_tracker/DB/models/Workout.dart';
 import 'package:fit_tracker/DB/models/muscleGroup.dart';
 import 'package:fit_tracker/DB/models/poolActivity.dart';
 import 'package:fit_tracker/generated/l10n.dart';
@@ -108,6 +109,18 @@ class _ActivityScreen extends State<ActivityScreen>
                         child: FilledButton.icon(
                           iconAlignment: IconAlignment.start,
                           onPressed: () {
+                            //TODO: maybe refactoring
+                            List<Workout> workouts = [];
+                            DateTime now = new DateTime.now();
+                            DateTime date =
+                                new DateTime(now.year, now.month, now.day);
+                            tileController.enableActivity
+                                .forEach((id, activity) {
+                              workouts.add(Workout(
+                                  Date: date.toString(),
+                                  Pool_activity_id: activity.id));
+                            });
+                            DataManager.instance.newWorkout(workouts);
                             Navigator.pop(context);
                           },
                           icon: Icon(
