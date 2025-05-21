@@ -111,16 +111,18 @@ class _ActivityScreen extends State<ActivityScreen>
                           onPressed: () {
                             //TODO: maybe refactoring
                             List<Workout> workouts = [];
-                            DateTime now = new DateTime.now();
+                            DateTime now =
+                                DataManager.instance.calendarController.value;
                             DateTime date =
                                 new DateTime(now.year, now.month, now.day);
                             tileController.enableActivity
                                 .forEach((id, activity) {
                               workouts.add(Workout(
                                   Date: date.toString(),
-                                  Pool_activity_id: activity.id));
+                                  poolActivityId: activity.id));
                             });
                             DataManager.instance.newWorkout(workouts);
+                            Navigator.pop(context);
                             Navigator.pop(context);
                           },
                           icon: Icon(

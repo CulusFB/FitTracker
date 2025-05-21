@@ -15,12 +15,12 @@ String WorkoutToJson(Workout data) {
 class Workout {
   int id;
   String? Date;
-  int Pool_activity_id;
+  int poolActivityId;
   List<RepetitionWeight>? List_approaches;
   Workout(
       {this.id = 0,
       this.Date = '',
-      this.Pool_activity_id = 0,
+      this.poolActivityId = 0,
       List<RepetitionWeight>? List_approaches})
       : List_approaches = List_approaches ?? [];
   factory Workout.fromJson(Map<String, dynamic> _json) {
@@ -36,7 +36,7 @@ class Workout {
     return new Workout(
       id: _json['id'],
       Date: _json['Date'],
-      Pool_activity_id: _json['Pool_activity_id'],
+      poolActivityId: _json['Pool_activity_id'],
       List_approaches: repetitionList,
     );
   }
@@ -47,7 +47,7 @@ class Workout {
     });
     return {
       "Date": Date,
-      "Pool_activity_id": Pool_activity_id,
+      "Pool_activity_id": poolActivityId,
       "List_approaches": js_list.toString()
     };
   }

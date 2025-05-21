@@ -5,6 +5,7 @@ import 'package:fit_tracker/DB/crud/poolActivity_crud.dart';
 import 'package:fit_tracker/DB/models/Workout.dart';
 import 'package:fit_tracker/DB/models/muscleGroup.dart';
 import 'package:fit_tracker/DB/models/poolActivity.dart';
+import 'package:flutter_advanced_calendar/flutter_advanced_calendar.dart';
 
 class DataManager {
   DataManager._() {
@@ -18,6 +19,8 @@ class DataManager {
 
   static DataManager _instance = DataManager._();
   static DataManager get instance => _instance;
+  late AdvancedCalendarController calendarController =
+      AdvancedCalendarController.today();
   late DBProvider dbProvider;
   late List<MuscleGroup> muscleGroup;
   late List<PoolActivity> poolActivity;

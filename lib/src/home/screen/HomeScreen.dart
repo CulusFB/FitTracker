@@ -18,18 +18,26 @@ class Homescreen extends StatefulWidget {
 }
 
 class _HomeScreen extends State<Homescreen> with TickerProviderStateMixin {
-  late final AdvancedCalendarController _controller;
+  late AdvancedCalendarController _controller;
   late List<Workout> workouts;
   List<DateTime> events = <DateTime>[];
   @override
   void initState() {
     workouts = DataManager.instance.workout;
-    _controller = AdvancedCalendarController.today();
+    _controller = DataManager.instance.calendarController;
+    WorkoutCalendar(_controller.value);
+    _controller.addListener(() => CalendarListener());
     super.initState();
   }
 
+  void CalendarListener() {
+    WorkoutCalendar(_controller.value);
+  }
+
   void WorkoutCalendar(DateTime date) async {
-    await DataManager.instance.getWorkoutDay(date);
+    DateTime update_date = new DateTime(date.year, date.month, date.day);
+    workouts = await DataManager.instance.getWorkoutDay(update_date);
+    setState(() {});
   }
 
   bool isDark() {
@@ -66,7 +74,8 @@ class _HomeScreen extends State<Homescreen> with TickerProviderStateMixin {
                                 as List<RepetitionWeight>,
                             key: Key(workout.id.toString()),
                             poolActivity: DataManager.instance.poolActivity
-                                .firstWhere((el) => el.id == workout.id),
+                                .firstWhere(
+                                    (el) => el.id == workout.poolActivityId),
                             onChange: () {}))
                         .toList()),
               ),
@@ -85,7 +94,7 @@ class _HomeScreen extends State<Homescreen> with TickerProviderStateMixin {
                             builder: (context) {
                               return NewActivityScreen();
                             }).whenComplete(() {
-                          setState(() {});
+                          CalendarListener();
                         })
                       },
                   child: Text(S.of(context).add_activity)),
