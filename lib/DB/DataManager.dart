@@ -71,6 +71,11 @@ class DataManager {
     return null;
   }
 
+  dateWorkouts() async {
+    List<DateTime> date = await getDateWorkouts(dbProvider);
+    return date;
+  }
+
   //load data method-> load all data in db
   //getters method for get data
   //methods for add, edit, remove data

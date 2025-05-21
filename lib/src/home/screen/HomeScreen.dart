@@ -35,6 +35,7 @@ class _HomeScreen extends State<Homescreen> with TickerProviderStateMixin {
   }
 
   void WorkoutCalendar(DateTime date) async {
+    events = await DataManager.instance.dateWorkouts();
     DateTime update_date = new DateTime(date.year, date.month, date.day);
     workouts = await DataManager.instance.getWorkoutDay(update_date);
     setState(() {});
