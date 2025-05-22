@@ -2,6 +2,7 @@ import 'package:fit_tracker/DB/Database.dart';
 import 'package:fit_tracker/DB/crud/Workout_crud.dart';
 import 'package:fit_tracker/DB/crud/muscleGroup_crud.dart';
 import 'package:fit_tracker/DB/crud/poolActivity_crud.dart';
+import 'package:fit_tracker/DB/models/RepetitionWeigth.dart';
 import 'package:fit_tracker/DB/models/Workout.dart';
 import 'package:fit_tracker/DB/models/muscleGroup.dart';
 import 'package:fit_tracker/DB/models/poolActivity.dart';
@@ -69,6 +70,12 @@ class DataManager {
       await newWorkoutDb(_workout, dbProvider);
     });
     return null;
+  }
+
+  addRepetitionWeight(RepetitionWeight repetitionWeight, int workoutId) async {
+    Workout workout = await getWorkoutId(dbProvider, workoutId);
+    workout.List_approaches?.add(repetitionWeight);
+    await updateRepetitionWeight(dbProvider, workout);
   }
 
   dateWorkouts() async {

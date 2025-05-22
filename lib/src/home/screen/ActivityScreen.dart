@@ -1,4 +1,5 @@
 import 'package:fit_tracker/DB/DataManager.dart';
+import 'package:fit_tracker/DB/models/RepetitionWeigth.dart';
 import 'package:fit_tracker/DB/models/Workout.dart';
 import 'package:fit_tracker/DB/models/muscleGroup.dart';
 import 'package:fit_tracker/DB/models/poolActivity.dart';
@@ -115,11 +116,15 @@ class _ActivityScreen extends State<ActivityScreen>
                                 DataManager.instance.calendarController.value;
                             DateTime date =
                                 new DateTime(now.year, now.month, now.day);
+                            List<RepetitionWeight> repetitionWeight = [
+                              RepetitionWeight(repetition: 0, weight: 0)
+                            ];
                             tileController.enableActivity
                                 .forEach((id, activity) {
                               workouts.add(Workout(
                                   Date: date.toString(),
-                                  poolActivityId: activity.id));
+                                  poolActivityId: activity.id,
+                                  List_approaches: repetitionWeight));
                             });
                             DataManager.instance.newWorkout(workouts);
                             Navigator.pop(context);

@@ -28,9 +28,7 @@ class Workout {
     List<RepetitionWeight> repetitionList = [];
     for (var item in jsonDecode(list_approaches)) {
       repetitionList.add(RepetitionWeight(
-          id: item['id'],
-          weight: item['weight'],
-          repetition: item['repetition']));
+          weight: item['weight'], repetition: item['repetition']));
     }
     ;
     return new Workout(
@@ -46,6 +44,7 @@ class Workout {
       js_list.add(json.encode(approches.toJson()));
     });
     return {
+      "id": id,
       "Date": Date,
       "Pool_activity_id": poolActivityId,
       "List_approaches": js_list.toString()

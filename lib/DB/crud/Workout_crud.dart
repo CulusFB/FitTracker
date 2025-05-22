@@ -44,3 +44,16 @@ getDateWorkouts(DBProvider dbProvider) async {
       : [];
   return date;
 }
+
+getWorkoutId(DBProvider dbProvider, int id) async {
+  final db = await dbProvider.database;
+  var res = await db.query('Workout', where: 'id = ?', whereArgs: [id]);
+  Workout workout = res.isNotEmpty ? Workout.fromJson(res.first) : Workout();
+  return workout;
+}
+
+updateRepetitionWeight(DBProvider dbProvider, Workout workout) async {
+  final db = await dbProvider.database;
+  await db.update('Workout', workout.toJson(),
+      where: 'id = ?', whereArgs: [workout.id]);
+}

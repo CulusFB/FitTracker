@@ -1,5 +1,4 @@
 import 'package:fit_tracker/DB/DataManager.dart';
-import 'package:fit_tracker/DB/models/RepetitionWeigth.dart';
 import 'package:fit_tracker/DB/models/Workout.dart';
 import 'package:fit_tracker/generated/l10n.dart';
 import 'package:fit_tracker/src/home/screen/NewActivityScreen.dart';
@@ -25,16 +24,16 @@ class _HomeScreen extends State<Homescreen> with TickerProviderStateMixin {
   void initState() {
     workouts = DataManager.instance.workout;
     _controller = DataManager.instance.calendarController;
-    WorkoutCalendar(_controller.value);
-    _controller.addListener(() => CalendarListener());
+    workoutCalendar(_controller.value);
+    _controller.addListener(() => calendarListener());
     super.initState();
   }
 
-  void CalendarListener() {
-    WorkoutCalendar(_controller.value);
+  void calendarListener() {
+    workoutCalendar(_controller.value);
   }
 
-  void WorkoutCalendar(DateTime date) async {
+  void workoutCalendar(DateTime date) async {
     events = await DataManager.instance.dateWorkouts();
     DateTime update_date = new DateTime(date.year, date.month, date.day);
     workouts = await DataManager.instance.getWorkoutDay(update_date);
@@ -71,8 +70,7 @@ class _HomeScreen extends State<Homescreen> with TickerProviderStateMixin {
                 child: Column(
                     children: workouts
                         .map((workout) => TileSelectedActivity(
-                            repetitionWeight: workout.List_approaches
-                                as List<RepetitionWeight>,
+                            workout: workout,
                             key: Key(workout.id.toString()),
                             poolActivity: DataManager.instance.poolActivity
                                 .firstWhere(
@@ -95,7 +93,7 @@ class _HomeScreen extends State<Homescreen> with TickerProviderStateMixin {
                             builder: (context) {
                               return NewActivityScreen();
                             }).whenComplete(() {
-                          CalendarListener();
+                          calendarListener();
                         })
                       },
                   child: Text(S.of(context).add_activity)),

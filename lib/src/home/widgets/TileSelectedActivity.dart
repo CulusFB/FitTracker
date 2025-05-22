@@ -1,5 +1,8 @@
+import 'package:fit_tracker/DB/DataManager.dart';
 import 'package:fit_tracker/DB/models/RepetitionWeigth.dart';
+import 'package:fit_tracker/DB/models/Workout.dart';
 import 'package:fit_tracker/DB/models/poolActivity.dart';
+import 'package:fit_tracker/src/home/screen/RepetitionWeigthScreen.dart';
 import 'package:fit_tracker/src/home/widgets/RepetitionWeigthTile.dart';
 import 'package:flutter/material.dart';
 
@@ -8,15 +11,13 @@ class TileSelectedActivity extends StatefulWidget {
       {super.key,
       required this.poolActivity,
       required this.onChange,
-      required this.repetitionWeight});
+      required this.workout});
   final PoolActivity poolActivity;
-  final List<RepetitionWeight> repetitionWeight;
+  final Workout workout;
   final Function onChange;
   @override
   State<TileSelectedActivity> createState() => _TileSelectedActivity(
-      poolActivity: poolActivity,
-      onChange: onChange,
-      repetitionWeight: repetitionWeight);
+      poolActivity: poolActivity, onChange: onChange, workout: workout);
 }
 
 class _TileSelectedActivity extends State<TileSelectedActivity>
@@ -24,9 +25,9 @@ class _TileSelectedActivity extends State<TileSelectedActivity>
   _TileSelectedActivity(
       {required this.poolActivity,
       required this.onChange,
-      required this.repetitionWeight});
+      required this.workout});
   final PoolActivity poolActivity;
-  final List<RepetitionWeight> repetitionWeight;
+  final Workout workout;
   final Function onChange;
   bool isSelected = false;
   @override
@@ -62,8 +63,32 @@ class _TileSelectedActivity extends State<TileSelectedActivity>
                 padding: EdgeInsets.only(left: 10, right: 10),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: repetitionWeight
-                      .map((e) => RepetitionWeigthTile(repetitionWeight: e))
+                  children: workout.List_approaches!
+                      .asMap()
+                      .entries
+                      .map((e) => RepetitionWeigthTile(
+                            id: e.key + 1,
+                            repetitionWeight: e.value,
+                            onTap: () {
+                              showModalBottomSheet(
+                                  useSafeArea: true,
+                                  isScrollControlled: true,
+                                  context: context,
+                                  builder: (context) {
+                                    return RepetitionWeightScreen(
+                                      workout: workout,
+                                      activityName:
+                                          poolActivity.Name_ru.toString(),
+                                      repetitionWeight: workout.List_approaches
+                                          as List<RepetitionWeight>,
+                                    );
+                                  }).whenComplete(() async {
+                                DataManager.instance.getWorkoutDay(DataManager
+                                    .instance.calendarController.value);
+                                setState(() {});
+                              });
+                            },
+                          ))
                       .toList(),
                 ),
               )
