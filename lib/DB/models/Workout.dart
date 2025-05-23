@@ -44,7 +44,6 @@ class Workout {
       js_list.add(json.encode(approches.toJson()));
     });
     return {
-      "id": id,
       "Date": Date,
       "Pool_activity_id": poolActivityId,
       "List_approaches": js_list.toString()

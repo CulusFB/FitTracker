@@ -1,4 +1,3 @@
-import 'package:fit_tracker/DB/DataManager.dart';
 import 'package:fit_tracker/DB/models/RepetitionWeigth.dart';
 import 'package:fit_tracker/DB/models/Workout.dart';
 import 'package:fit_tracker/DB/models/poolActivity.dart';
@@ -69,6 +68,7 @@ class _TileSelectedActivity extends State<TileSelectedActivity>
                       .map((e) => RepetitionWeigthTile(
                             id: e.key + 1,
                             repetitionWeight: e.value,
+                            onDismissed: () {},
                             onTap: () {
                               showModalBottomSheet(
                                   useSafeArea: true,
@@ -83,8 +83,6 @@ class _TileSelectedActivity extends State<TileSelectedActivity>
                                           as List<RepetitionWeight>,
                                     );
                                   }).whenComplete(() async {
-                                DataManager.instance.getWorkoutDay(DataManager
-                                    .instance.calendarController.value);
                                 setState(() {});
                               });
                             },

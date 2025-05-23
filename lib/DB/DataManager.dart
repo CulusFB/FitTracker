@@ -83,6 +83,10 @@ class DataManager {
     return date;
   }
 
+  delReptitioonWeight(int id, Workout _workout) async {
+    _workout.List_approaches!.removeAt(id);
+    await updateRepetitionWeight(dbProvider, _workout);
+  }
   //load data method-> load all data in db
   //getters method for get data
   //methods for add, edit, remove data

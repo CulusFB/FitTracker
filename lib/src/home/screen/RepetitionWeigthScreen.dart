@@ -80,7 +80,14 @@ class _NewActivityScreen extends State<RepetitionWeightScreen>
                         .map((e) => RepetitionWeigthTile(
                               id: e.key + 1,
                               repetitionWeight: e.value,
+                              enable: e.key == 0 ? false : true,
                               onTap: () {},
+                              onDismissed: () async {
+                                await DataManager.instance
+                                    .delReptitioonWeight(e.key, workout);
+                                lastId = repetitionWeight.length + 1;
+                                setState(() {});
+                              },
                             ))
                         .toList() +
                     [
