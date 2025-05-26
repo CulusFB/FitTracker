@@ -72,9 +72,24 @@ class DataManager {
     return null;
   }
 
+  getWorkoutId(int workoutId) async {
+    return await getWorkoutIdDb(dbProvider, workoutId);
+  }
+
+  getWorkoutLast(int poolActivityId) async {
+    return await getLastWorkout(dbProvider, poolActivityId);
+  }
+
   addRepetitionWeight(RepetitionWeight repetitionWeight, int workoutId) async {
-    Workout workout = await getWorkoutId(dbProvider, workoutId);
+    Workout workout = await getWorkoutIdDb(dbProvider, workoutId);
     workout.List_approaches?.add(repetitionWeight);
+    await updateRepetitionWeight(dbProvider, workout);
+  }
+
+  updAllRepetitionWeight(
+      List<RepetitionWeight> repetitionWeight, int workoutId) async {
+    Workout workout = await getWorkoutIdDb(dbProvider, workoutId);
+    workout.List_approaches = repetitionWeight;
     await updateRepetitionWeight(dbProvider, workout);
   }
 

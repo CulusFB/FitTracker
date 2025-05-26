@@ -45,7 +45,7 @@ getDateWorkouts(DBProvider dbProvider) async {
   return date;
 }
 
-getWorkoutId(DBProvider dbProvider, int id) async {
+getWorkoutIdDb(DBProvider dbProvider, int id) async {
   final db = await dbProvider.database;
   var res = await db.query('Workout', where: 'id = ?', whereArgs: [id]);
   Workout workout = res.isNotEmpty ? Workout.fromJson(res.first) : Workout();
@@ -56,4 +56,18 @@ updateRepetitionWeight(DBProvider dbProvider, Workout workout) async {
   final db = await dbProvider.database;
   await db.update('Workout', workout.toJson(),
       where: 'id = ?', whereArgs: [workout.id]);
+}
+
+getLastWorkout(DBProvider dbProvider, int poolActivityId) async {
+  final db = await dbProvider.database;
+  var res = await db.query(
+    'Workout',
+    where: 'Pool_activity_id = ?',
+    whereArgs: [poolActivityId],
+    limit: 2,
+    orderBy: 'id DESC',
+  );
+  List<Workout> workouts =
+      res.isNotEmpty ? res.map((c) => Workout.fromJson(c)).toList() : [];
+  return workouts[1];
 }

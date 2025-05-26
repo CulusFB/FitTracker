@@ -1,9 +1,12 @@
 import 'package:fit_tracker/DB/models/RepetitionWeigth.dart';
 import 'package:fit_tracker/DB/models/Workout.dart';
 import 'package:fit_tracker/DB/models/poolActivity.dart';
-import 'package:fit_tracker/src/home/screen/RepetitionWeigthScreen.dart';
+import 'package:fit_tracker/src/home/bloc/RepetitionWeightScreen/RepetitionWeightBloc.dart';
+import 'package:fit_tracker/src/home/bloc/RepetitionWeightScreen/RepetitionWeightRepository.dart';
+import 'package:fit_tracker/src/home/screen/RepetitionWeightScreen.dart';
 import 'package:fit_tracker/src/home/widgets/RepetitionWeigthTile.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class TileSelectedActivity extends StatefulWidget {
   const TileSelectedActivity(
@@ -26,11 +29,14 @@ class _TileSelectedActivity extends State<TileSelectedActivity>
       required this.onChange,
       required this.workout});
   final PoolActivity poolActivity;
-  final Workout workout;
+  Workout workout;
   final Function onChange;
   bool isSelected = false;
+  late final RepetitionWeightRepository repetitionWeightRepository;
+
   @override
   void initState() {
+    repetitionWeightRepository = RepetitionWeightRepository();
     super.initState();
   }
 
@@ -66,6 +72,7 @@ class _TileSelectedActivity extends State<TileSelectedActivity>
                       .asMap()
                       .entries
                       .map((e) => RepetitionWeigthTile(
+                            key: UniqueKey(),
                             id: e.key + 1,
                             repetitionWeight: e.value,
                             onDismissed: () {},
@@ -75,14 +82,20 @@ class _TileSelectedActivity extends State<TileSelectedActivity>
                                   isScrollControlled: true,
                                   context: context,
                                   builder: (context) {
-                                    return RepetitionWeightScreen(
-                                      workout: workout,
-                                      activityName:
-                                          poolActivity.Name_ru.toString(),
-                                      repetitionWeight: workout.List_approaches
-                                          as List<RepetitionWeight>,
-                                    );
+                                    return BlocProvider(
+                                        create: (BuildContext context) =>
+                                            RepetitionWeightBloc(
+                                                repetitionWeightRepository),
+                                        child: RepetitionWeightScreen(
+                                          workout: workout,
+                                          activityName:
+                                              poolActivity.Name_ru.toString(),
+                                          repetitionWeight:
+                                              workout.List_approaches
+                                                  as List<RepetitionWeight>,
+                                        ));
                                   }).whenComplete(() async {
+                                print(workout.toJson());
                                 setState(() {});
                               });
                             },
