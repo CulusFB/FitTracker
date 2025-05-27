@@ -9,22 +9,10 @@ newWorkoutDb(Workout workout, DBProvider dbProvider) async {
   return workout;
 }
 
-// updatePoolActivity(PoolActivity poolActivity, DBProvider dbProvider) async {
-//   final db = await dbProvider.database;
-//   await db.update('PoolActivity', poolActivity.toJson(),
-//       where: 'id = ?', whereArgs: [poolActivity.id]);
-//   return poolActivity;
-// }
-
-// deletePoolActivity(int id, DBProvider dbProvider) async {
-//   final db = await dbProvider.database;
-//   await db.delete('PoolActivity', where: 'id = ?', whereArgs: [id]);
-// }
-// getPoolActivityId(int id) async {
-//   final db = await DBProvider.db.database;
-//   var res = await db.query("PoolActivity", where: 'id = ?', whereArgs: [id]);
-//   return res.isNotEmpty ? PoolActivity.fromJson(res.first) : Null;
-// }
+delWorkoutId(DBProvider dbProvider, int workoutId) async {
+  final db = await dbProvider.database;
+  await db.delete('Workout', where: 'id = ?', whereArgs: [workoutId]);
+}
 
 getWorkoutAtDay(DBProvider dbProvider, DateTime date) async {
   final db = await dbProvider.database;

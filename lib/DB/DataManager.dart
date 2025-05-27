@@ -72,6 +72,11 @@ class DataManager {
     return null;
   }
 
+  delWorkout(int workoutId) async {
+    await delWorkoutId(dbProvider, workoutId);
+    workout.removeWhere((el) => el.id == workoutId);
+  }
+
   getWorkoutId(int workoutId) async {
     return await getWorkoutIdDb(dbProvider, workoutId);
   }
