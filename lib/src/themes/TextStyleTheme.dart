@@ -9,5 +9,5 @@ class TextRepetitionWeightTheme extends TextStyle {
   String? get fontFamily => GoogleFonts.roboto().fontFamily;
   @override
   // TODO: implement fontSize
-  double? get fontSize => 18;
+  double? get fontSize => 22;
 }

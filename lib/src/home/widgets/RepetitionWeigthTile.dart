@@ -73,9 +73,9 @@ class _RepetitionWeigthTile extends State<RepetitionWeigthTile> {
 
   String formatDouble(double value) {
     if ((value % 1).abs() < 0.000001) {
-      return value.toInt().toString().replaceAll(',', '.');
+      return value.toInt().toString();
     }
-    return value.toString();
+    return value.toString().replaceAll('.', ',');
   }
 
   @override

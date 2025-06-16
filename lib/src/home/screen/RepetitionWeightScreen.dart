@@ -4,6 +4,7 @@ import 'package:fit_tracker/DB/models/Workout.dart';
 import 'package:fit_tracker/src/home/bloc/RepetitionWeightScreen/RepetitionWeightBloc.dart';
 import 'package:fit_tracker/src/home/bloc/RepetitionWeightScreen/RepetitionWeightEvent.dart';
 import 'package:fit_tracker/src/home/bloc/RepetitionWeightScreen/RepetitionWeightState.dart';
+import 'package:fit_tracker/src/home/screen/StatisticsScreen.dart';
 import 'package:fit_tracker/src/home/widgets/RepetitionWeigthTile.dart';
 import 'package:fit_tracker/src/themes/FilledButtonTheme.dart';
 import 'package:flutter/material.dart';
@@ -32,6 +33,7 @@ class _RepetitionWeightScreen extends State<RepetitionWeightScreen> {
   late int lastId;
   final Workout workout;
   bool onFocus = false;
+  dynamic lastWorkout = 0;
   _RepetitionWeightScreen(
       {required this.activityName,
       required this.repetitionWeight,
@@ -39,7 +41,14 @@ class _RepetitionWeightScreen extends State<RepetitionWeightScreen> {
   @override
   void initState() {
     lastId = repetitionWeight.length + 1;
+    getLastWorkouts();
     super.initState();
+  }
+
+  getLastWorkouts() async {
+    lastWorkout =
+        await DataManager.instance.getWorkoutLast(workout.poolActivityId);
+    setState(() {});
   }
 
   void checkFocus(FocusNode weightFocus, FocusNode repetitionFocus) {
@@ -142,7 +151,8 @@ class _RepetitionWeightScreen extends State<RepetitionWeightScreen> {
                         ],
                       ),
                       if (repetitionWeight.first.repetition == 0 &&
-                          repetitionWeight.first.weight == 0)
+                          repetitionWeight.first.weight == 0 &&
+                          lastWorkout != 0)
                         Container(
                           padding: EdgeInsets.only(top: 10),
                           child: Row(
@@ -204,7 +214,17 @@ class _RepetitionWeightScreen extends State<RepetitionWeightScreen> {
                       child: SizedBox(
                         height: 50,
                         child: FilledButton.icon(
-                            onPressed: () {},
+                            onPressed: () {
+                              showModalBottomSheet(
+                                  useSafeArea: true,
+                                  isScrollControlled: true,
+                                  context: context,
+                                  builder: (context) {
+                                    return StatisticScreen(
+                                      poolActivityId: workout.poolActivityId,
+                                    );
+                                  });
+                            },
                             label: Row(
                               children: [
                                 Icon(

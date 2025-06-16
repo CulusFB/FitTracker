@@ -131,7 +131,6 @@ class _TileSelectedActivity extends State<TileSelectedActivity>
                                                       as List<RepetitionWeight>,
                                             ));
                                       }).whenComplete(() async {
-                                    print(workout.toJson());
                                     setState(() {});
                                   });
                                 },

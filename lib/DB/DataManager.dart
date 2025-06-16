@@ -1,3 +1,4 @@
+import 'package:fit_tracker/DB/DataSearch.dart';
 import 'package:fit_tracker/DB/Database.dart';
 import 'package:fit_tracker/DB/crud/Workout_crud.dart';
 import 'package:fit_tracker/DB/crud/muscleGroup_crud.dart';
@@ -54,6 +55,11 @@ class DataManager {
     return activity;
   }
 
+  String getPoolActivityName(int poolActivityId) {
+    return poolActivity.firstWhere((el) => el.id == poolActivityId).Name_ru
+        as String;
+  }
+
   deleteActivity(int id) async {
     await deletePoolActivity(id, dbProvider);
     poolActivity.removeWhere((poolActivity) => poolActivity.id == id);
@@ -107,6 +113,26 @@ class DataManager {
     _workout.List_approaches!.removeAt(id);
     await updateRepetitionWeight(dbProvider, _workout);
   }
+
+  getPoolActivityWeek(int poolActivityId) async {
+    DateTime now = new DateTime.now();
+    DateTime date = new DateTime(now.year, now.month, now.day);
+    return await getPoolActivityBetweenDate(dbProvider, poolActivityId,
+        findNearestMonday(date), findNearestSunday(date));
+  }
+
+  getPoolActivityMonth(int poolActivityId) async {
+    DateTime now = new DateTime.now();
+    return await getPoolActivityBetweenDate(dbProvider, poolActivityId,
+        DateTime(now.year, now.month, 1), DateTime(now.year, now.month + 1, 0));
+  }
+
+  getPoolActivityYear(int poolActivityId) async {
+    DateTime now = new DateTime.now();
+    return await getPoolActivityBetweenDate(dbProvider, poolActivityId,
+        DateTime(now.year, 1, 1), DateTime(now.year, 12, 31));
+  }
+
   //load data method-> load all data in db
   //getters method for get data
   //methods for add, edit, remove data

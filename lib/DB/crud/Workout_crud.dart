@@ -55,7 +55,29 @@ getLastWorkout(DBProvider dbProvider, int poolActivityId) async {
     limit: 2,
     orderBy: 'id DESC',
   );
-  List<Workout> workouts =
-      res.isNotEmpty ? res.map((c) => Workout.fromJson(c)).toList() : [];
-  return workouts[1];
+  try {
+    List<Workout> workouts =
+        res.isNotEmpty ? res.map((c) => Workout.fromJson(c)).toList() : [];
+    return workouts[1];
+  } catch (e) {
+    return 0;
+  }
+}
+
+getPoolActivityBetweenDate(DBProvider dbProvider, int poolActivityId,
+    DateTime monday, DateTime sunday) async {
+  final db = await dbProvider.database;
+  var res = await db.query(
+    'Workout',
+    where: 'Pool_activity_id = ? and Date between ? and ?',
+    whereArgs: [poolActivityId, monday.toString(), sunday.toString()],
+    orderBy: 'Date DESC',
+  );
+  try {
+    List<Workout> workouts =
+        res.isNotEmpty ? res.map((c) => Workout.fromJson(c)).toList() : [];
+    return workouts;
+  } catch (e) {
+    return 0;
+  }
 }
