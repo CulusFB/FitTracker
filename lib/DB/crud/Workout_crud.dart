@@ -46,14 +46,15 @@ updateRepetitionWeight(DBProvider dbProvider, Workout workout) async {
       where: 'id = ?', whereArgs: [workout.id]);
 }
 
-getLastWorkout(DBProvider dbProvider, int poolActivityId) async {
+getLastWorkout(
+    DBProvider dbProvider, int poolActivityId, String thisDate) async {
   final db = await dbProvider.database;
   var res = await db.query(
     'Workout',
-    where: 'Pool_activity_id = ?',
-    whereArgs: [poolActivityId],
+    where: 'Pool_activity_id = ? and Date < ?',
+    whereArgs: [poolActivityId, thisDate],
     limit: 2,
-    orderBy: 'id DESC',
+    orderBy: 'Date DESC',
   );
   try {
     List<Workout> workouts =

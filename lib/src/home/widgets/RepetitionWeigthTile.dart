@@ -108,6 +108,9 @@ class _RepetitionWeigthTile extends State<RepetitionWeigthTile> {
               SizedBox(width: 10),
               Expanded(
                 child: TextField(
+                    onTap: () => weightTextController.selection = TextSelection(
+                        baseOffset: 0,
+                        extentOffset: weightTextController.value.text.length),
                     focusNode: weigthFocus,
                     keyboardType:
                         TextInputType.numberWithOptions(decimal: true),
@@ -131,6 +134,11 @@ class _RepetitionWeigthTile extends State<RepetitionWeigthTile> {
                 child: TextField(
                   autofocus: repetitionFocus.hasFocus,
                   focusNode: repetitionFocus,
+                  onTap: () => repetitionTextController.selection =
+                      TextSelection(
+                          baseOffset: 0,
+                          extentOffset:
+                              repetitionTextController.value.text.length),
                   onChanged: (value) {
                     repetitionWeight.repetition =
                         repetitionTextController.text.isNotEmpty

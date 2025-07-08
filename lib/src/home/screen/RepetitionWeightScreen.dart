@@ -126,10 +126,11 @@ class _RepetitionWeightScreen extends State<RepetitionWeightScreen> {
                     [
                       Row(
                         children: [
-                          Text(lastId.toString()),
+                          // Text(lastId.toString()),
                           SizedBox(width: 10),
                           Expanded(
-                              child: SizedBox(
+                              child: Container(
+                            padding: EdgeInsets.only(left: 10),
                             height: 60,
                             child: FilledButton(
                                 style: FilledButtonStyle(),
@@ -157,11 +158,9 @@ class _RepetitionWeightScreen extends State<RepetitionWeightScreen> {
                           padding: EdgeInsets.only(top: 10),
                           child: Row(
                             children: [
-                              SizedBox(
-                                width: 20,
-                              ),
                               Expanded(
-                                child: SizedBox(
+                                child: Container(
+                                  padding: EdgeInsets.only(left: 20),
                                   height: 60,
                                   child: FilledButton(
                                       onPressed: () async {
@@ -169,10 +168,14 @@ class _RepetitionWeightScreen extends State<RepetitionWeightScreen> {
                                             .instance
                                             .getWorkoutLast(
                                                 workout.poolActivityId);
+
                                         setState(() {
                                           repetitionWeight =
                                               lastWorkout.List_approaches
                                                   as List<RepetitionWeight>;
+                                          DataManager.instance
+                                              .updAllRepetitionWeight(
+                                                  repetitionWeight, workout.id);
                                         });
                                       },
                                       style: FilledButtonStyle(),

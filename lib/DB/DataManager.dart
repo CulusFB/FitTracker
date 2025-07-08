@@ -88,7 +88,8 @@ class DataManager {
   }
 
   getWorkoutLast(int poolActivityId) async {
-    return await getLastWorkout(dbProvider, poolActivityId);
+    return await getLastWorkout(
+        dbProvider, poolActivityId, calendarController.value.toString());
   }
 
   addRepetitionWeight(RepetitionWeight repetitionWeight, int workoutId) async {
