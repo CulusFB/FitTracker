@@ -66,18 +66,29 @@ class _HomeScreen extends State<Homescreen> with TickerProviderStateMixin {
               ),
             ),
             Expanded(
-              child: SingleChildScrollView(
-                child: Column(
-                    children: workouts
-                        .map((workout) => TileSelectedActivity(
-                            workout: workout,
-                            key: Key(workout.id.toString()),
-                            poolActivity: DataManager.instance.poolActivity
-                                .firstWhere(
-                                    (el) => el.id == workout.poolActivityId),
-                            onChange: () {}))
-                        .toList()),
-              ),
+              child: ReorderableListView(
+                  onReorder: (oldIndex, newIndex) {
+                    if (newIndex > oldIndex) {
+                      newIndex -= 1;
+                    }
+                    final firstWorkout = workouts[oldIndex];
+                    workouts.removeAt(oldIndex);
+                    workouts.insert(newIndex, firstWorkout);
+                    for (var i = 0; i < workouts.length; i++) {
+                      workouts[i].Position = i;
+                    }
+                    DataManager.instance.swapWorkoutPosition(workouts);
+                    setState(() {});
+                  },
+                  children: workouts
+                      .map((workout) => TileSelectedActivity(
+                          workout: workout,
+                          key: ValueKey(workout.id),
+                          poolActivity: DataManager.instance.poolActivity
+                              .firstWhere(
+                                  (el) => el.id == workout.poolActivityId),
+                          onChange: () {}))
+                      .toList()),
             ),
             Container(
               padding: EdgeInsets.all(10),

@@ -9,6 +9,27 @@ newWorkoutDb(Workout workout, DBProvider dbProvider) async {
   return workout;
 }
 
+getLastPosition(DBProvider dbProvider, String thisDate) async {
+  final db = await dbProvider.database;
+  var res = await db.query("Workout",
+      where: 'date == ?', whereArgs: [thisDate], orderBy: 'Position DESC');
+  try {
+    return res.first['Position'];
+  } on StateError catch (_) {
+    return null;
+  }
+}
+
+swapWorkoutDb(DBProvider dbProvider, List<Workout> _workouts) async {
+  final db = await dbProvider.database;
+  await db.transaction((txn) async {
+    for (final workout in _workouts) {
+      txn.update("Workout", workout.toJson(),
+          where: 'id = ?', whereArgs: [workout.id]);
+    }
+  });
+}
+
 delWorkoutId(DBProvider dbProvider, int workoutId) async {
   final db = await dbProvider.database;
   await db.delete('Workout', where: 'id = ?', whereArgs: [workoutId]);
@@ -16,8 +37,8 @@ delWorkoutId(DBProvider dbProvider, int workoutId) async {
 
 getWorkoutAtDay(DBProvider dbProvider, DateTime date) async {
   final db = await dbProvider.database;
-  var res = await db
-      .query("Workout", where: 'date like ?', whereArgs: [date.toString()]);
+  var res = await db.query("Workout",
+      where: 'date like ?', whereArgs: [date.toString()], orderBy: 'Position');
   List<Workout> workouts =
       res.isNotEmpty ? res.map((c) => Workout.fromJson(c)).toList() : [];
   return workouts;

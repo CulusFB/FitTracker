@@ -71,10 +71,20 @@ class DataManager {
     return _workouts;
   }
 
+  swapWorkoutPosition(List<Workout> _workouts) async {
+    await swapWorkoutDb(dbProvider, _workouts);
+  }
+
   newWorkout(List<Workout> _listWorkout) async {
-    _listWorkout.forEach((_workout) async {
-      await newWorkoutDb(_workout, dbProvider);
-    });
+    DateTime now = calendarController.value;
+    DateTime date = new DateTime(now.year, now.month, now.day);
+    var lastPosition = await getLastPosition(dbProvider, date.toString());
+    lastPosition = lastPosition == null ? 0 : lastPosition + 1;
+    for (var _workout in _listWorkout) {
+      _workout.Position = lastPosition;
+      newWorkoutDb(_workout, dbProvider);
+      lastPosition += 1;
+    }
     return null;
   }
 
@@ -91,6 +101,8 @@ class DataManager {
     return await getLastWorkout(
         dbProvider, poolActivityId, calendarController.value.toString());
   }
+
+  changeIdWorkout(int oldId, int newId) async {}
 
   addRepetitionWeight(RepetitionWeight repetitionWeight, int workoutId) async {
     Workout workout = await getWorkoutIdDb(dbProvider, workoutId);
