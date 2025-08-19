@@ -50,8 +50,8 @@ class _TileActivity extends State<TileActivity> with TickerProviderStateMixin {
         setState(() {});
       },
       title: Text(poolActivity.Name_ru as String),
-      subtitle: poolActivity.label != null
-          ? Text(poolActivity.label as String)
+      subtitle: poolActivity.label?.isNotEmpty == true
+          ? Text(poolActivity.label!)
           : null,
       trailing: isSelected ? Icon(Icons.check) : null,
       minVerticalPadding: 20,

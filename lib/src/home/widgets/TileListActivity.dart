@@ -3,6 +3,8 @@ import 'package:fit_tracker/DB/models/muscleGroup.dart';
 import 'package:fit_tracker/DB/models/poolActivity.dart';
 import 'package:fit_tracker/src/home/screen/ActivityScreen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_svg/svg.dart';
 
 class TileListActivity extends StatefulWidget {
   const TileListActivity({super.key, required this.muscleGroup});
@@ -45,9 +47,23 @@ class _TileListActivity extends State<TileListActivity>
         children: [
           Row(
             children: [
-              Icon(
-                Icons.local_activity,
-              ),
+              SizedBox(
+                  // TODO: Добавить белые иконки и их обработку от темы
+                  width: 60,
+                  height: 60,
+                  child: FutureBuilder<String>(
+                      future: rootBundle.loadString(
+                          'assets/icons/MuscleGroup/${muscleGroup.id}.svg'),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          return SvgPicture.string(
+                            snapshot.data!,
+                          );
+                        } else {
+                          print("Ошибка при загрузке SVG: ${snapshot.error}");
+                          return Icon(Icons.abc);
+                        }
+                      })),
               SizedBox(
                 width: 10,
               ),
