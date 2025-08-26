@@ -6,14 +6,14 @@ class GraphsMonth extends StatefulWidget {
   const GraphsMonth({super.key, required this.monthWorkouts});
   final monthWorkouts;
   @override
-  State<GraphsMonth> createState() =>
-      _GraphsMonth(monthWorkouts: monthWorkouts);
+  State<GraphsMonth> createState() => _GraphsMonth(monthWorkouts: monthWorkouts);
 }
 
 class _GraphsMonth extends State<GraphsMonth> {
   _GraphsMonth({required this.monthWorkouts});
   final monthWorkouts;
   DateFormat format = DateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+  
   @override
   void initState() {
     super.initState();
@@ -27,48 +27,22 @@ class _GraphsMonth extends State<GraphsMonth> {
                 sideTitles: SideTitles(
           showTitles: true,
           getTitlesWidget: (value, meta) {
-            Widget text;
             switch (value.toInt()) {
-              case 1:
-                text = const Text('Январь');
-                break;
-              case 2:
-                text = const Text('Февраль');
-                break;
-              case 3:
-                text = const Text('Март');
-                break;
-              case 4:
-                text = const Text('Апрель');
-              case 5:
-                text = const Text('Май');
-                break;
-              case 6:
-                text = const Text('Июнь');
-                break;
-              case 7:
-                text = const Text('Июль');
-                break;
-              case 8:
-                text = const Text('Август');
-                break;
-              case 9:
-                text = const Text('Сентябрь');
-                break;
-              case 10:
-                text = const Text('Октябрь');
-                break;
-              case 11:
-                text = const Text('Ноябрь');
-                break;
-              case 12:
-                text = const Text('Декабрь');
-                break;
+              case 1: return const Text('Январь');
+              case 2: return const Text('Февраль');
+              case 3: return const Text('Март');
+              case 4: return const Text('Апрель');
+              case 5: return const Text('Май');
+              case 6: return const Text('Июнь');
+              case 7: return const Text('Июль');
+              case 8: return const Text('Август');
+              case 9: return const Text('Сентябрь');
+              case 10: return const Text('Октябрь');
+              case 11: return const Text('Ноябрь');
+              case 12: return const Text('Декабрь');
               default:
-                text = const Text('');
-                break;
+                return const Text('');
             }
-            return text;
           },
         ))),
         lineBarsData: [

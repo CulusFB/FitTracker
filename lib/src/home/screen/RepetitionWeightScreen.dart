@@ -12,19 +12,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class RepetitionWeightScreen extends StatefulWidget {
-  const RepetitionWeightScreen(
-      {super.key,
-      required this.activityName,
-      required this.repetitionWeight,
-      required this.workout});
+  
+  const RepetitionWeightScreen( {super.key, required this.activityName, required this.repetitionWeight, required this.workout});
   final String activityName;
   final List<RepetitionWeight> repetitionWeight;
   final Workout workout;
+
   @override
-  State<RepetitionWeightScreen> createState() => _RepetitionWeightScreen(
-      activityName: activityName,
-      repetitionWeight: repetitionWeight,
-      workout: workout);
+  State<RepetitionWeightScreen> createState() => _RepetitionWeightScreen(activityName: activityName, repetitionWeight: repetitionWeight, workout: workout);
 }
 
 class _RepetitionWeightScreen extends State<RepetitionWeightScreen> {
@@ -34,10 +29,8 @@ class _RepetitionWeightScreen extends State<RepetitionWeightScreen> {
   final Workout workout;
   bool onFocus = false;
   dynamic lastWorkout = 0;
-  _RepetitionWeightScreen(
-      {required this.activityName,
-      required this.repetitionWeight,
-      required this.workout});
+  _RepetitionWeightScreen({required this.activityName, required this.repetitionWeight, required this.workout});
+  
   @override
   void initState() {
     lastId = repetitionWeight.length + 1;
@@ -45,7 +38,7 @@ class _RepetitionWeightScreen extends State<RepetitionWeightScreen> {
     super.initState();
   }
 
-  getLastWorkouts() async {
+  dynamic getLastWorkouts() async {
     lastWorkout =
         await DataManager.instance.getWorkoutLast(workout.poolActivityId);
     setState(() {});
@@ -171,7 +164,7 @@ class _RepetitionWeightScreen extends State<RepetitionWeightScreen> {
 
                                         setState(() {
                                           repetitionWeight =
-                                              lastWorkout.List_approaches
+                                              lastWorkout.approachesList
                                                   as List<RepetitionWeight>;
                                           DataManager.instance
                                               .updAllRepetitionWeight(

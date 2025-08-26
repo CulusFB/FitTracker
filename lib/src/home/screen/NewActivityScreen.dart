@@ -7,9 +7,9 @@ class NewActivityScreen extends StatefulWidget {
   State<NewActivityScreen> createState() => _NewActivityScreen();
 }
 
-class _NewActivityScreen extends State<NewActivityScreen>
-    with TickerProviderStateMixin {
+class _NewActivityScreen extends State<NewActivityScreen> with TickerProviderStateMixin {
   late final TabController _tabController;
+  
   @override
   void initState() {
     super.initState();

@@ -15,6 +15,7 @@ class MaterialContextApp extends StatefulWidget {
 }
 
 class _MaterialContextApp extends State<MaterialContextApp> {
+  @override
   void initState() {
     super.initState();
     DataManager dataManager = DataManager.instance;

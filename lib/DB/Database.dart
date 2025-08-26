@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'dart:typed_data';
+
 import 'package:flutter/services.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
@@ -12,7 +12,7 @@ class DBProvider {
     return _database!;
   }
 
-  initDB() async {
+  dynamic initDB() async {
     var databasesPath = await getDatabasesPath();
     var path = join(databasesPath, "TestDB.db");
     var exists = await databaseExists(path);

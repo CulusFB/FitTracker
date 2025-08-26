@@ -14,7 +14,7 @@ class ListActivityScreen extends StatefulWidget {
 
 class _ListActivityScreen extends State<ListActivityScreen>
     with TickerProviderStateMixin {
-  List<MuscleGroup> poolMuscleGroup = DataManager.instance.muscleGroup;
+  List<MuscleGroup> poolMuscleGroup = DataManager.instance.muscleGroups;
   @override
   void initState() {
     super.initState();
@@ -40,7 +40,7 @@ class _ListActivityScreen extends State<ListActivityScreen>
                       builder: (context) {
                         return SelectMuscleGroupScreen();
                       }).whenComplete(() {
-                    poolMuscleGroup = DataManager.instance.muscleGroup;
+                    poolMuscleGroup = DataManager.instance.muscleGroups;
                   });
                 },
                 child: Container(

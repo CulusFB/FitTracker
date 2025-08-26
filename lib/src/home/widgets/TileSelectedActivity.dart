@@ -88,7 +88,7 @@ class _TileSelectedActivity extends State<TileSelectedActivity>
                 isSelected = !isSelected;
                 setState(() {});
               },
-              title: Text(poolActivity.Name_ru as String),
+              title: Text(poolActivity.nameRu as String),
               trailing: isSelected
                   ? Transform.rotate(
                       angle: 33, child: Icon(Icons.arrow_back_ios_rounded))
@@ -104,7 +104,7 @@ class _TileSelectedActivity extends State<TileSelectedActivity>
                     padding: EdgeInsets.only(left: 10, right: 10),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: workout.List_approaches!
+                      children: workout.approachesList!
                           .asMap()
                           .entries
                           .map((e) => RepetitionWeigthTile(
@@ -124,11 +124,8 @@ class _TileSelectedActivity extends State<TileSelectedActivity>
                                                     repetitionWeightRepository),
                                             child: RepetitionWeightScreen(
                                               workout: workout,
-                                              activityName: poolActivity.Name_ru
-                                                  .toString(),
-                                              repetitionWeight:
-                                                  workout.List_approaches
-                                                      as List<RepetitionWeight>,
+                                              activityName: poolActivity.nameRu.toString(),
+                                              repetitionWeight: workout.approachesList as List<RepetitionWeight>,
                                             ));
                                       }).whenComplete(() async {
                                     workout = await DataManager.instance

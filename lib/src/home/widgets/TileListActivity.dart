@@ -51,7 +51,7 @@ class _TileListActivity extends State<TileListActivity>
               SizedBox(
                 width: 10,
               ),
-              Text(muscleGroup.Name_ru as String),
+              Text(muscleGroup.nameRu as String),
             ],
           ),
           Row(

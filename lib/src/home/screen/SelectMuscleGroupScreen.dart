@@ -12,7 +12,7 @@ class SelectMuscleGroupScreen extends StatefulWidget {
 
 class _SelectMuscleGroupScreen extends State<SelectMuscleGroupScreen>
     with TickerProviderStateMixin {
-  List<MuscleGroup> poolMuscleGroup = DataManager.instance.muscleGroup;
+  List<MuscleGroup> poolMuscleGroup = DataManager.instance.muscleGroups;
   @override
   void initState() {
     super.initState();

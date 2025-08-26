@@ -13,7 +13,7 @@ import 'package:fit_tracker/DB/models/muscleGroup.dart';
 //   return res.isNotEmpty ? MuscleGroup.fromJson(res.first) : Null;
 // }
 
-getAllMuscleGroup(DBProvider dbProvider) async {
+dynamic getAllMuscleGroup(DBProvider dbProvider) async {
   final db = await dbProvider.database;
   var res = await db.query("MuscleGroup");
   Object list =

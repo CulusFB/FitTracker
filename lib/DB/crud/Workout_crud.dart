@@ -2,14 +2,14 @@ import 'package:fit_tracker/DB/Database.dart';
 import 'package:fit_tracker/DB/models/Workout.dart';
 import 'package:intl/intl.dart';
 
-newWorkoutDb(Workout workout, DBProvider dbProvider) async {
+dynamic newWorkoutDb(Workout workout, DBProvider dbProvider) async {
   final db = await dbProvider.database;
-  var res = await db.insert('Workout', workout.toJson());
-  workout.id = res;
+  workout.id = await db.insert("Workout", workout.toJson());
+  // workout.id = await db.insert('Workout', workout.toJson());
   return workout;
 }
 
-getLastPosition(DBProvider dbProvider, String thisDate) async {
+dynamic getLastPosition(DBProvider dbProvider, String thisDate) async {
   final db = await dbProvider.database;
   var res = await db.query("Workout",
       where: 'date == ?', whereArgs: [thisDate], orderBy: 'Position DESC');
@@ -20,22 +20,22 @@ getLastPosition(DBProvider dbProvider, String thisDate) async {
   }
 }
 
-swapWorkoutDb(DBProvider dbProvider, List<Workout> _workouts) async {
+dynamic swapWorkoutDb(DBProvider dbProvider, List<Workout> workoutList) async {
   final db = await dbProvider.database;
   await db.transaction((txn) async {
-    for (final workout in _workouts) {
+    for (final workout in workoutList) {
       txn.update("Workout", workout.toJson(),
           where: 'id = ?', whereArgs: [workout.id]);
     }
   });
 }
 
-delWorkoutId(DBProvider dbProvider, int workoutId) async {
+dynamic delWorkoutId(DBProvider dbProvider, int workoutId) async {
   final db = await dbProvider.database;
   await db.delete('Workout', where: 'id = ?', whereArgs: [workoutId]);
 }
 
-getWorkoutAtDay(DBProvider dbProvider, DateTime date) async {
+dynamic getWorkoutAtDay(DBProvider dbProvider, DateTime date) async {
   final db = await dbProvider.database;
   var res = await db.query("Workout",
       where: 'date like ?', whereArgs: [date.toString()], orderBy: 'Position');
@@ -44,7 +44,7 @@ getWorkoutAtDay(DBProvider dbProvider, DateTime date) async {
   return workouts;
 }
 
-getDateWorkouts(DBProvider dbProvider) async {
+dynamic getDateWorkouts(DBProvider dbProvider) async {
   final db = await dbProvider.database;
   var res = await db.query('Workout', columns: ["Date"], distinct: true);
   DateFormat format = DateFormat("yyyy-MM-dd");
@@ -54,20 +54,20 @@ getDateWorkouts(DBProvider dbProvider) async {
   return date;
 }
 
-getWorkoutIdDb(DBProvider dbProvider, int id) async {
+dynamic getWorkoutIdDb(DBProvider dbProvider, int id) async {
   final db = await dbProvider.database;
   var res = await db.query('Workout', where: 'id = ?', whereArgs: [id]);
   Workout workout = res.isNotEmpty ? Workout.fromJson(res.first) : Workout();
   return workout;
 }
 
-updateRepetitionWeight(DBProvider dbProvider, Workout workout) async {
+dynamic updateRepetitionWeight(DBProvider dbProvider, Workout workout) async {
   final db = await dbProvider.database;
   await db.update('Workout', workout.toJson(),
       where: 'id = ?', whereArgs: [workout.id]);
 }
 
-getLastWorkout(
+dynamic getLastWorkout(
     DBProvider dbProvider, int poolActivityId, String thisDate) async {
   final db = await dbProvider.database;
   var res = await db.query(
@@ -86,7 +86,7 @@ getLastWorkout(
   }
 }
 
-getPoolActivityBetweenDate(DBProvider dbProvider, int poolActivityId,
+dynamic getPoolActivityBetweenDate(DBProvider dbProvider, int poolActivityId,
     DateTime monday, DateTime sunday) async {
   final db = await dbProvider.database;
   var res = await db.query(

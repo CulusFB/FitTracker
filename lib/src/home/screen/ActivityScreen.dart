@@ -13,29 +13,31 @@ import 'package:google_fonts/google_fonts.dart';
 class ActivityScreen extends StatefulWidget {
   const ActivityScreen({super.key, required this.muscleGroup});
   final MuscleGroup muscleGroup;
+
   @override
-  State<ActivityScreen> createState() =>
-      _ActivityScreen(muscleGroup: muscleGroup);
+  State<ActivityScreen> createState() => _ActivityScreen(muscleGroup: muscleGroup);
 }
 
-class _ActivityScreen extends State<ActivityScreen>
-    with TickerProviderStateMixin {
-  _ActivityScreen({required this.muscleGroup});
+class _ActivityScreen extends State<ActivityScreen> with TickerProviderStateMixin {
+
   final MuscleGroup muscleGroup;
   late List<PoolActivity> poolActivityList;
   late TileController tileController;
+
+  _ActivityScreen({required this.muscleGroup});
+
   @override
   void initState() {
+    super.initState();
     tileController = TileController();
-    poolActivityList =
-        DataManager.instance.getPoolActivityMuscleGroup(muscleGroup.id);
+    poolActivityList = DataManager.instance.getPoolActivityMuscleGroup(muscleGroup.id);
     super.initState();
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +50,7 @@ class _ActivityScreen extends State<ActivityScreen>
             Container(
                 padding: EdgeInsets.all(10),
                 child: Text(
-                  muscleGroup.Name_ru as String,
+                  muscleGroup.nameRu as String,
                   style: GoogleFonts.roboto(fontSize: 30),
                 )),
             Container(
@@ -112,19 +114,14 @@ class _ActivityScreen extends State<ActivityScreen>
                           onPressed: () {
                             //TODO: maybe refactoring
                             List<Workout> workouts = [];
-                            DateTime now =
-                                DataManager.instance.calendarController.value;
-                            DateTime date =
-                                new DateTime(now.year, now.month, now.day);
-                            List<RepetitionWeight> repetitionWeight = [
-                              RepetitionWeight(repetition: 0, weight: 0)
-                            ];
-                            tileController.enableActivity
-                                .forEach((id, activity) {
+                            DateTime now = DataManager.instance.calendarController.value;
+                            DateTime date = DateTime(now.year, now.month, now.day);
+                            List<RepetitionWeight> repetitionWeight = [RepetitionWeight(repetition: 0, weight: 0)];
+                            tileController.enableActivity.forEach((id, activity) {
                               workouts.add(Workout(
-                                  Date: date.toString(),
+                                  date: date.toString(),
                                   poolActivityId: activity.id,
-                                  List_approaches: repetitionWeight));
+                                  approaches: repetitionWeight));
                             });
                             DataManager.instance.newWorkout(workouts);
                             Navigator.pop(context);
@@ -156,14 +153,14 @@ class _ActivityScreen extends State<ActivityScreen>
                                                 .enableActivity.values.first,
                                           );
                                         }).whenComplete(() async {
-                                      List<PoolActivity> new_poolActivityList =
+                                      List<PoolActivity> newPoolActivityList =
                                           await DataManager.instance
                                               .getPoolActivityMuscleGroup(
                                                   muscleGroup.id);
-                                      if (new_poolActivityList.length !=
+                                      if (newPoolActivityList.length !=
                                           poolActivityList.length) {
                                         tileController.enableActivity.clear();
-                                        poolActivityList = new_poolActivityList;
+                                        poolActivityList = newPoolActivityList;
                                       }
 
                                       setState(() {});

@@ -1,23 +1,20 @@
 import 'package:fit_tracker/DB/Database.dart';
 import 'package:fit_tracker/DB/models/poolActivity.dart';
 
-newPoolActivity(PoolActivity poolActivity, DBProvider dbProvider) async {
+dynamic newPoolActivity(PoolActivity poolActivity, DBProvider dbProvider) async {
   final db = await dbProvider.database;
-  var res = await db.insert('PoolActivity', poolActivity.toJson());
-  poolActivity.id = res;
+  return await db.insert('PoolActivity', poolActivity.toJson());
+}
+
+dynamic updatePoolActivity(PoolActivity poolActivity, DBProvider dbProvider) async {
+  final db = await dbProvider.database;
+  await db.update('PoolActivity', poolActivity.toJson(), where: 'id = ?', whereArgs: [poolActivity.id]);
   return poolActivity;
 }
 
-updatePoolActivity(PoolActivity poolActivity, DBProvider dbProvider) async {
+dynamic deletePoolActivity(int id, DBProvider dbProvider) async {
   final db = await dbProvider.database;
-  await db.update('PoolActivity', poolActivity.toJson(),
-      where: 'id = ?', whereArgs: [poolActivity.id]);
-  return poolActivity;
-}
-
-deletePoolActivity(int id, DBProvider dbProvider) async {
-  final db = await dbProvider.database;
-  await db.delete('PoolActivity', where: 'id = ?', whereArgs: [id]);
+  await db.delete('PoolActivity', where: 'id = ?', whereArgs: [id]); 
 }
 // getPoolActivityId(int id) async {
 //   final db = await DBProvider.db.database;
@@ -25,11 +22,10 @@ deletePoolActivity(int id, DBProvider dbProvider) async {
 //   return res.isNotEmpty ? PoolActivity.fromJson(res.first) : Null;
 // }
 
-getAllPoolActivity(DBProvider dbProvider) async {
+dynamic getAllPoolActivity(DBProvider dbProvider) async {
   final db = await dbProvider.database;
   var res = await db.query("PoolActivity");
-  List<PoolActivity> list =
-      res.isNotEmpty ? res.map((c) => PoolActivity.fromJson(c)).toList() : [];
+  var list = res.isNotEmpty ? res.map((c) => PoolActivity.fromJson(c)).toList() : [];
   return list;
 }
 

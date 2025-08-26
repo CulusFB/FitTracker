@@ -1,11 +1,11 @@
 import 'dart:convert';
 
-RepetitionWeight RepetitionWeightFromJson(String str) {
+RepetitionWeight repetitionWeightFromJson(String str) {
   final jsonData = json.decode(str);
   return RepetitionWeight.fromJson(jsonData);
 }
 
-String RepetitionWeightToJson(RepetitionWeight data) {
+String repetitionWeightToJson(RepetitionWeight data) {
   final dyn = data.toJson();
   return json.encode(dyn);
 }
@@ -18,7 +18,7 @@ class RepetitionWeight {
     this.repetition = 0,
   });
   factory RepetitionWeight.fromJson(Map<String, dynamic> json) =>
-      new RepetitionWeight(
+      RepetitionWeight(
         weight: json['weight'],
         repetition: json['repetition'],
       );

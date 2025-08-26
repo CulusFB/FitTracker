@@ -14,134 +14,134 @@ class DataManager {
     initDbProvider();
     initDataManager();
   }
-  initDbProvider() async {
+  dynamic initDbProvider() async {
     dbProvider = DBProvider();
     await dbProvider.initDB();
   }
 
-  static DataManager _instance = DataManager._();
+  static final DataManager _instance = DataManager._();
   static DataManager get instance => _instance;
-  late AdvancedCalendarController calendarController =
-      AdvancedCalendarController.today();
+
+  AdvancedCalendarController get calendarController => AdvancedCalendarController.today();
   late DBProvider dbProvider;
-  late List<MuscleGroup> muscleGroup;
-  late List<PoolActivity> poolActivity;
-  late List<Workout> workout = []; //TODO: Fix it when bloc
+  late List<MuscleGroup> muscleGroups;
+  late List<PoolActivity> poolActivities;
+  late List<Workout> workouts = []; //TODO: Fix it when bloc
+  
   Future<bool> initDataManager() async {
-    DateTime now = new DateTime.now();
-    DateTime date = new DateTime(now.year, now.month, now.day);
-    workout = await getWorkoutAtDay(dbProvider, date);
-    muscleGroup = await getAllMuscleGroup(dbProvider);
-    poolActivity = await getAllPoolActivity(dbProvider);
+    DateTime now =  DateTime.now();
+    DateTime date = DateTime(now.year, now.month, now.day);
+    workouts = await getWorkoutAtDay(dbProvider, date);
+    muscleGroups = await getAllMuscleGroup(dbProvider);
+    poolActivities = await getAllPoolActivity(dbProvider);
     return true;
   }
 
-  getPoolActivityMuscleGroup(int id) {
-    return poolActivity
-        .where((poolActivity) => poolActivity.MuscleGroupId == id)
+  dynamic getPoolActivityMuscleGroup(int id) {
+    return poolActivities
+        .where((poolActivity) => poolActivity.muscleGroupId == id)
         .toList();
   }
 
-  newActivity(PoolActivity _poolActivity) async {
-    PoolActivity activity = await newPoolActivity(_poolActivity, dbProvider);
-    poolActivity.add(activity);
-    return activity;
+  dynamic addActivity(PoolActivity poolActivity) async {
+    var id = await newPoolActivity(poolActivity, dbProvider);
+    poolActivity.id = id;
+    poolActivities.add(poolActivity);
   }
 
-  updateActivity(PoolActivity _poolActivity) async {
-    PoolActivity activity = await updatePoolActivity(_poolActivity, dbProvider);
-    poolActivity.removeWhere((poolActivity) => poolActivity.id == activity.id);
-    poolActivity.add(activity);
+  dynamic editActivity(PoolActivity poolActivity) async {
+    PoolActivity activity = await updatePoolActivity(poolActivity, dbProvider);
+    poolActivities.removeWhere((poolActivity) => poolActivity.id == activity.id);
+    poolActivities.add(activity);
     return activity;
   }
-
-  String getPoolActivityName(int poolActivityId) {
-    return poolActivity.firstWhere((el) => el.id == poolActivityId).Name_ru
+  //FIXME функция хуета подумать бы еще =)
+  String getPoolActivityName(int id) {
+    return poolActivities.firstWhere((el) => el.id == id).nameRu
         as String;
   }
 
-  deleteActivity(int id) async {
+  dynamic removeActivity(int id) async {
     await deletePoolActivity(id, dbProvider);
-    poolActivity.removeWhere((poolActivity) => poolActivity.id == id);
+    poolActivities.removeWhere((poolActivity) => poolActivity.id == id);
   }
 
-  getWorkoutDay(DateTime date) async {
-    List<Workout> _workouts = await getWorkoutAtDay(dbProvider, date);
-    workout = _workouts;
-    return _workouts;
+  dynamic getWorkoutDay(DateTime date) async {
+    workouts = await getWorkoutAtDay(dbProvider, date);
+    return workouts;
   }
 
-  swapWorkoutPosition(List<Workout> _workouts) async {
-    await swapWorkoutDb(dbProvider, _workouts);
+  dynamic swapWorkoutPosition(List<Workout> workoutList) async {
+    await swapWorkoutDb(dbProvider, workoutList);
   }
 
-  newWorkout(List<Workout> _listWorkout) async {
+  dynamic newWorkout(List<Workout> workoutList) async {
     DateTime now = calendarController.value;
-    DateTime date = new DateTime(now.year, now.month, now.day);
+    DateTime date = DateTime(now.year, now.month, now.day);
     var lastPosition = await getLastPosition(dbProvider, date.toString());
     lastPosition = lastPosition == null ? 0 : lastPosition + 1;
-    for (var _workout in _listWorkout) {
-      _workout.Position = lastPosition;
-      newWorkoutDb(_workout, dbProvider);
+    for (var workout in workoutList) {
+      workout.position = lastPosition;
+      newWorkoutDb(workout, dbProvider);
       lastPosition += 1;
     }
     return null;
   }
 
-  delWorkout(int workoutId) async {
+  dynamic delWorkout(int workoutId) async {
     await delWorkoutId(dbProvider, workoutId);
-    workout.removeWhere((el) => el.id == workoutId);
+    workouts.removeWhere((el) => el.id == workoutId);
   }
 
-  getWorkoutId(int workoutId) async {
+  dynamic getWorkoutId(int workoutId) async {
     return await getWorkoutIdDb(dbProvider, workoutId);
   }
 
-  getWorkoutLast(int poolActivityId) async {
+  dynamic getWorkoutLast(int poolActivityId) async {
     return await getLastWorkout(
         dbProvider, poolActivityId, calendarController.value.toString());
   }
 
-  changeIdWorkout(int oldId, int newId) async {}
+  dynamic changeIdWorkout(int oldId, int newId) async {}
 
-  addRepetitionWeight(RepetitionWeight repetitionWeight, int workoutId) async {
+  dynamic addRepetitionWeight(RepetitionWeight repetitionWeight, int workoutId) async {
     Workout workout = await getWorkoutIdDb(dbProvider, workoutId);
-    workout.List_approaches?.add(repetitionWeight);
+    workout.approachesList?.add(repetitionWeight);
     await updateRepetitionWeight(dbProvider, workout);
   }
 
-  updAllRepetitionWeight(
+  dynamic updAllRepetitionWeight(
       List<RepetitionWeight> repetitionWeight, int workoutId) async {
     Workout workout = await getWorkoutIdDb(dbProvider, workoutId);
-    workout.List_approaches = repetitionWeight;
+    workout.approachesList = repetitionWeight;
     await updateRepetitionWeight(dbProvider, workout);
   }
 
-  dateWorkouts() async {
+  dynamic dateWorkouts() async {
     List<DateTime> date = await getDateWorkouts(dbProvider);
     return date;
   }
 
-  delReptitioonWeight(int id, Workout _workout) async {
-    _workout.List_approaches!.removeAt(id);
-    await updateRepetitionWeight(dbProvider, _workout);
+  dynamic delReptitioonWeight(int id, Workout workout) async {
+    workout.approachesList!.removeAt(id);
+    await updateRepetitionWeight(dbProvider, workout);
   }
 
-  getPoolActivityWeek(int poolActivityId) async {
-    DateTime now = new DateTime.now();
-    DateTime date = new DateTime(now.year, now.month, now.day);
+  dynamic getPoolActivityWeek(int poolActivityId) async {
+    DateTime now = DateTime.now();
+    DateTime date = DateTime(now.year, now.month, now.day);
     return await getPoolActivityBetweenDate(dbProvider, poolActivityId,
         findNearestMonday(date), findNearestSunday(date));
   }
 
-  getPoolActivityMonth(int poolActivityId) async {
-    DateTime now = new DateTime.now();
+  dynamic getPoolActivityMonth(int poolActivityId) async {
+    DateTime now = DateTime.now();
     return await getPoolActivityBetweenDate(dbProvider, poolActivityId,
         DateTime(now.year, now.month, 1), DateTime(now.year, now.month + 1, 0));
   }
 
-  getPoolActivityYear(int poolActivityId) async {
-    DateTime now = new DateTime.now();
+  dynamic getPoolActivityYear(int poolActivityId) async {
+    DateTime now = DateTime.now();
     return await getPoolActivityBetweenDate(dbProvider, poolActivityId,
         DateTime(now.year, 1, 1), DateTime(now.year, 12, 31));
   }

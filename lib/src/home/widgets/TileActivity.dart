@@ -49,7 +49,7 @@ class _TileActivity extends State<TileActivity> with TickerProviderStateMixin {
         onChange();
         setState(() {});
       },
-      title: Text(poolActivity.Name_ru as String),
+      title: Text(poolActivity.nameRu as String),
       subtitle: poolActivity.label != null
           ? Text(poolActivity.label as String)
           : null,

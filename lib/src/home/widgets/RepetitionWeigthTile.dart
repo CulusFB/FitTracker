@@ -2,7 +2,6 @@ import 'package:fit_tracker/DB/models/RepetitionWeigth.dart';
 import 'package:fit_tracker/src/themes/TextFieldTheme.dart';
 import 'package:fit_tracker/src/themes/TextStyleTheme.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 class RepetitionWeigthTile extends StatefulWidget {
   RepetitionWeigthTile(
