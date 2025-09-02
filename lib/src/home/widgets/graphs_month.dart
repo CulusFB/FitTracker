@@ -4,19 +4,19 @@ import 'package:intl/intl.dart';
 
 class GraphsMonth extends StatefulWidget {
   const GraphsMonth({super.key, required this.monthWorkouts});
-  final monthWorkouts;
+  final dynamic monthWorkouts;
   @override
-  State<GraphsMonth> createState() => _GraphsMonth(monthWorkouts: monthWorkouts);
+  State<GraphsMonth> createState() => _GraphsMonth();
 }
 
 class _GraphsMonth extends State<GraphsMonth> {
-  _GraphsMonth({required this.monthWorkouts});
-  final monthWorkouts;
+  late final dynamic monthWorkouts;
   DateFormat format = DateFormat("yyyy-MM-dd HH:mm:ss.SSS");
   
   @override
   void initState() {
     super.initState();
+    monthWorkouts = widget.monthWorkouts;
   }
 
   @override

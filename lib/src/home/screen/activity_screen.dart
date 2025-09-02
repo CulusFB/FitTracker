@@ -1,12 +1,12 @@
-import 'package:fit_tracker/DB/DataManager.dart';
-import 'package:fit_tracker/DB/models/RepetitionWeigth.dart';
-import 'package:fit_tracker/DB/models/Workout.dart';
-import 'package:fit_tracker/DB/models/muscleGroup.dart';
-import 'package:fit_tracker/DB/models/poolActivity.dart';
+import 'package:fit_tracker/DB/data_manager.dart';
+import 'package:fit_tracker/DB/models/repetition_weigth.dart';
+import 'package:fit_tracker/DB/models/workout.dart';
+import 'package:fit_tracker/DB/models/muscle_group.dart';
+import 'package:fit_tracker/DB/models/pool_activity.dart';
 import 'package:fit_tracker/generated/l10n.dart';
-import 'package:fit_tracker/src/home/screen/AddActivityScreen.dart';
-import 'package:fit_tracker/src/home/widgets/TileActivity.dart';
-import 'package:fit_tracker/src/themes/FilledButtonTheme.dart';
+import 'package:fit_tracker/src/home/screen/add_activity_screen.dart';
+import 'package:fit_tracker/src/home/widgets/tile_activity.dart';
+import 'package:fit_tracker/src/themes/filled_button_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -20,7 +20,7 @@ class ActivityScreen extends StatefulWidget {
 
 class _ActivityScreen extends State<ActivityScreen> with TickerProviderStateMixin {
 
-  final MuscleGroup muscleGroup;
+  late final MuscleGroup muscleGroup;
   late List<PoolActivity> poolActivityList;
   late TileController tileController;
 

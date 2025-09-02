@@ -1,6 +1,6 @@
-import 'package:fit_tracker/DB/models/RepetitionWeigth.dart';
-import 'package:fit_tracker/src/themes/TextFieldTheme.dart';
-import 'package:fit_tracker/src/themes/TextStyleTheme.dart';
+import 'package:fit_tracker/DB/models/repetition_weigth.dart';
+import 'package:fit_tracker/src/themes/text_field_theme.dart';
+import 'package:fit_tracker/src/themes/text_style_theme.dart';
 import 'package:flutter/material.dart';
 
 class RepetitionWeigthTile extends StatefulWidget {
@@ -25,7 +25,7 @@ class RepetitionWeigthTile extends StatefulWidget {
   final FocusNode repetitionFocus;
   final FocusNode weigthFocus;
   @override
-  State<RepetitionWeigthTile> createState() => _RepetitionWeigthTile(
+State<RepetitionWeigthTile> createState() => _RepetitionWeigthTile(
       repetitionWeight: repetitionWeight,
       onTap: onTap,
       id: id,
@@ -37,12 +37,12 @@ class RepetitionWeigthTile extends StatefulWidget {
 }
 
 class _RepetitionWeigthTile extends State<RepetitionWeigthTile> {
-  final RepetitionWeight repetitionWeight;
-  final int id;
-  final Function onTap;
-  final Function onDismissed;
-  final bool enable;
-  final bool enableTextEdit;
+  late final RepetitionWeight repetitionWeight;
+  late final int id;
+  late final Function onTap;
+  late final Function onDismissed;
+  late final bool enable;
+  late final bool enableTextEdit;
   late final TextEditingController weightTextController;
   late final TextEditingController repetitionTextController;
   _RepetitionWeigthTile(

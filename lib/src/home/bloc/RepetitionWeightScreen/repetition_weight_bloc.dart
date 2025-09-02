@@ -1,6 +1,6 @@
-import 'package:fit_tracker/src/home/bloc/RepetitionWeightScreen/RepetitionWeightEvent.dart';
-import 'package:fit_tracker/src/home/bloc/RepetitionWeightScreen/RepetitionWeightRepository.dart';
-import 'package:fit_tracker/src/home/bloc/RepetitionWeightScreen/RepetitionWeightState.dart';
+import 'package:fit_tracker/src/home/bloc/RepetitionWeightScreen/repetition_weight_event.dart';
+import 'package:fit_tracker/src/home/bloc/RepetitionWeightScreen/repetition_weight_repository.dart';
+import 'package:fit_tracker/src/home/bloc/RepetitionWeightScreen/repetition_weight_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class RepetitionWeightBloc

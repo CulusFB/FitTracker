@@ -1,4 +1,4 @@
-import 'package:fit_tracker/DB/models/poolActivity.dart';
+import 'package:fit_tracker/DB/models/pool_activity.dart';
 import 'package:flutter/material.dart';
 
 class TileController {
@@ -15,24 +15,21 @@ class TileActivity extends StatefulWidget {
   final PoolActivity poolActivity;
   final Function onChange;
   @override
-  State<TileActivity> createState() => _TileActivity(
-      poolActivity: poolActivity,
-      tileController: tileController,
-      onChange: onChange);
+  State<TileActivity> createState() => _TileActivity();
 }
 
 class _TileActivity extends State<TileActivity> with TickerProviderStateMixin {
-  _TileActivity(
-      {required this.poolActivity,
-      required this.tileController,
-      required this.onChange});
-  final PoolActivity poolActivity;
-  final TileController tileController;
-  final Function onChange;
+
+  late final PoolActivity poolActivity;
+  late final TileController tileController;
+  late final Function onChange;
   bool isSelected = false;
   @override
   void initState() {
     super.initState();
+    poolActivity = widget.poolActivity;
+    tileController = widget.tileController;
+    onChange = widget.onChange;
   }
 
   @override

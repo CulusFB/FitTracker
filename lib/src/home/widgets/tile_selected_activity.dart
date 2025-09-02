@@ -1,11 +1,11 @@
-import 'package:fit_tracker/DB/DataManager.dart';
-import 'package:fit_tracker/DB/models/RepetitionWeigth.dart';
-import 'package:fit_tracker/DB/models/Workout.dart';
-import 'package:fit_tracker/DB/models/poolActivity.dart';
-import 'package:fit_tracker/src/home/bloc/RepetitionWeightScreen/RepetitionWeightBloc.dart';
-import 'package:fit_tracker/src/home/bloc/RepetitionWeightScreen/RepetitionWeightRepository.dart';
-import 'package:fit_tracker/src/home/screen/RepetitionWeightScreen.dart';
-import 'package:fit_tracker/src/home/widgets/RepetitionWeigthTile.dart';
+import 'package:fit_tracker/DB/data_manager.dart';
+import 'package:fit_tracker/DB/models/repetition_weigth.dart';
+import 'package:fit_tracker/DB/models/workout.dart';
+import 'package:fit_tracker/DB/models/pool_activity.dart';
+import 'package:fit_tracker/src/home/bloc/RepetitionWeightScreen/repetition_weight_bloc.dart';
+import 'package:fit_tracker/src/home/bloc/RepetitionWeightScreen/repetition_weight_repository.dart';
+import 'package:fit_tracker/src/home/screen/repetition_weight_screen.dart';
+import 'package:fit_tracker/src/home/widgets/tile_repetition_weigth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -19,19 +19,14 @@ class TileSelectedActivity extends StatefulWidget {
   final Workout workout;
   final Function onChange;
   @override
-  State<TileSelectedActivity> createState() => _TileSelectedActivity(
-      poolActivity: poolActivity, onChange: onChange, workout: workout);
+  State<TileSelectedActivity> createState() => _TileSelectedActivity();
 }
 
 class _TileSelectedActivity extends State<TileSelectedActivity>
     with TickerProviderStateMixin {
-  _TileSelectedActivity(
-      {required this.poolActivity,
-      required this.onChange,
-      required this.workout});
-  final PoolActivity poolActivity;
-  Workout workout;
-  final Function onChange;
+  late final PoolActivity poolActivity;
+  late Workout workout;
+  late final Function onChange;
   bool isSelected = false;
   late final RepetitionWeightRepository repetitionWeightRepository;
 
@@ -39,6 +34,9 @@ class _TileSelectedActivity extends State<TileSelectedActivity>
   void initState() {
     repetitionWeightRepository = RepetitionWeightRepository();
     super.initState();
+    poolActivity = widget.poolActivity;
+    workout = widget.workout;
+    onChange = widget.onChange;
   }
 
   @override

@@ -1,8 +1,8 @@
-import 'package:fit_tracker/DB/DataManager.dart';
-import 'package:fit_tracker/DB/models/muscleGroup.dart';
-import 'package:fit_tracker/DB/models/poolActivity.dart';
+import 'package:fit_tracker/DB/data_manager.dart';
+import 'package:fit_tracker/DB/models/muscle_group.dart';
+import 'package:fit_tracker/DB/models/pool_activity.dart';
 import 'package:fit_tracker/generated/l10n.dart';
-import 'package:fit_tracker/src/themes/FilledButtonTheme.dart';
+import 'package:fit_tracker/src/themes/filled_button_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -14,17 +14,16 @@ class AddActivityScreen extends StatefulWidget {
   final MuscleGroup muscleGroup;
   PoolActivity poolActivity;
   @override
-  State<AddActivityScreen> createState() => _AddActivityScreen(muscleGroup: muscleGroup, poolActivity: poolActivity);
+  State<AddActivityScreen> createState() => _AddActivityScreen();
 }
 
 class _AddActivityScreen extends State<AddActivityScreen>
     with TickerProviderStateMixin {
-  _AddActivityScreen({required this.muscleGroup, PoolActivity? poolActivity})
-      : poolActivity = poolActivity ?? PoolActivity();
-  PoolActivity poolActivity;
+  late PoolActivity poolActivity;
   TextEditingController textController = TextEditingController();
   TextEditingController labelController = TextEditingController();
-  final MuscleGroup muscleGroup;
+  late final MuscleGroup muscleGroup;
+
   @override
   void initState() {
     if (poolActivity.id != 0) {
@@ -33,6 +32,8 @@ class _AddActivityScreen extends State<AddActivityScreen>
           poolActivity.label != null ? poolActivity.label as String : '';
     }
     super.initState();
+    poolActivity = widget.poolActivity;
+    muscleGroup = widget.muscleGroup;
   }
 
   @override

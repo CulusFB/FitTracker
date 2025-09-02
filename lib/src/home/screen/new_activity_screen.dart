@@ -1,4 +1,4 @@
-import 'package:fit_tracker/src/home/screen/ListActivityScreen.dart';
+import 'package:fit_tracker/src/home/screen/list_activity_screen.dart';
 import 'package:flutter/material.dart';
 
 class NewActivityScreen extends StatefulWidget {

@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:fit_tracker/DB/models/RepetitionWeigth.dart';
+import 'package:fit_tracker/DB/models/repetition_weigth.dart';
 
 Workout workoutFromJson(String str) {
   final jsonData = json.decode(str);
@@ -49,39 +49,11 @@ class Workout {
     position = other.position;
   }
 
-  Workout copyWith({
-    int? id,
-    String? Date,
-    int? poolActivityId,
-    List<RepetitionWeight>? List_approaches,
-    int? Position,
-  }) {
-    return Workout(
-      id: id ?? this.id,
-      date: Date ?? this.date,
-      poolActivityId: poolActivityId ?? this.poolActivityId,
-      approaches: List_approaches ?? this.approachesList,
-      position: Position ?? this.position,
-    );
-  }
-
   Map<String, dynamic> toJson() {
-  //   List<dynamic> jsList = [];
-  //   for (var approches in approachesList!) {
-  //     jsList.add(json.encode(approches.toJson()));
-  //   }
-  //   return {
-  //     "Date" : date,
-  //     "Pool_activity_id" : poolActivityId,
-  //     "List_approches" : jsList.toString(),
-  //     "Position" : position
-  //   };
-
-
     List<dynamic> jsList = [];
-    approachesList!.forEach((approches) {
+    for (var approches in approachesList!) {
       jsList.add(json.encode(approches.toJson()));
-    });
+    }
     return {
       "Date": date,
       "Pool_activity_id": poolActivityId,

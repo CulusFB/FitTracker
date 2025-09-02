@@ -1,21 +1,20 @@
-import 'package:fit_tracker/DB/DataManager.dart';
+import 'package:fit_tracker/DB/data_manager.dart';
 import 'package:fit_tracker/DB/models/Workout.dart';
-import 'package:fit_tracker/src/home/widgets/GraphsMonth.dart';
-import 'package:fit_tracker/src/themes/TextStyleTheme.dart';
+import 'package:fit_tracker/src/home/widgets/graphs_month.dart';
+import 'package:fit_tracker/src/themes/text_style_theme.dart';
 import 'package:flutter/material.dart';
 
 class StatisticScreen extends StatefulWidget {
   const StatisticScreen({super.key, required this.poolActivityId});
   final int poolActivityId;
   @override
-  State<StatisticScreen> createState() => _StatisticsScreen(poolActivityId: poolActivityId);
+  State<StatisticScreen> createState() => _StatisticsScreen();
 }
 
 enum DateRange { week, month, year, all }
 
 class _StatisticsScreen extends State<StatisticScreen> with TickerProviderStateMixin {
-  _StatisticsScreen({required this.poolActivityId});
-  final int poolActivityId;
+  late final int poolActivityId;
   dynamic weekWorkouts = [];
   dynamic monthWorkouts = [];
   List<Workout> yearWorkouts = [];
@@ -27,6 +26,7 @@ class _StatisticsScreen extends State<StatisticScreen> with TickerProviderStateM
     poolActivityName = DataManager.instance.getPoolActivityName(poolActivityId);
     getStatistics();
     super.initState();
+    poolActivityId = widget.poolActivityId;
   }
 
   dynamic getStatistics() async {

@@ -1,6 +1,6 @@
-import 'package:fit_tracker/DB/DataManager.dart';
-import 'package:fit_tracker/DB/models/muscleGroup.dart';
-import 'package:fit_tracker/src/home/widgets/TileListActivitySelect.dart';
+import 'package:fit_tracker/DB/data_manager.dart';
+import 'package:fit_tracker/DB/models/muscle_group.dart';
+import 'package:fit_tracker/src/home/widgets/tile_list_activity_select.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
