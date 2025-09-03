@@ -19,7 +19,6 @@ class TileActivity extends StatefulWidget {
 }
 
 class _TileActivity extends State<TileActivity> with TickerProviderStateMixin {
-
   late final PoolActivity poolActivity;
   late final TileController tileController;
   late final Function onChange;
@@ -47,9 +46,7 @@ class _TileActivity extends State<TileActivity> with TickerProviderStateMixin {
         setState(() {});
       },
       title: Text(poolActivity.nameRu as String),
-      subtitle: poolActivity.label != null
-          ? Text(poolActivity.label as String)
-          : null,
+      subtitle: poolActivity.label != null ? Text(poolActivity.label as String) : null,
       trailing: isSelected ? Icon(Icons.check) : null,
       minVerticalPadding: 20,
     );
