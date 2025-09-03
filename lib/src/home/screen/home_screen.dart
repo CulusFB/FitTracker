@@ -1,11 +1,11 @@
-import 'package:fit_tracker/DB/DataManager.dart';
-import 'package:fit_tracker/DB/models/Workout.dart';
+import 'package:fit_tracker/DB/data_manager.dart';
+import 'package:fit_tracker/DB/models/workout.dart';
 import 'package:fit_tracker/generated/l10n.dart';
-import 'package:fit_tracker/src/home/screen/NewActivityScreen.dart';
-import 'package:fit_tracker/src/home/widgets/TileSelectedActivity.dart';
-import 'package:fit_tracker/src/themes/FilledButtonTheme.dart';
-import 'package:fit_tracker/src/themes/ThemeDark.dart';
-import 'package:fit_tracker/src/themes/ThemeLight.dart';
+import 'package:fit_tracker/src/home/screen/new_activity_screen.dart';
+import 'package:fit_tracker/src/home/widgets/tile_selected_activity.dart';
+import 'package:fit_tracker/src/themes/filled_button_theme.dart';
+import 'package:fit_tracker/src/themes/theme_dark.dart';
+import 'package:fit_tracker/src/themes/theme_light.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_advanced_calendar/flutter_advanced_calendar.dart';
@@ -20,9 +20,12 @@ class _HomeScreen extends State<Homescreen> with TickerProviderStateMixin {
   late AdvancedCalendarController _controller;
   late List<Workout> workouts;
   List<DateTime> events = <DateTime>[];
+
+  _HomeScreen();
+
   @override
   void initState() {
-    workouts = DataManager.instance.workout;
+    workouts = DataManager.instance.workouts;
     _controller = DataManager.instance.calendarController;
     workoutCalendar(_controller.value);
     _controller.addListener(() => calendarListener());
@@ -35,16 +38,14 @@ class _HomeScreen extends State<Homescreen> with TickerProviderStateMixin {
 
   void workoutCalendar(DateTime date) async {
     events = await DataManager.instance.dateWorkouts();
-    DateTime update_date = new DateTime(date.year, date.month, date.day);
-    workouts = await DataManager.instance.getWorkoutDay(update_date);
+    DateTime updateDate = DateTime(date.year, date.month, date.day);
+    workouts = await DataManager.instance.getWorkoutDay(updateDate);
     setState(() {});
   }
 
   bool isDark() {
-    var brightness =
-        SchedulerBinding.instance.platformDispatcher.platformBrightness;
-    bool isDarkMode = brightness == Brightness.dark;
-    return isDarkMode;
+    var brightness = SchedulerBinding.instance.platformDispatcher.platformBrightness;
+    return brightness == Brightness.dark;
   }
 
   @override
@@ -75,7 +76,7 @@ class _HomeScreen extends State<Homescreen> with TickerProviderStateMixin {
                     workouts.removeAt(oldIndex);
                     workouts.insert(newIndex, firstWorkout);
                     for (var i = 0; i < workouts.length; i++) {
-                      workouts[i].Position = i;
+                      workouts[i].position = i;
                     }
                     DataManager.instance.swapWorkoutPosition(workouts);
                     setState(() {});
@@ -84,7 +85,7 @@ class _HomeScreen extends State<Homescreen> with TickerProviderStateMixin {
                       .map((workout) => TileSelectedActivity(
                           workout: workout,
                           key: ValueKey(workout.id),
-                          poolActivity: DataManager.instance.poolActivity
+                          poolActivity: DataManager.instance.poolActivities
                               .firstWhere(
                                   (el) => el.id == workout.poolActivityId),
                           onChange: () {}))

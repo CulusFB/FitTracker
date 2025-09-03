@@ -1,9 +1,9 @@
-import 'package:fit_tracker/DB/DataManager.dart';
-import 'package:fit_tracker/DB/models/muscleGroup.dart';
+import 'package:fit_tracker/DB/data_manager.dart';
+import 'package:fit_tracker/DB/models/muscle_group.dart';
 import 'package:fit_tracker/generated/l10n.dart';
-import 'package:fit_tracker/src/home/screen/SelectMuscleGroupScreen.dart';
-import 'package:fit_tracker/src/home/widgets/TileListActivity.dart';
-import 'package:fit_tracker/src/themes/FilledButtonTheme.dart';
+import 'package:fit_tracker/src/home/screen/select_muscle_group_screen.dart';
+import 'package:fit_tracker/src/home/widgets/tile_list_activity.dart';
+import 'package:fit_tracker/src/themes/filled_button_theme.dart';
 import 'package:flutter/material.dart';
 
 class ListActivityScreen extends StatefulWidget {
@@ -14,7 +14,7 @@ class ListActivityScreen extends StatefulWidget {
 
 class _ListActivityScreen extends State<ListActivityScreen>
     with TickerProviderStateMixin {
-  List<MuscleGroup> poolMuscleGroup = DataManager.instance.muscleGroup;
+  List<MuscleGroup> poolMuscleGroup = DataManager.instance.muscleGroups;
   @override
   void initState() {
     super.initState();
@@ -40,7 +40,7 @@ class _ListActivityScreen extends State<ListActivityScreen>
                       builder: (context) {
                         return SelectMuscleGroupScreen();
                       }).whenComplete(() {
-                    poolMuscleGroup = DataManager.instance.muscleGroup;
+                    poolMuscleGroup = DataManager.instance.muscleGroups;
                   });
                 },
                 child: Container(

@@ -1,50 +1,46 @@
-import 'package:fit_tracker/DB/DataManager.dart';
+import 'package:fit_tracker/DB/data_manager.dart';
 import 'package:fit_tracker/DB/models/Workout.dart';
-import 'package:fit_tracker/src/home/widgets/GraphsMonth.dart';
-import 'package:fit_tracker/src/home/widgets/GraphsWeek.dart';
-import 'package:fit_tracker/src/themes/TextStyleTheme.dart';
+import 'package:fit_tracker/src/home/widgets/graphs_month.dart';
+import 'package:fit_tracker/src/themes/text_style_theme.dart';
 import 'package:flutter/material.dart';
 
 class StatisticScreen extends StatefulWidget {
   const StatisticScreen({super.key, required this.poolActivityId});
   final int poolActivityId;
   @override
-  State<StatisticScreen> createState() =>
-      _StatisticsScreen(poolActivityId: poolActivityId);
+  State<StatisticScreen> createState() => _StatisticsScreen();
 }
 
-enum dateRange { week, month, year, all }
+enum DateRange { week, month, year, all }
 
-class _StatisticsScreen extends State<StatisticScreen>
-    with TickerProviderStateMixin {
-  _StatisticsScreen({required this.poolActivityId});
-  final int poolActivityId;
+class _StatisticsScreen extends State<StatisticScreen> with TickerProviderStateMixin {
+  late final int poolActivityId;
   dynamic weekWorkouts = [];
   dynamic monthWorkouts = [];
   List<Workout> yearWorkouts = [];
-  Set<dateRange> selection = {dateRange.month};
+  Set<DateRange> selection = {DateRange.month};
   late String poolActivityName;
+  
   @override
   void initState() {
     poolActivityName = DataManager.instance.getPoolActivityName(poolActivityId);
     getStatistics();
     super.initState();
+    poolActivityId = widget.poolActivityId;
   }
 
-  getStatistics() async {
-    weekWorkouts =
-        await DataManager.instance.getPoolActivityWeek(poolActivityId);
-    monthWorkouts =
-        await DataManager.instance.getPoolActivityMonth(poolActivityId);
-    yearWorkouts =
-        await DataManager.instance.getPoolActivityYear(poolActivityId);
+  dynamic getStatistics() async {
+    final dataManager = DataManager.instance;
+    weekWorkouts = await dataManager.getPoolActivityWeek(poolActivityId); //NOTE Сомнительное решение. Инкапсуляцию отменили угу.
+    monthWorkouts = await dataManager.getPoolActivityMonth(poolActivityId); //NOTE Сомнительное решение
+    yearWorkouts = await dataManager.getPoolActivityYear(poolActivityId); //NOTE Сомнительное решение
     setState(() {});
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -64,13 +60,13 @@ class _StatisticsScreen extends State<StatisticScreen>
             Center(
               child: SegmentedButton(
                   showSelectedIcon: false,
-                  segments: const <ButtonSegment<dateRange>>[
-                    ButtonSegment(value: dateRange.week, label: Text("Неделя")),
-                    ButtonSegment(value: dateRange.month, label: Text("Месяц")),
-                    ButtonSegment(value: dateRange.year, label: Text("Год")),
-                    ButtonSegment(value: dateRange.all, label: Text("Всё"))
+                  segments: const <ButtonSegment<DateRange>>[
+                    ButtonSegment(value: DateRange.week, label: Text("Неделя")),
+                    ButtonSegment(value: DateRange.month, label: Text("Месяц")),
+                    ButtonSegment(value: DateRange.year, label: Text("Год")),
+                    ButtonSegment(value: DateRange.all, label: Text("Всё"))
                   ],
-                  onSelectionChanged: (Set<dateRange> newSelection) {
+                  onSelectionChanged: (Set<DateRange> newSelection) {
                     setState(() {
                       selection = newSelection;
                     });

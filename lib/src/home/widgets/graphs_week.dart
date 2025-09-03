@@ -4,18 +4,18 @@ import 'package:intl/intl.dart';
 
 class GraphsWeek extends StatefulWidget {
   const GraphsWeek({super.key, required this.weekWorkouts});
-  final weekWorkouts;
+  final dynamic weekWorkouts;
   @override
-  State<GraphsWeek> createState() => _GraphsWeek(weekWorkouts: weekWorkouts);
+  State<GraphsWeek> createState() => _GraphsWeek();
 }
 
 class _GraphsWeek extends State<GraphsWeek> {
-  _GraphsWeek({required this.weekWorkouts});
-  final weekWorkouts;
+  late final dynamic weekWorkouts;
   DateFormat format = DateFormat("yyyy-MM-dd HH:mm:ss.SSS");
   @override
   void initState() {
     super.initState();
+    weekWorkouts = widget.weekWorkouts;
   }
 
   @override
@@ -26,33 +26,16 @@ class _GraphsWeek extends State<GraphsWeek> {
                 sideTitles: SideTitles(
           showTitles: true,
           getTitlesWidget: (value, meta) {
-            Widget text;
             switch (value.toInt()) {
-              case 1:
-                text = const Text('ПН');
-                break;
-              case 2:
-                text = const Text('ВТ');
-                break;
-              case 3:
-                text = const Text('СР');
-                break;
-              case 4:
-                text = const Text('ЧТ');
-              case 5:
-                text = const Text('ПТ');
-                break;
-              case 6:
-                text = const Text('СБ');
-                break;
-              case 7:
-                text = const Text('ВС');
-                break;
-              default:
-                text = const Text('');
-                break;
+              case 1: return const Text('ПН');
+              case 2: return const Text('ВТ');
+              case 3: return const Text('СР');
+              case 4: return const Text('ЧТ');    
+              case 5: return const Text('ПТ');
+              case 6: return const Text('СБ');
+              case 7: return const Text('ВС');
+              default: return const Text('');
             }
-            return text;
           },
         ))),
         lineBarsData: [

@@ -1,4 +1,4 @@
-import 'package:fit_tracker/src/home/screen/ListActivityScreen.dart';
+import 'package:fit_tracker/src/home/screen/list_activity_screen.dart';
 import 'package:flutter/material.dart';
 
 class NewActivityScreen extends StatefulWidget {
@@ -7,9 +7,9 @@ class NewActivityScreen extends StatefulWidget {
   State<NewActivityScreen> createState() => _NewActivityScreen();
 }
 
-class _NewActivityScreen extends State<NewActivityScreen>
-    with TickerProviderStateMixin {
+class _NewActivityScreen extends State<NewActivityScreen> with TickerProviderStateMixin {
   late final TabController _tabController;
+  
   @override
   void initState() {
     super.initState();

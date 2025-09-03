@@ -1,43 +1,37 @@
-import 'package:fit_tracker/DB/DataManager.dart';
-import 'package:fit_tracker/DB/models/RepetitionWeigth.dart';
-import 'package:fit_tracker/DB/models/Workout.dart';
-import 'package:fit_tracker/src/home/bloc/RepetitionWeightScreen/RepetitionWeightBloc.dart';
-import 'package:fit_tracker/src/home/bloc/RepetitionWeightScreen/RepetitionWeightEvent.dart';
-import 'package:fit_tracker/src/home/bloc/RepetitionWeightScreen/RepetitionWeightState.dart';
-import 'package:fit_tracker/src/home/screen/StatisticsScreen.dart';
-import 'package:fit_tracker/src/home/widgets/RepetitionWeigthTile.dart';
-import 'package:fit_tracker/src/themes/FilledButtonTheme.dart';
+import 'package:fit_tracker/DB/data_manager.dart';
+import 'package:fit_tracker/DB/models/repetition_weigth.dart';
+import 'package:fit_tracker/DB/models/workout.dart';
+import 'package:fit_tracker/src/home/bloc/RepetitionWeightScreen/repetition_weight_bloc.dart';
+import 'package:fit_tracker/src/home/bloc/RepetitionWeightScreen/repetition_weight_event.dart';
+import 'package:fit_tracker/src/home/bloc/RepetitionWeightScreen/repetition_weight_state.dart';
+import 'package:fit_tracker/src/home/screen/statistics_screen.dart';
+import 'package:fit_tracker/src/home/widgets/tile_repetition_weigth.dart';
+import 'package:fit_tracker/src/themes/filled_button_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class RepetitionWeightScreen extends StatefulWidget {
-  const RepetitionWeightScreen(
-      {super.key,
-      required this.activityName,
-      required this.repetitionWeight,
-      required this.workout});
+  
+  const RepetitionWeightScreen( {super.key, required this.activityName, required this.repetitionWeight, required this.workout});
   final String activityName;
   final List<RepetitionWeight> repetitionWeight;
   final Workout workout;
+
   @override
-  State<RepetitionWeightScreen> createState() => _RepetitionWeightScreen(
-      activityName: activityName,
-      repetitionWeight: repetitionWeight,
-      workout: workout);
+   State<RepetitionWeightScreen> createState() => _RepetitionWeightScreen(activityName: activityName, repetitionWeight: repetitionWeight, workout: workout);
 }
 
 class _RepetitionWeightScreen extends State<RepetitionWeightScreen> {
-  final String activityName;
-  List<RepetitionWeight> repetitionWeight;
+  late final String activityName;
+  late List<RepetitionWeight> repetitionWeight;
   late int lastId;
-  final Workout workout;
+  late final Workout workout;
   bool onFocus = false;
   dynamic lastWorkout = 0;
-  _RepetitionWeightScreen(
-      {required this.activityName,
-      required this.repetitionWeight,
-      required this.workout});
+  
+  _RepetitionWeightScreen({required this.activityName, required this.repetitionWeight, required this.workout});
+
   @override
   void initState() {
     lastId = repetitionWeight.length + 1;
@@ -45,7 +39,7 @@ class _RepetitionWeightScreen extends State<RepetitionWeightScreen> {
     super.initState();
   }
 
-  getLastWorkouts() async {
+  dynamic getLastWorkouts() async {
     lastWorkout =
         await DataManager.instance.getWorkoutLast(workout.poolActivityId);
     setState(() {});
@@ -171,7 +165,7 @@ class _RepetitionWeightScreen extends State<RepetitionWeightScreen> {
 
                                         setState(() {
                                           repetitionWeight =
-                                              lastWorkout.List_approaches
+                                              lastWorkout.approachesList
                                                   as List<RepetitionWeight>;
                                           DataManager.instance
                                               .updAllRepetitionWeight(

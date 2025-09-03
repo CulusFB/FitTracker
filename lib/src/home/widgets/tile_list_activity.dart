@@ -1,7 +1,7 @@
-import 'package:fit_tracker/DB/DataManager.dart';
-import 'package:fit_tracker/DB/models/muscleGroup.dart';
-import 'package:fit_tracker/DB/models/poolActivity.dart';
-import 'package:fit_tracker/src/home/screen/ActivityScreen.dart';
+import 'package:fit_tracker/DB/data_manager.dart';
+import 'package:fit_tracker/DB/models/muscle_group.dart';
+import 'package:fit_tracker/DB/models/pool_activity.dart';
+import 'package:fit_tracker/src/home/screen/activity_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
@@ -10,15 +10,16 @@ class TileListActivity extends StatefulWidget {
   const TileListActivity({super.key, required this.muscleGroup});
   final MuscleGroup muscleGroup;
   @override
-  State<TileListActivity> createState() =>
+   State<TileListActivity> createState() =>
       _TileListActivity(muscleGroup: muscleGroup);
 }
 
-class _TileListActivity extends State<TileListActivity>
-    with TickerProviderStateMixin {
-  _TileListActivity({required this.muscleGroup});
-  final MuscleGroup muscleGroup;
+class _TileListActivity extends State<TileListActivity> with TickerProviderStateMixin {
+  late final MuscleGroup muscleGroup;
   late List<PoolActivity> idPoolActivity;
+
+   _TileListActivity({required this.muscleGroup});
+
   @override
   void initState() {
     idPoolActivity =
@@ -67,7 +68,7 @@ class _TileListActivity extends State<TileListActivity>
               SizedBox(
                 width: 10,
               ),
-              Text(muscleGroup.Name_ru as String),
+              Text(muscleGroup.nameRu as String),
             ],
           ),
           Row(
