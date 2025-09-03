@@ -5,16 +5,14 @@ import 'package:fit_tracker/DB/models/pool_activity.dart';
 import 'package:fit_tracker/src/home/bloc/RepetitionWeightScreen/repetition_weight_bloc.dart';
 import 'package:fit_tracker/src/home/bloc/RepetitionWeightScreen/repetition_weight_repository.dart';
 import 'package:fit_tracker/src/home/screen/repetition_weight_screen.dart';
+import 'package:fit_tracker/src/home/widgets/icon_widget.dart';
 import 'package:fit_tracker/src/home/widgets/tile_repetition_weigth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class TileSelectedActivity extends StatefulWidget {
   const TileSelectedActivity(
-      {super.key,
-      required this.poolActivity,
-      required this.onChange,
-      required this.workout});
+      {super.key, required this.poolActivity, required this.onChange, required this.workout});
   final PoolActivity poolActivity;
   final Workout workout;
   final Function onChange;
@@ -22,8 +20,7 @@ class TileSelectedActivity extends StatefulWidget {
   State<TileSelectedActivity> createState() => _TileSelectedActivity();
 }
 
-class _TileSelectedActivity extends State<TileSelectedActivity>
-    with TickerProviderStateMixin {
+class _TileSelectedActivity extends State<TileSelectedActivity> with TickerProviderStateMixin {
   late final PoolActivity poolActivity;
   late Workout workout;
   late final Function onChange;
@@ -80,7 +77,7 @@ class _TileSelectedActivity extends State<TileSelectedActivity>
           children: [
             ListTile(
               splashColor: Colors.transparent,
-              leading: Icon(Icons.abc),
+              leading: IconWidget(muscleGroupId: poolActivity.muscleGroupId),
               selected: isSelected,
               onTap: () {
                 isSelected = !isSelected;
@@ -88,8 +85,7 @@ class _TileSelectedActivity extends State<TileSelectedActivity>
               },
               title: Text(poolActivity.nameRu as String),
               trailing: isSelected
-                  ? Transform.rotate(
-                      angle: 33, child: Icon(Icons.arrow_back_ios_rounded))
+                  ? Transform.rotate(angle: 33, child: Icon(Icons.arrow_back_ios_rounded))
                   : Transform.rotate(
                       angle: 11,
                       child: Icon(
@@ -118,16 +114,15 @@ class _TileSelectedActivity extends State<TileSelectedActivity>
                                       builder: (context) {
                                         return BlocProvider(
                                             create: (BuildContext context) =>
-                                                RepetitionWeightBloc(
-                                                    repetitionWeightRepository),
+                                                RepetitionWeightBloc(repetitionWeightRepository),
                                             child: RepetitionWeightScreen(
                                               workout: workout,
                                               activityName: poolActivity.nameRu.toString(),
-                                              repetitionWeight: workout.approachesList as List<RepetitionWeight>,
+                                              repetitionWeight:
+                                                  workout.approachesList as List<RepetitionWeight>,
                                             ));
                                       }).whenComplete(() async {
-                                    workout = await DataManager.instance
-                                        .getWorkoutId(workout.id);
+                                    workout = await DataManager.instance.getWorkoutId(workout.id);
                                     setState(() {});
                                   });
                                 },

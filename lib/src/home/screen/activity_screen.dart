@@ -15,21 +15,19 @@ class ActivityScreen extends StatefulWidget {
   final MuscleGroup muscleGroup;
 
   @override
-  State<ActivityScreen> createState() => _ActivityScreen(muscleGroup: muscleGroup);
+  State<ActivityScreen> createState() => _ActivityScreen();
 }
 
 class _ActivityScreen extends State<ActivityScreen> with TickerProviderStateMixin {
-
   late final MuscleGroup muscleGroup;
   late List<PoolActivity> poolActivityList;
   late TileController tileController;
-
-  _ActivityScreen({required this.muscleGroup});
 
   @override
   void initState() {
     super.initState();
     tileController = TileController();
+    muscleGroup = widget.muscleGroup;
     poolActivityList = DataManager.instance.getPoolActivityMuscleGroup(muscleGroup.id);
     super.initState();
   }
@@ -69,8 +67,8 @@ class _ActivityScreen extends State<ActivityScreen> with TickerProviderStateMixi
                             muscleGroup: muscleGroup,
                           );
                         }).whenComplete(() async {
-                      poolActivityList = await DataManager.instance
-                          .getPoolActivityMuscleGroup(muscleGroup.id);
+                      poolActivityList =
+                          await DataManager.instance.getPoolActivityMuscleGroup(muscleGroup.id);
                       setState(() {});
                     });
                   },
@@ -116,7 +114,9 @@ class _ActivityScreen extends State<ActivityScreen> with TickerProviderStateMixi
                             List<Workout> workouts = [];
                             DateTime now = DataManager.instance.calendarController.value;
                             DateTime date = DateTime(now.year, now.month, now.day);
-                            List<RepetitionWeight> repetitionWeight = [RepetitionWeight(repetition: 0, weight: 0)];
+                            List<RepetitionWeight> repetitionWeight = [
+                              RepetitionWeight(repetition: 0, weight: 0)
+                            ];
                             tileController.enableActivity.forEach((id, activity) {
                               workouts.add(Workout(
                                   date: date.toString(),
@@ -132,8 +132,7 @@ class _ActivityScreen extends State<ActivityScreen> with TickerProviderStateMixi
                             size: 30,
                           ),
                           //TODO: Добавить intl
-                          label: Text(
-                              'Выбрать: ${tileController.enableActivity.length}'),
+                          label: Text('Выбрать: ${tileController.enableActivity.length}'),
                         ),
                       ),
                       Spacer(),
@@ -149,16 +148,14 @@ class _ActivityScreen extends State<ActivityScreen> with TickerProviderStateMixi
                                         builder: (context) {
                                           return AddActivityScreen(
                                             muscleGroup: muscleGroup,
-                                            poolActivity: tileController
-                                                .enableActivity.values.first,
+                                            poolActivity:
+                                                tileController.enableActivity.values.first,
                                           );
                                         }).whenComplete(() async {
-                                      List<PoolActivity> newPoolActivityList =
-                                          await DataManager.instance
-                                              .getPoolActivityMuscleGroup(
-                                                  muscleGroup.id);
-                                      if (newPoolActivityList.length !=
-                                          poolActivityList.length) {
+                                      List<PoolActivity> newPoolActivityList = await DataManager
+                                          .instance
+                                          .getPoolActivityMuscleGroup(muscleGroup.id);
+                                      if (newPoolActivityList.length != poolActivityList.length) {
                                         tileController.enableActivity.clear();
                                         poolActivityList = newPoolActivityList;
                                       }

@@ -90,7 +90,7 @@ class S {
     );
   }
 
-  /// `Name activity`
+  /// `Label`
   String get label {
     return Intl.message(
       'Label',
@@ -100,7 +100,7 @@ class S {
     );
   }
 
-  /// `Name activity`
+  /// `Edit`
   String get edit {
     return Intl.message(
       'Edit',

@@ -25,15 +25,7 @@ class RepetitionWeigthTile extends StatefulWidget {
   final FocusNode repetitionFocus;
   final FocusNode weigthFocus;
   @override
-State<RepetitionWeigthTile> createState() => _RepetitionWeigthTile(
-      repetitionWeight: repetitionWeight,
-      onTap: onTap,
-      id: id,
-      onDismissed: onDismissed,
-      enable: enableDismissed,
-      enableTextEdit: enableTextEdit,
-      repetitionFocus: repetitionFocus,
-      weigthFocus: weigthFocus);
+  State<RepetitionWeigthTile> createState() => _RepetitionWeigthTile();
 }
 
 class _RepetitionWeigthTile extends State<RepetitionWeigthTile> {
@@ -45,24 +37,23 @@ class _RepetitionWeigthTile extends State<RepetitionWeigthTile> {
   late final bool enableTextEdit;
   late final TextEditingController weightTextController;
   late final TextEditingController repetitionTextController;
-  _RepetitionWeigthTile(
-      {required this.repetitionWeight,
-      required this.onTap,
-      required this.id,
-      required this.onDismissed,
-      required this.enable,
-      required this.enableTextEdit,
-      required this.repetitionFocus,
-      required this.weigthFocus});
-  final FocusNode repetitionFocus;
-  final FocusNode weigthFocus;
+
+  late final FocusNode repetitionFocus;
+  late final FocusNode weigthFocus;
   @override
   void initState() {
-    weightTextController = TextEditingController(
-        text: formatDouble(repetitionWeight.weight as double));
-    repetitionTextController =
-        TextEditingController(text: repetitionWeight.repetition.toString());
     super.initState();
+    repetitionWeight = widget.repetitionWeight;
+    id = widget.id;
+    onTap = widget.onTap;
+    onDismissed = widget.onDismissed;
+    enable = widget.enableDismissed;
+    enableTextEdit = widget.enableTextEdit;
+    repetitionFocus = widget.repetitionFocus;
+    weigthFocus = widget.weigthFocus;
+    weightTextController =
+        TextEditingController(text: formatDouble(repetitionWeight.weight as double));
+    repetitionTextController = TextEditingController(text: repetitionWeight.repetition.toString());
   }
 
   void disableFocus() {
@@ -108,16 +99,12 @@ class _RepetitionWeigthTile extends State<RepetitionWeigthTile> {
               Expanded(
                 child: TextField(
                     onTap: () => weightTextController.selection = TextSelection(
-                        baseOffset: 0,
-                        extentOffset: weightTextController.value.text.length),
+                        baseOffset: 0, extentOffset: weightTextController.value.text.length),
                     focusNode: weigthFocus,
-                    keyboardType:
-                        TextInputType.numberWithOptions(decimal: true),
+                    keyboardType: TextInputType.numberWithOptions(decimal: true),
                     onChanged: (value) {
-                      repetitionWeight.weight = weightTextController
-                              .text.isNotEmpty
-                          ? double.parse(
-                              weightTextController.text.replaceAll(',', '.'))
+                      repetitionWeight.weight = weightTextController.text.isNotEmpty
+                          ? double.parse(weightTextController.text.replaceAll(',', '.'))
                           : 0.0;
                     },
                     textAlign: TextAlign.center,
@@ -133,16 +120,12 @@ class _RepetitionWeigthTile extends State<RepetitionWeigthTile> {
                 child: TextField(
                   autofocus: repetitionFocus.hasFocus,
                   focusNode: repetitionFocus,
-                  onTap: () => repetitionTextController.selection =
-                      TextSelection(
-                          baseOffset: 0,
-                          extentOffset:
-                              repetitionTextController.value.text.length),
+                  onTap: () => repetitionTextController.selection = TextSelection(
+                      baseOffset: 0, extentOffset: repetitionTextController.value.text.length),
                   onChanged: (value) {
-                    repetitionWeight.repetition =
-                        repetitionTextController.text.isNotEmpty
-                            ? int.parse(repetitionTextController.text)
-                            : 0;
+                    repetitionWeight.repetition = repetitionTextController.text.isNotEmpty
+                        ? int.parse(repetitionTextController.text)
+                        : 0;
                   },
                   keyboardType: TextInputType.number,
                   textAlign: TextAlign.center,

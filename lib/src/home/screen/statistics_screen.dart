@@ -1,5 +1,5 @@
 import 'package:fit_tracker/DB/data_manager.dart';
-import 'package:fit_tracker/DB/models/Workout.dart';
+import 'package:fit_tracker/DB/models/workout.dart';
 import 'package:fit_tracker/src/home/widgets/graphs_month.dart';
 import 'package:fit_tracker/src/themes/text_style_theme.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +20,7 @@ class _StatisticsScreen extends State<StatisticScreen> with TickerProviderStateM
   List<Workout> yearWorkouts = [];
   Set<DateRange> selection = {DateRange.month};
   late String poolActivityName;
-  
+
   @override
   void initState() {
     poolActivityName = DataManager.instance.getPoolActivityName(poolActivityId);
@@ -31,9 +31,12 @@ class _StatisticsScreen extends State<StatisticScreen> with TickerProviderStateM
 
   dynamic getStatistics() async {
     final dataManager = DataManager.instance;
-    weekWorkouts = await dataManager.getPoolActivityWeek(poolActivityId); //NOTE Сомнительное решение. Инкапсуляцию отменили угу.
-    monthWorkouts = await dataManager.getPoolActivityMonth(poolActivityId); //NOTE Сомнительное решение
-    yearWorkouts = await dataManager.getPoolActivityYear(poolActivityId); //NOTE Сомнительное решение
+    weekWorkouts = await dataManager.getPoolActivityWeek(
+        poolActivityId); //NOTE Сомнительное решение. Инкапсуляцию отменили угу.
+    monthWorkouts =
+        await dataManager.getPoolActivityMonth(poolActivityId); //NOTE Сомнительное решение
+    yearWorkouts =
+        await dataManager.getPoolActivityYear(poolActivityId); //NOTE Сомнительное решение
     setState(() {});
   }
 
@@ -74,9 +77,8 @@ class _StatisticsScreen extends State<StatisticScreen> with TickerProviderStateM
                   selected: selection),
             ),
             Expanded(
-              child: monthWorkouts.isNotEmpty
-                  ? GraphsMonth(monthWorkouts: monthWorkouts)
-                  : SizedBox(),
+              child:
+                  monthWorkouts.isNotEmpty ? GraphsMonth(monthWorkouts: monthWorkouts) : SizedBox(),
             )
           ],
         ),

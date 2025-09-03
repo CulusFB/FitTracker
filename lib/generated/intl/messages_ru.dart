@@ -21,15 +21,15 @@ class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'ru';
 
   final messages = _notInlinedMessages(_notInlinedMessages);
-  static Map<String, Function> _notInlinedMessages(dynamic _) => <String, Function>{
+  static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "add_activity":
             MessageLookupByLibrary.simpleMessage("Добавить упражнение"),
         "create_exercise":
             MessageLookupByLibrary.simpleMessage("Создать упражнение"),
+        "edit": MessageLookupByLibrary.simpleMessage("Изменить"),
         "hello": MessageLookupByLibrary.simpleMessage("Привет"),
-        "name_activity":
-            MessageLookupByLibrary.simpleMessage("Название упражнения"),
         "label": MessageLookupByLibrary.simpleMessage("Подпись"),
-        "edit": MessageLookupByLibrary.simpleMessage("Изменить")
+        "name_activity":
+            MessageLookupByLibrary.simpleMessage("Название упражнения")
       };
 }

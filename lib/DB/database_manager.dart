@@ -15,9 +15,9 @@ class DatabaseManager {
 
   static Database? _database;
 
-  // Единственно вот этот геттер должен быть приватным, 
+  // Единственно вот этот геттер должен быть приватным,
   // но как это сделать я так и не придумал
-  Future<Database> get database async { 
+  Future<Database> get database async {
     if (_database != null) return _database!;
     _database = await initDB();
     return _database!;
@@ -68,9 +68,7 @@ class DatabaseManager {
   dynamic muscleGroups() async {
     var db = await database;
     var result = await db.query(_muscleGroupTable);
-    return result.isNotEmpty
-        ? result.map((item) => MuscleGroup.fromJson(item)).toList()
-        : {};
+    return result.isNotEmpty ? result.map((item) => MuscleGroup.fromJson(item)).toList() : {};
   }
 
   dynamic addPoolActivity(PoolActivity activity) async {
@@ -98,9 +96,7 @@ class DatabaseManager {
     var db = await database;
     var result = await db.query(_poolActivityTable);
     List<PoolActivity> list = [];
-    return result.isNotEmpty
-        ? result.map((item) => PoolActivity.fromJson(item)).toList()
-        : list;
+    return result.isNotEmpty ? result.map((item) => PoolActivity.fromJson(item)).toList() : list;
   }
 
   dynamic addWorkout(Workout workout) async {
@@ -120,25 +116,21 @@ class DatabaseManager {
 
   dynamic workout(int id) async {
     var db = await database;
-    var result =await db.query(_workoutTable, where: 'id = ?', whereArgs: [id]);
+    var result = await db.query(_workoutTable, where: 'id = ?', whereArgs: [id]);
     return result.isNotEmpty ? Workout.fromJson(result.first) : Null;
   }
 
   dynamic workouts(DateTime date) async {
     var db = await database;
     var result = await db.query(_workoutTable,
-        where: 'date like ?',
-        whereArgs: [date.toString()],
-        orderBy: 'Position');
-    return result.isNotEmpty
-        ? result.map((item) => Workout.fromJson(item)).toList()
-        : {};
+        where: 'date like ?', whereArgs: [date.toString()], orderBy: 'Position');
+    return result.isNotEmpty ? result.map((item) => Workout.fromJson(item)).toList() : {};
   }
 
   dynamic editRepetitionWeight(Workout workout) async {
     var db = await database;
-    return await db.update(_workoutTable, workout.toJson(),
-        where: 'id = ?', whereArgs: [workout.id]);
+    return await db
+        .update(_workoutTable, workout.toJson(), where: 'id = ?', whereArgs: [workout.id]);
   }
 
   dynamic lastWorkout(int activityId, DateTime date) async {
@@ -151,32 +143,26 @@ class DatabaseManager {
 
     //TODO Отрефакторить этот блок нормально
     try {
-      var workouts = result.isNotEmpty
-          ? result.map((item) => Workout.fromJson(item)).toList()
-          : [];
+      var workouts = result.isNotEmpty ? result.map((item) => Workout.fromJson(item)).toList() : [];
       return workouts[1];
     } catch (e) {
       return 0;
     }
   }
 
-  dynamic activityBetweenDate(
-      int activityId, DateTime monday, DateTime sunday) async {
-        var db = await database;
+  dynamic activityBetweenDate(int activityId, DateTime monday, DateTime sunday) async {
+    var db = await database;
     var result = await db.query(_workoutTable,
         where: 'Pool_activity_id = ? and Date between ? and ?',
         whereArgs: [activityId, monday.toString(), sunday.toString()],
         orderBy: 'Date DESC');
-    return result.isNotEmpty
-        ? result.map((item) => Workout.fromJson(item)).toList()
-        : [];
+    return result.isNotEmpty ? result.map((item) => Workout.fromJson(item)).toList() : [];
   }
 
-  dynamic dateWorkouts() async {
+  Future<List<DateTime>> dateWorkouts() async {
     var db = await database;
-    var result =
-        await db.query(_workoutTable, columns: ["Date"], distinct: true);
-    var format = DateFormat("yyyy-MM-dd");
+    var result = await db.query(_workoutTable, columns: ["Date"], distinct: true);
+    DateFormat format = DateFormat("yyyy-MM-dd");
     return result.isNotEmpty
         ? result.map((item) => format.parse(item['Date'].toString())).toList()
         : [];
@@ -185,21 +171,16 @@ class DatabaseManager {
   dynamic workoutAtDay(DateTime date) async {
     var db = await database;
     var result = await db.query(_workoutTable,
-        where: 'date like ?',
-        whereArgs: [date.toString()],
-        orderBy: 'Position');
-    List<Workout> list = [];    
-    return result.isNotEmpty
-        ? result.map((item) => Workout.fromJson(item)).toList()
-        : list;
+        where: 'date like ?', whereArgs: [date.toString()], orderBy: 'Position');
+    List<Workout> list = [];
+    return result.isNotEmpty ? result.map((item) => Workout.fromJson(item)).toList() : list;
   }
 
   dynamic swapWorkout(List<Workout> workouts) async {
     var db = await database;
     return await db.transaction((action) async {
       for (var workout in workouts) {
-        action.update(_workoutTable, workout.toJson(),
-            where: 'id = ?', whereArgs: [workout.id]);
+        action.update(_workoutTable, workout.toJson(), where: 'id = ?', whereArgs: [workout.id]);
       }
     });
   }
@@ -207,7 +188,7 @@ class DatabaseManager {
   dynamic lastPosition(DateTime date) async {
     var db = await database;
     var result = await db.query(_workoutTable,
-    where: 'date == ?', whereArgs: [date.toString()],orderBy: 'Position DESC');
+        where: 'date == ?', whereArgs: [date.toString()], orderBy: 'Position DESC');
     //TODO переписать эту фигню
     try {
       return result.first['Position'];

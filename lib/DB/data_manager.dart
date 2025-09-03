@@ -7,11 +7,10 @@ import 'package:fit_tracker/DB/models/pool_activity.dart';
 import 'package:flutter_advanced_calendar/flutter_advanced_calendar.dart';
 
 class DataManager {
-    static final DataManager _instance = DataManager._();
+  static final DataManager _instance = DataManager._();
   static DataManager get instance => _instance;
 
-  AdvancedCalendarController get calendarController =>
-      AdvancedCalendarController.today();
+  AdvancedCalendarController get calendarController => AdvancedCalendarController.today();
   late DatabaseManager dbProvider;
   late List<MuscleGroup> muscleGroups;
   late List<PoolActivity> poolActivities;
@@ -36,9 +35,7 @@ class DataManager {
   }
 
   dynamic getPoolActivityMuscleGroup(int id) {
-    return poolActivities
-        .where((poolActivity) => poolActivity.muscleGroupId == id)
-        .toList();
+    return poolActivities.where((poolActivity) => poolActivity.muscleGroupId == id).toList();
   }
 
   dynamic addActivity(PoolActivity poolActivity) async {
@@ -52,8 +49,7 @@ class DataManager {
   dynamic editActivity(PoolActivity poolActivity) async {
     var activity = await dbProvider.editPoolActivity(poolActivity);
     // PoolActivity activity = await updatePoolActivity(poolActivity, dbProvider);
-    poolActivities
-        .removeWhere((poolActivity) => poolActivity.id == activity.id);
+    poolActivities.removeWhere((poolActivity) => poolActivity.id == activity.id);
     poolActivities.add(activity);
     return activity;
   }
@@ -103,27 +99,24 @@ class DataManager {
   }
 
   dynamic getWorkoutLast(int poolActivityId) async {
-    return await dbProvider.lastWorkout(
-        poolActivityId, calendarController.value);
+    return await dbProvider.lastWorkout(poolActivityId, calendarController.value);
   }
 
   dynamic changeIdWorkout(int oldId, int newId) async {}
 
-  dynamic addRepetitionWeight(
-      RepetitionWeight repetitionWeight, int workoutId) async {
+  dynamic addRepetitionWeight(RepetitionWeight repetitionWeight, int workoutId) async {
     var workout = await dbProvider.workout(workoutId);
     workout.approachesList?.add(repetitionWeight);
     await dbProvider.editRepetitionWeight(workout);
   }
 
-  dynamic updAllRepetitionWeight(
-      List<RepetitionWeight> repetitionWeight, int workoutId) async {
+  dynamic updAllRepetitionWeight(List<RepetitionWeight> repetitionWeight, int workoutId) async {
     var workout = await dbProvider.workout(workoutId);
     workout.approachesList = repetitionWeight;
     await dbProvider.editRepetitionWeight(workout);
   }
 
-  dynamic dateWorkouts() async {
+  Future<List<DateTime>> dateWorkouts() async {
     return await dbProvider.dateWorkouts();
   }
 
@@ -141,8 +134,8 @@ class DataManager {
 
   dynamic getPoolActivityMonth(int poolActivityId) async {
     DateTime now = DateTime.now();
-    return await dbProvider.activityBetweenDate(poolActivityId,
-        DateTime(now.year, now.month, 1), DateTime(now.year, now.month + 1, 0));
+    return await dbProvider.activityBetweenDate(
+        poolActivityId, DateTime(now.year, now.month, 1), DateTime(now.year, now.month + 1, 0));
   }
 
   dynamic getPoolActivityYear(int poolActivityId) async {
