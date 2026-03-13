@@ -44,7 +44,8 @@ class _HomeScreen extends State<Homescreen> with TickerProviderStateMixin {
   }
 
   bool isDark() {
-    var brightness = SchedulerBinding.instance.platformDispatcher.platformBrightness;
+    var brightness =
+        SchedulerBinding.instance.platformDispatcher.platformBrightness;
     return brightness == Brightness.dark;
   }
 
