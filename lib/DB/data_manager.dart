@@ -139,7 +139,7 @@ class DataManager {
         poolActivityId, findNearestMonday(date), findNearestSunday(date));
   }
 
-  dynamic getPoolActivityMonth(int poolActivityId) async {
+  Future<List<Workout>> getPoolActivityMonth(int poolActivityId) async {
     DateTime now = DateTime.now();
     return await dbProvider.activityBetweenDate(poolActivityId,
         DateTime(now.year, now.month, 1), DateTime(now.year, now.month + 1, 0));

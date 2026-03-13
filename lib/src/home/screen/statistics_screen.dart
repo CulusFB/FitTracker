@@ -13,30 +13,31 @@ class StatisticScreen extends StatefulWidget {
 
 enum DateRange { week, month, year, all }
 
-class _StatisticsScreen extends State<StatisticScreen> with TickerProviderStateMixin {
+class _StatisticsScreen extends State<StatisticScreen>
+    with TickerProviderStateMixin {
   late final int poolActivityId;
   dynamic weekWorkouts = [];
-  dynamic monthWorkouts = [];
+  List<Workout> monthWorkouts = [];
   List<Workout> yearWorkouts = [];
   Set<DateRange> selection = {DateRange.month};
   late String poolActivityName;
 
   @override
   void initState() {
+    poolActivityId = widget.poolActivityId;
     poolActivityName = DataManager.instance.getPoolActivityName(poolActivityId);
     getStatistics();
     super.initState();
-    poolActivityId = widget.poolActivityId;
   }
 
   dynamic getStatistics() async {
     final dataManager = DataManager.instance;
     weekWorkouts = await dataManager.getPoolActivityWeek(
         poolActivityId); //NOTE Сомнительное решение. Инкапсуляцию отменили угу.
-    monthWorkouts =
-        await dataManager.getPoolActivityMonth(poolActivityId); //NOTE Сомнительное решение
-    yearWorkouts =
-        await dataManager.getPoolActivityYear(poolActivityId); //NOTE Сомнительное решение
+    monthWorkouts = await dataManager
+        .getPoolActivityMonth(poolActivityId); //NOTE Сомнительное решение
+    yearWorkouts = await dataManager
+        .getPoolActivityYear(poolActivityId); //NOTE Сомнительное решение
     setState(() {});
   }
 
@@ -77,8 +78,9 @@ class _StatisticsScreen extends State<StatisticScreen> with TickerProviderStateM
                   selected: selection),
             ),
             Expanded(
-              child:
-                  monthWorkouts.isNotEmpty ? GraphsMonth(monthWorkouts: monthWorkouts) : SizedBox(),
+              child: monthWorkouts.isNotEmpty
+                  ? GraphsMonth(monthWorkouts: monthWorkouts)
+                  : SizedBox(),
             )
           ],
         ),
