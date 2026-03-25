@@ -1,6 +1,6 @@
 class WorkoutData {
-  final String value;
-  final double tonnage;
+  final String date;
+  final double value;
 
-  WorkoutData(this.value, this.tonnage);
+  WorkoutData(this.date, this.value);
 }

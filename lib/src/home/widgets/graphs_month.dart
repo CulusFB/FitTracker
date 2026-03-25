@@ -1,4 +1,5 @@
 import 'package:fit_tracker/DB/models/workout_tonage.dart';
+import 'package:fit_tracker/src/utils/datetime_lang.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -13,6 +14,8 @@ class GraphsMonth extends StatefulWidget {
 class _GraphsMonth extends State<GraphsMonth> {
   DateFormat format = DateFormat("yyyy-MM-dd HH:mm:ss.SSS");
   late final List<WorkoutData> workoutData;
+  late final String thisMonth;
+  late final int lastDate;
   List<Color> gradientColors = [
     Colors.cyan,
     Colors.blue,
@@ -21,26 +24,40 @@ class _GraphsMonth extends State<GraphsMonth> {
   void initState() {
     super.initState();
     workoutData = widget.workoutData;
+    thisMonth = getMonthName(DateTime.now());
+    lastDate = getLastDayOfMonth(DateTime.now());
   }
 
   @override
   Widget build(BuildContext context) {
     return LineChart(
       LineChartData(
+          borderData: FlBorderData(show: false),
           titlesData: FlTitlesData(
               show: true,
               bottomTitles: AxisTitles(
                   sideTitles: SideTitles(
+                reservedSize: 40,
                 showTitles: true,
                 getTitlesWidget: (value, meta) {
-                  switch (value.toInt()) {
-                    case 1:
-                      return const Text('1');
-                    case 30:
-                      return const Text('Декабрь');
-                    default:
-                      return const Text('');
-                  }
+                  return SideTitleWidget(
+                    meta: meta,
+                    space: 8,
+                    fitInside: SideTitleFitInsideData(
+                      enabled: true,
+                      axisPosition: meta.axisPosition,
+                      parentAxisSize: meta.parentAxisSize,
+                      distanceFromEdge: 8,
+                    ),
+                    child: Text(
+                      value == 1
+                          ? '1 $thisMonth'
+                          : value == 25
+                              ? '$lastDate $thisMonth'
+                              : '',
+                      textAlign: TextAlign.center,
+                    ),
+                  );
                 },
               )),
               topTitles: AxisTitles(),
@@ -52,15 +69,15 @@ class _GraphsMonth extends State<GraphsMonth> {
             LineChartBarData(
               spots: workoutData
                   .map((workout) => FlSpot(
-                      format.parse(workout.value).day.toDouble(),
-                      workout.tonnage))
+                      format.parse(workout.date).day.toDouble(), workout.value))
                   .cast<FlSpot>()
                   .toList(),
               isCurved: true,
+              curveSmoothness: 0.35,
               gradient: LinearGradient(
                 colors: gradientColors,
               ),
-              barWidth: 5,
+              barWidth: 2,
               isStrokeCapRound: true,
               dotData: const FlDotData(
                 show: false,
@@ -74,7 +91,9 @@ class _GraphsMonth extends State<GraphsMonth> {
                 ),
               ),
             )
-          ]),
+          ],
+          //TODO: Сделать вывод при нажатию на точку на графике
+          lineTouchData: LineTouchData(enabled: true)),
       curve: Curves.linear,
       duration: Duration(milliseconds: 150),
     );
