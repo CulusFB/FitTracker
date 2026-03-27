@@ -5,10 +5,11 @@ class TonnageWeightChartData {
   final List<Workout> workouts;
 
   TonnageWeightChartData({required this.workouts});
+
   List<WorkoutData> getTonnage() {
     return workouts.map((workout) {
-      double tonnage = workout.approachesList?.fold<double>(
-              0, (sum, el) => sum + (el.repetition! * el.weight!)) ??
+      double tonnage = workout.approachesList
+              ?.fold<double>(0, (sum, el) => sum + (el.repetition! * el.weight!)) ??
           0;
       return WorkoutData(workout.date.toString(), tonnage);
     }).toList();
@@ -16,10 +17,11 @@ class TonnageWeightChartData {
 
   List<WorkoutData> getWeight() {
     return workouts.map((workout) {
-      double weight = (workout.approachesList ?? []).fold<double>(
-        0,
-        (max, el) => (el.weight ?? 0) > max ? (el.weight ?? 0) : max,
-      );
+      double weight = workout.approachesList?.fold<double>(
+            0,
+            (max, el) => (el.weight ?? 0) > max ? (el.weight ?? 0) : max,
+          ) ??
+          0;
       return WorkoutData(workout.date.toString(), weight);
     }).toList();
   }
