@@ -2,6 +2,7 @@ import 'package:fit_tracker/DB/models/workout_tonage.dart';
 import 'package:fit_tracker/src/utils/datetime_lang.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
 class GraphsMonth extends StatefulWidget {
@@ -103,10 +104,37 @@ class _GraphsMonth extends State<GraphsMonth> {
               ),
             )
           ],
-          //TODO: Сделать вывод при нажатию на точку на графике
           lineTouchData: LineTouchData(
-            enabled: true,
-          )),
+              enabled: true,
+              touchTooltipData: LineTouchTooltipData(
+                getTooltipColor: (touchedSpot) => Colors.white,
+                maxContentWidth: 300,
+                fitInsideHorizontally: true,
+                getTooltipItems: (touchedSpots) {
+                  return touchedSpots.map((touchedSpot) {
+                    int day = touchedSpot.x.toInt();
+
+                    final workout = workoutData.firstWhere(
+                      (w) => format.parse(w.date).day == day,
+                      orElse: () => WorkoutData('', 0),
+                    );
+
+                    String dateText = workout.date.isNotEmpty
+                        ? DateFormat('dd MMM yyyy').format(format.parse(workout.date))
+                        : '';
+
+                    return LineTooltipItem('${touchedSpot.y.toStringAsFixed(1)}  ',
+                        GoogleFonts.roboto(fontWeight: FontWeight.bold, color: Colors.black),
+                        children: <TextSpan>[
+                          TextSpan(
+                            text: dateText,
+                            style: GoogleFonts.roboto(
+                                fontWeight: FontWeight.normal, color: Colors.grey[600]),
+                          ),
+                        ]);
+                  }).toList();
+                },
+              ))),
       curve: Curves.easeOut,
       duration: Duration(milliseconds: 150),
     );
