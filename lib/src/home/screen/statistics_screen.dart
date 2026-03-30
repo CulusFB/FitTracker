@@ -1,6 +1,7 @@
 import 'package:fit_tracker/DB/data_manager.dart';
 import 'package:fit_tracker/DB/models/workout.dart';
-import 'package:fit_tracker/src/home/widgets/graphs_month.dart';
+import 'package:fit_tracker/src/home/widgets/graphs/graphs_month.dart';
+import 'package:fit_tracker/src/home/widgets/graphs/graphs_year.dart';
 import 'package:fit_tracker/src/themes/text_style_theme.dart';
 import 'package:fit_tracker/src/utils/chart_data.dart';
 import 'package:flutter/material.dart';
@@ -15,8 +16,7 @@ class StatisticScreen extends StatefulWidget {
 
 enum DateRange { week, month, year, all }
 
-class _StatisticsScreen extends State<StatisticScreen>
-    with TickerProviderStateMixin {
+class _StatisticsScreen extends State<StatisticScreen> with TickerProviderStateMixin {
   late final int poolActivityId;
   dynamic weekWorkouts = [];
   List<Workout> monthWorkouts = [];
@@ -37,14 +37,35 @@ class _StatisticsScreen extends State<StatisticScreen>
     final dataManager = DataManager.instance;
     weekWorkouts = await dataManager.getPoolActivityWeek(
         poolActivityId); //NOTE Сомнительное решение. Инкапсуляцию отменили угу.
-    monthWorkouts = await dataManager
-        .getPoolActivityMonth(poolActivityId); //NOTE Сомнительное решение
-    yearWorkouts = await dataManager
-        .getPoolActivityYear(poolActivityId); //NOTE Сомнительное решение
+    monthWorkouts =
+        await dataManager.getPoolActivityMonth(poolActivityId); //NOTE Сомнительное решение
+    yearWorkouts =
+        await dataManager.getPoolActivityYear(poolActivityId); //NOTE Сомнительное решение
     tonnage = TonnageWeightChartData(workouts: monthWorkouts);
     setState(() {});
   }
 
+  Widget getWeightGraph(DateRange period) {
+    switch (period) {
+      case DateRange.month:
+        return GraphsMonth(workoutData: tonnage.getWeight());
+      case DateRange.year:
+        return GraphsYear(workoutData: tonnage.getWeight());
+      default:
+        return SizedBox();
+    }
+  }
+
+  Widget getTonnageGraph(DateRange period) {
+    switch (period) {
+      case DateRange.month:
+        return GraphsMonth(workoutData: tonnage.getTonnage());
+      case DateRange.year:
+        return GraphsYear(workoutData: tonnage.getTonnage());
+      default:
+        return SizedBox();
+    }
+  }
   // @override
   // void dispose() {
   //   super.dispose();
@@ -78,8 +99,10 @@ class _StatisticsScreen extends State<StatisticScreen>
                   onSelectionChanged: (Set<DateRange> newSelection) {
                     setState(() {
                       if (newSelection.first == DateRange.month) {
-                        tonnage =
-                            TonnageWeightChartData(workouts: monthWorkouts);
+                        tonnage = TonnageWeightChartData(workouts: monthWorkouts);
+                      }
+                      if (newSelection.first == DateRange.year) {
+                        tonnage = TonnageWeightChartData(workouts: yearWorkouts);
                       }
                       selection = newSelection;
                     });
@@ -95,8 +118,8 @@ class _StatisticsScreen extends State<StatisticScreen>
                           spacing: 10,
                           children: [
                             Text("Вес",
-                                style: GoogleFonts.roboto(
-                                    fontSize: 22, fontWeight: FontWeight.bold)),
+                                style:
+                                    GoogleFonts.roboto(fontSize: 22, fontWeight: FontWeight.bold)),
                             Text("max ${tonnage.maxWeight()}",
                                 style: GoogleFonts.roboto(
                                   fontSize: 22,
@@ -105,15 +128,13 @@ class _StatisticsScreen extends State<StatisticScreen>
                                 )),
                           ],
                         ),
-                        Expanded(
-                            child:
-                                GraphsMonth(workoutData: tonnage.getWeight())),
+                        Expanded(child: getWeightGraph(selection.first)),
                         Row(
                           spacing: 10,
                           children: [
                             Text("Тоннаж",
-                                style: GoogleFonts.roboto(
-                                    fontSize: 22, fontWeight: FontWeight.bold)),
+                                style:
+                                    GoogleFonts.roboto(fontSize: 22, fontWeight: FontWeight.bold)),
                             Text("max ${tonnage.maxTonnage()}",
                                 style: GoogleFonts.roboto(
                                     fontSize: 22,
@@ -121,9 +142,7 @@ class _StatisticsScreen extends State<StatisticScreen>
                                     color: Colors.grey[600])),
                           ],
                         ),
-                        Expanded(
-                            child:
-                                GraphsMonth(workoutData: tonnage.getTonnage())),
+                        Expanded(child: getTonnageGraph(selection.first)),
                       ],
                     )
                   : SizedBox(),

@@ -5,18 +5,19 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
-class GraphsMonth extends StatefulWidget {
-  const GraphsMonth({super.key, required this.workoutData});
+class GraphsYear extends StatefulWidget {
+  const GraphsYear({super.key, required this.workoutData});
   final List<WorkoutData> workoutData;
   @override
-  State<GraphsMonth> createState() => _GraphsMonth();
+  State<GraphsYear> createState() => _GraphsMonth();
 }
 
-class _GraphsMonth extends State<GraphsMonth> {
+class _GraphsMonth extends State<GraphsYear> {
   DateFormat format = DateFormat("yyyy-MM-dd HH:mm:ss.SSS");
   late final List<WorkoutData> workoutData;
-  late final String thisMonth;
-  late final int lastDate;
+  late final int thisYear;
+  late final String firstMonth;
+  late final String lastMonth;
   late final List<FlSpot> spots;
   List<Color> gradientColors = [
     Colors.cyan,
@@ -27,12 +28,13 @@ class _GraphsMonth extends State<GraphsMonth> {
   void initState() {
     super.initState();
     workoutData = widget.workoutData;
-    thisMonth = getMonthName(DateTime.now());
-    lastDate = getLastDayOfMonth(DateTime.now());
+    firstMonth = getMonthName(format.parse(workoutData.first.date));
+    lastMonth = getMonthName(format.parse(workoutData.last.date));
+    thisYear = DateTime.now().year;
     minValue = workoutData.map((e) => e.value).reduce((a, b) => a < b ? a : b);
     spots = workoutData
         .map((w) => FlSpot(
-              format.parse(w.date).day.toDouble(),
+              dayOfYear(format.parse(w.date)).toDouble(),
               w.value,
             ))
         .toList()
@@ -52,7 +54,7 @@ class _GraphsMonth extends State<GraphsMonth> {
                   sideTitles: SideTitles(
                 showTitles: true,
                 reservedSize: 40,
-                interval: 200,
+                interval: 1000,
                 getTitlesWidget: (value, meta) {
                   return SideTitleWidget(
                     meta: meta,
@@ -64,10 +66,10 @@ class _GraphsMonth extends State<GraphsMonth> {
                       distanceFromEdge: 8,
                     ),
                     child: Text(
-                      value == 1
-                          ? "1 $thisMonth"
+                      value == dayOfYear(format.parse(workoutData.first.date)).toDouble()
+                          ? "$firstMonth $thisYear"
                           : value > 1
-                              ? "$lastDate $thisMonth"
+                              ? "$lastMonth $thisYear"
                               : "",
                       textAlign: TextAlign.center,
                     ),
@@ -117,7 +119,7 @@ class _GraphsMonth extends State<GraphsMonth> {
                     int day = touchedSpot.x.toInt();
 
                     final workout = workoutData.firstWhere(
-                      (w) => format.parse(w.date).day == day,
+                      (w) => dayOfYear(format.parse(w.date)) == day,
                       orElse: () => WorkoutData('', 0),
                     );
 
