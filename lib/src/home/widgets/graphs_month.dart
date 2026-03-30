@@ -50,8 +50,9 @@ class _GraphsMonth extends State<GraphsMonth> {
               show: true,
               bottomTitles: AxisTitles(
                   sideTitles: SideTitles(
-                reservedSize: 40,
                 showTitles: true,
+                reservedSize: 40,
+                interval: 200,
                 getTitlesWidget: (value, meta) {
                   return SideTitleWidget(
                     meta: meta,
@@ -64,10 +65,10 @@ class _GraphsMonth extends State<GraphsMonth> {
                     ),
                     child: Text(
                       value == 1
-                          ? '1 $thisMonth'
-                          : value == 25
-                              ? '$lastDate $thisMonth'
-                              : '',
+                          ? "1 $thisMonth"
+                          : value > 1
+                              ? "$lastDate $thisMonth"
+                              : "",
                       textAlign: TextAlign.center,
                     ),
                   );
@@ -105,6 +106,7 @@ class _GraphsMonth extends State<GraphsMonth> {
             )
           ],
           lineTouchData: LineTouchData(
+              touchSpotThreshold: 100,
               enabled: true,
               touchTooltipData: LineTouchTooltipData(
                 getTooltipColor: (touchedSpot) => Colors.white,
