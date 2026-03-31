@@ -1,6 +1,7 @@
 import 'package:fit_tracker/DB/data_manager.dart';
 import 'package:fit_tracker/DB/models/workout.dart';
 import 'package:fit_tracker/src/home/widgets/graphs/graphs_month.dart';
+import 'package:fit_tracker/src/home/widgets/graphs/graphs_week.dart';
 import 'package:fit_tracker/src/home/widgets/graphs/graphs_year.dart';
 import 'package:fit_tracker/src/themes/text_style_theme.dart';
 import 'package:fit_tracker/src/utils/chart_data.dart';
@@ -51,6 +52,8 @@ class _StatisticsScreen extends State<StatisticScreen> with TickerProviderStateM
         return GraphsMonth(workoutData: tonnage.getWeight());
       case DateRange.year:
         return GraphsYear(workoutData: tonnage.getWeight());
+      case DateRange.week:
+        return GraphsWeek(workoutData: tonnage.getWeight());
       default:
         return SizedBox();
     }
@@ -62,6 +65,8 @@ class _StatisticsScreen extends State<StatisticScreen> with TickerProviderStateM
         return GraphsMonth(workoutData: tonnage.getTonnage());
       case DateRange.year:
         return GraphsYear(workoutData: tonnage.getTonnage());
+      case DateRange.week:
+        return GraphsWeek(workoutData: tonnage.getTonnage());
       default:
         return SizedBox();
     }
@@ -103,6 +108,9 @@ class _StatisticsScreen extends State<StatisticScreen> with TickerProviderStateM
                       }
                       if (newSelection.first == DateRange.year) {
                         tonnage = TonnageWeightChartData(workouts: yearWorkouts);
+                      }
+                      if (newSelection.first == DateRange.week) {
+                        tonnage = TonnageWeightChartData(workouts: weekWorkouts);
                       }
                       selection = newSelection;
                     });
