@@ -150,6 +150,13 @@ class DatabaseManager {
     }
   }
 
+  dynamic allActivity(int activityId) async {
+    var db = await database;
+    var result = await db.query(_workoutTable,
+        where: 'Pool_activity_id = ?', whereArgs: [activityId], orderBy: 'Date DESC');
+    return result.isNotEmpty ? result.map((item) => Workout.fromJson(item)).toList() : [];
+  }
+
   dynamic activityBetweenDate(int activityId, DateTime monday, DateTime sunday) async {
     var db = await database;
     var result = await db.query(_workoutTable,

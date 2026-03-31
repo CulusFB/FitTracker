@@ -1,5 +1,6 @@
 import 'package:fit_tracker/DB/data_manager.dart';
 import 'package:fit_tracker/DB/models/workout.dart';
+import 'package:fit_tracker/src/home/widgets/graphs/graphs_all.dart';
 import 'package:fit_tracker/src/home/widgets/graphs/graphs_month.dart';
 import 'package:fit_tracker/src/home/widgets/graphs/graphs_week.dart';
 import 'package:fit_tracker/src/home/widgets/graphs/graphs_year.dart';
@@ -22,6 +23,7 @@ class _StatisticsScreen extends State<StatisticScreen> with TickerProviderStateM
   dynamic weekWorkouts = [];
   List<Workout> monthWorkouts = [];
   List<Workout> yearWorkouts = [];
+  List<Workout> allWorkouts = [];
   late TonnageWeightChartData tonnage;
   Set<DateRange> selection = {DateRange.month};
   late String poolActivityName;
@@ -42,6 +44,7 @@ class _StatisticsScreen extends State<StatisticScreen> with TickerProviderStateM
         await dataManager.getPoolActivityMonth(poolActivityId); //NOTE Сомнительное решение
     yearWorkouts =
         await dataManager.getPoolActivityYear(poolActivityId); //NOTE Сомнительное решение
+    allWorkouts = await dataManager.getPoolActivityAll(poolActivityId);
     tonnage = TonnageWeightChartData(workouts: monthWorkouts);
     setState(() {});
   }
@@ -52,10 +55,10 @@ class _StatisticsScreen extends State<StatisticScreen> with TickerProviderStateM
         return GraphsMonth(workoutData: tonnage.getWeight());
       case DateRange.year:
         return GraphsYear(workoutData: tonnage.getWeight());
+      case DateRange.all:
+        return GraphsAll(workoutData: tonnage.getWeight());
       case DateRange.week:
         return GraphsWeek(workoutData: tonnage.getWeight());
-      default:
-        return SizedBox();
     }
   }
 
@@ -65,10 +68,10 @@ class _StatisticsScreen extends State<StatisticScreen> with TickerProviderStateM
         return GraphsMonth(workoutData: tonnage.getTonnage());
       case DateRange.year:
         return GraphsYear(workoutData: tonnage.getTonnage());
+      case DateRange.all:
+        return GraphsAll(workoutData: tonnage.getTonnage());
       case DateRange.week:
         return GraphsWeek(workoutData: tonnage.getTonnage());
-      default:
-        return SizedBox();
     }
   }
   // @override
@@ -111,6 +114,10 @@ class _StatisticsScreen extends State<StatisticScreen> with TickerProviderStateM
                       }
                       if (newSelection.first == DateRange.week) {
                         tonnage = TonnageWeightChartData(workouts: weekWorkouts);
+                      }
+                      if (newSelection.first == DateRange.all) {
+                        tonnage = TonnageWeightChartData(workouts: allWorkouts);
+                        print(tonnage.getWeight().first.date);
                       }
                       selection = newSelection;
                     });

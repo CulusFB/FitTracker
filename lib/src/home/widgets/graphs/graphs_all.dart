@@ -5,16 +5,17 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
-class GraphsYear extends StatefulWidget {
-  const GraphsYear({super.key, required this.workoutData});
+class GraphsAll extends StatefulWidget {
+  const GraphsAll({super.key, required this.workoutData});
   final List<WorkoutData> workoutData;
   @override
-  State<GraphsYear> createState() => _GraphsAll();
+  State<GraphsAll> createState() => _GraphsAll();
 }
 
-class _GraphsAll extends State<GraphsYear> {
+class _GraphsAll extends State<GraphsAll> {
   DateFormat format = DateFormat("yyyy-MM-dd HH:mm:ss.SSS");
   late final List<WorkoutData> workoutData;
+  late final DateTime firstDate;
   late final int thisYear;
   late final String firstMonth;
   late final int firstYear;
@@ -30,16 +31,17 @@ class _GraphsAll extends State<GraphsYear> {
   void initState() {
     super.initState();
     workoutData = widget.workoutData;
-    var firstDate = format.parse(workoutData.first.date);
+    firstDate = format.parse(workoutData.first.date);
     var lastDate = format.parse(workoutData.last.date);
     firstMonth = getMonthName(firstDate);
+    print(firstMonth);
     firstYear = firstDate.year;
     lastMonth = getMonthName(lastDate);
     lastYear = lastDate.year;
     minValue = workoutData.map((e) => e.value).reduce((a, b) => a < b ? a : b);
     spots = workoutData
         .map((w) => FlSpot(
-              dayOfYear(format.parse(w.date)).toDouble(),
+              format.parse(w.date).millisecondsSinceEpoch.toDouble(),
               w.value,
             ))
         .toList()
@@ -59,7 +61,7 @@ class _GraphsAll extends State<GraphsYear> {
                   sideTitles: SideTitles(
                 showTitles: true,
                 reservedSize: 40,
-                interval: 1000,
+                interval: 100000000000000,
                 getTitlesWidget: (value, meta) {
                   return SideTitleWidget(
                     meta: meta,
@@ -71,7 +73,7 @@ class _GraphsAll extends State<GraphsYear> {
                       distanceFromEdge: 8,
                     ),
                     child: Text(
-                      value == dayOfYear(format.parse(workoutData.first.date)).toDouble()
+                      value == firstDate.millisecondsSinceEpoch.toDouble()
                           ? "$firstMonth $firstYear"
                           : value > 1
                               ? "$lastMonth $lastYear"
@@ -124,7 +126,7 @@ class _GraphsAll extends State<GraphsYear> {
                     int day = touchedSpot.x.toInt();
 
                     final workout = workoutData.firstWhere(
-                      (w) => dayOfYear(format.parse(w.date)) == day,
+                      (w) => format.parse(w.date).millisecondsSinceEpoch == day,
                       orElse: () => WorkoutData('', 0),
                     );
 
