@@ -163,7 +163,7 @@ class DatabaseManager {
         where: 'Pool_activity_id = ? and Date between ? and ?',
         whereArgs: [activityId, monday.toString(), sunday.toString()],
         orderBy: 'Date DESC');
-    return result.isNotEmpty ? result.map((item) => Workout.fromJson(item)).toList() : [];
+    return result.isNotEmpty ? result.map((item) => Workout.fromJson(item)).toList() : <Workout>[];
   }
 
   Future<List<DateTime>> dateWorkouts() async {
