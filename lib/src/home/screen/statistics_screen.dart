@@ -4,6 +4,7 @@ import 'package:fit_tracker/src/home/widgets/graphs/graphs_all.dart';
 import 'package:fit_tracker/src/home/widgets/graphs/graphs_month.dart';
 import 'package:fit_tracker/src/home/widgets/graphs/graphs_week.dart';
 import 'package:fit_tracker/src/home/widgets/graphs/graphs_year.dart';
+import 'package:fit_tracker/src/home/widgets/history_statistic_widget.dart';
 import 'package:fit_tracker/src/themes/text_style_theme.dart';
 import 'package:fit_tracker/src/utils/chart_data.dart';
 import 'package:flutter/material.dart';
@@ -123,6 +124,7 @@ class _StatisticsScreen extends State<StatisticScreen> with TickerProviderStateM
               child: SingleChildScrollView(
                 child: workouts.isNotEmpty
                     ? Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         spacing: 10,
                         children: [
                           Row(
@@ -154,12 +156,9 @@ class _StatisticsScreen extends State<StatisticScreen> with TickerProviderStateM
                             ],
                           ),
                           SizedBox(height: 250, child: getTonnageGraph(selection.first)),
-                          Align(
-                            alignment: AlignmentGeometry.centerLeft,
-                            child: Text("История",
-                                style:
-                                    GoogleFonts.roboto(fontSize: 22, fontWeight: FontWeight.bold)),
-                          ),
+                          Text("История",
+                              style: GoogleFonts.roboto(fontSize: 22, fontWeight: FontWeight.bold)),
+                          HistoryStatisticWidget(workouts: workouts)
                         ],
                       )
                     : SizedBox(),

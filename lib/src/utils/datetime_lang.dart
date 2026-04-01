@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 String getMonthName(DateTime dateTime, {bool genitive = false}) {
   const nominative = [
     "Январь",
@@ -30,6 +32,12 @@ String getMonthName(DateTime dateTime, {bool genitive = false}) {
   ];
 
   return genitive ? genitiveMonths[dateTime.month - 1] : nominative[dateTime.month - 1];
+}
+
+String getDayMonth(String date) {
+  DateFormat format = DateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+  DateTime formatedDate = format.parse(date);
+  return DateFormat('dd MMM').format(formatedDate);
 }
 
 int dayOfYear(DateTime date) {
