@@ -16,7 +16,7 @@ class DataManager {
   late List<MuscleGroup> muscleGroups;
   late List<PoolActivity> poolActivities;
   late List<Workout> workouts = []; //TODO: Fix it when bloc
-
+  DateFormat format = DateFormat("yyyy-MM-dd HH:mm:ss.SSS");
   DataManager._() {
     initDbProvider();
     initDataManager();
@@ -127,7 +127,6 @@ class DataManager {
   }
 
   Future<List<Workout>> getPoolActivityAll(int poolActivityId) async {
-    DateFormat format = DateFormat("yyyy-MM-dd HH:mm:ss.SSS");
     List<Workout> workouts = await dbProvider.allActivity(poolActivityId);
     workouts
         .sort((a, b) => format.parse(a.date as String).compareTo(format.parse(b.date as String)));
@@ -137,20 +136,29 @@ class DataManager {
   Future<List<Workout>> getPoolActivityWeek(int poolActivityId) async {
     DateTime now = DateTime.now();
     DateTime date = DateTime(now.year, now.month, now.day);
-    return await dbProvider.activityBetweenDate(
+    List<Workout> workouts = await dbProvider.activityBetweenDate(
         poolActivityId, findNearestMonday(date), findNearestSunday(date));
+    workouts
+        .sort((a, b) => format.parse(a.date as String).compareTo(format.parse(b.date as String)));
+    return workouts;
   }
 
   Future<List<Workout>> getPoolActivityMonth(int poolActivityId) async {
     DateTime now = DateTime.now();
-    return await dbProvider.activityBetweenDate(
+    List<Workout> workouts = await dbProvider.activityBetweenDate(
         poolActivityId, DateTime(now.year, now.month - 1, now.day), now);
+    workouts
+        .sort((a, b) => format.parse(a.date as String).compareTo(format.parse(b.date as String)));
+    return workouts;
   }
 
   dynamic getPoolActivityYear(int poolActivityId) async {
     DateTime now = DateTime.now();
-    return await dbProvider.activityBetweenDate(
+    List<Workout> workouts = await dbProvider.activityBetweenDate(
         poolActivityId, DateTime(now.year, 1, 1), DateTime(now.year, 12, 31));
+    workouts
+        .sort((a, b) => format.parse(a.date as String).compareTo(format.parse(b.date as String)));
+    return workouts;
   }
 
   //load data method-> load all data in db
