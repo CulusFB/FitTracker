@@ -20,13 +20,11 @@ enum DateRange { week, month, year, all }
 
 class _StatisticsScreen extends State<StatisticScreen> with TickerProviderStateMixin {
   late final int poolActivityId;
-  dynamic weekWorkouts = [];
-  List<Workout> monthWorkouts = [];
-  List<Workout> yearWorkouts = [];
-  List<Workout> allWorkouts = [];
+  List<Workout> workouts = [];
   late TonnageWeightChartData tonnage;
   Set<DateRange> selection = {DateRange.month};
   late String poolActivityName;
+  final dataManager = DataManager.instance;
 
   @override
   void initState() {
@@ -37,16 +35,24 @@ class _StatisticsScreen extends State<StatisticScreen> with TickerProviderStateM
   }
 
   dynamic getStatistics() async {
-    final dataManager = DataManager.instance;
-    weekWorkouts = await dataManager.getPoolActivityWeek(
-        poolActivityId); //NOTE Сомнительное решение. Инкапсуляцию отменили угу.
-    monthWorkouts =
-        await dataManager.getPoolActivityMonth(poolActivityId); //NOTE Сомнительное решение
-    yearWorkouts =
-        await dataManager.getPoolActivityYear(poolActivityId); //NOTE Сомнительное решение
-    allWorkouts = await dataManager.getPoolActivityAll(poolActivityId);
-    tonnage = TonnageWeightChartData(workouts: monthWorkouts);
+    workouts = await dataManager.getPoolActivityMonth(poolActivityId); //NOTE Сомнительное решение
+    tonnage = TonnageWeightChartData(workouts: workouts);
     setState(() {});
+  }
+
+  dynamic getWorkouts(Set<DateRange> newSelection) async {
+    if (newSelection.first == DateRange.month) {
+      workouts = await dataManager.getPoolActivityMonth(poolActivityId);
+    }
+    if (newSelection.first == DateRange.year) {
+      workouts = await dataManager.getPoolActivityYear(poolActivityId);
+    }
+    if (newSelection.first == DateRange.week) {
+      workouts = await dataManager.getPoolActivityWeek(poolActivityId);
+    }
+    if (newSelection.first == DateRange.all) {
+      workouts = await dataManager.getPoolActivityAll(poolActivityId);
+    }
   }
 
   Widget getWeightGraph(DateRange period) {
@@ -104,21 +110,10 @@ class _StatisticsScreen extends State<StatisticScreen> with TickerProviderStateM
                     ButtonSegment(value: DateRange.year, label: Text("Год")),
                     ButtonSegment(value: DateRange.all, label: Text("Всё"))
                   ],
-                  onSelectionChanged: (Set<DateRange> newSelection) {
+                  onSelectionChanged: (Set<DateRange> newSelection) async {
+                    await getWorkouts(newSelection);
                     setState(() {
-                      if (newSelection.first == DateRange.month) {
-                        tonnage = TonnageWeightChartData(workouts: monthWorkouts);
-                      }
-                      if (newSelection.first == DateRange.year) {
-                        tonnage = TonnageWeightChartData(workouts: yearWorkouts);
-                      }
-                      if (newSelection.first == DateRange.week) {
-                        tonnage = TonnageWeightChartData(workouts: weekWorkouts);
-                      }
-                      if (newSelection.first == DateRange.all) {
-                        tonnage = TonnageWeightChartData(workouts: allWorkouts);
-                        print(tonnage.getWeight().first.date);
-                      }
+                      tonnage = TonnageWeightChartData(workouts: workouts);
                       selection = newSelection;
                     });
                   },
@@ -126,7 +121,7 @@ class _StatisticsScreen extends State<StatisticScreen> with TickerProviderStateM
             ),
             Expanded(
               child: SingleChildScrollView(
-                child: monthWorkouts.isNotEmpty
+                child: workouts.isNotEmpty
                     ? Column(
                         spacing: 10,
                         children: [

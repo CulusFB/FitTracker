@@ -34,7 +34,6 @@ class _GraphsAll extends State<GraphsAll> {
     firstDate = format.parse(workoutData.first.date);
     var lastDate = format.parse(workoutData.last.date);
     firstMonth = getMonthName(firstDate);
-    print(firstMonth);
     firstYear = firstDate.year;
     lastMonth = getMonthName(lastDate);
     lastYear = lastDate.year;
