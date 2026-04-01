@@ -125,42 +125,50 @@ class _StatisticsScreen extends State<StatisticScreen> with TickerProviderStateM
                   selected: selection),
             ),
             Expanded(
-              child: monthWorkouts.isNotEmpty
-                  ? Column(
-                      spacing: 10,
-                      children: [
-                        Row(
-                          spacing: 10,
-                          children: [
-                            Text("Вес",
-                                style:
-                                    GoogleFonts.roboto(fontSize: 22, fontWeight: FontWeight.bold)),
-                            Text("max ${tonnage.maxWeight()}",
-                                style: GoogleFonts.roboto(
-                                  fontSize: 22,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.grey[600],
-                                )),
-                          ],
-                        ),
-                        Expanded(child: getWeightGraph(selection.first)),
-                        Row(
-                          spacing: 10,
-                          children: [
-                            Text("Тоннаж",
-                                style:
-                                    GoogleFonts.roboto(fontSize: 22, fontWeight: FontWeight.bold)),
-                            Text("max ${tonnage.maxTonnage()}",
-                                style: GoogleFonts.roboto(
+              child: SingleChildScrollView(
+                child: monthWorkouts.isNotEmpty
+                    ? Column(
+                        spacing: 10,
+                        children: [
+                          Row(
+                            spacing: 10,
+                            children: [
+                              Text("Вес",
+                                  style: GoogleFonts.roboto(
+                                      fontSize: 22, fontWeight: FontWeight.bold)),
+                              Text("max ${tonnage.maxWeight()}",
+                                  style: GoogleFonts.roboto(
                                     fontSize: 22,
                                     fontWeight: FontWeight.bold,
-                                    color: Colors.grey[600])),
-                          ],
-                        ),
-                        Expanded(child: getTonnageGraph(selection.first)),
-                      ],
-                    )
-                  : SizedBox(),
+                                    color: Colors.grey[600],
+                                  )),
+                            ],
+                          ),
+                          SizedBox(height: 250, child: getWeightGraph(selection.first)),
+                          Row(
+                            spacing: 10,
+                            children: [
+                              Text("Тоннаж",
+                                  style: GoogleFonts.roboto(
+                                      fontSize: 22, fontWeight: FontWeight.bold)),
+                              Text("max ${tonnage.maxTonnage()}",
+                                  style: GoogleFonts.roboto(
+                                      fontSize: 22,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.grey[600])),
+                            ],
+                          ),
+                          SizedBox(height: 250, child: getTonnageGraph(selection.first)),
+                          Align(
+                            alignment: AlignmentGeometry.centerLeft,
+                            child: Text("История",
+                                style:
+                                    GoogleFonts.roboto(fontSize: 22, fontWeight: FontWeight.bold)),
+                          ),
+                        ],
+                      )
+                    : SizedBox(),
+              ),
             )
           ],
         ),

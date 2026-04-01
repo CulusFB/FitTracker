@@ -15,8 +15,10 @@ class GraphsMonth extends StatefulWidget {
 class _GraphsMonth extends State<GraphsMonth> {
   DateFormat format = DateFormat("yyyy-MM-dd HH:mm:ss.SSS");
   late final List<WorkoutData> workoutData;
-  late final String thisMonth;
-  late final int lastDate;
+  late final String firstMonth;
+  late final String lastMonth;
+  late final DateTime firstDate;
+  late final DateTime lastDate;
   late final List<FlSpot> spots;
   List<Color> gradientColors = [
     Colors.cyan,
@@ -27,8 +29,10 @@ class _GraphsMonth extends State<GraphsMonth> {
   void initState() {
     super.initState();
     workoutData = widget.workoutData;
-    thisMonth = getMonthName(DateTime.now(), genitive: true);
-    lastDate = getLastDayOfMonth(DateTime.now());
+    firstDate = format.parse(workoutData.first.date);
+    firstMonth = getMonthName(firstDate, genitive: true);
+    lastDate = format.parse(workoutData.last.date);
+    lastMonth = getMonthName(lastDate, genitive: true);
     minValue = workoutData.map((e) => e.value).reduce((a, b) => a < b ? a : b);
     spots = workoutData
         .map((w) => FlSpot(
@@ -65,9 +69,9 @@ class _GraphsMonth extends State<GraphsMonth> {
                     ),
                     child: Text(
                       value == 1
-                          ? "1 $thisMonth"
+                          ? "${firstDate.day} $firstMonth"
                           : value > 1
-                              ? "$lastDate $thisMonth"
+                              ? "${lastDate.day} $lastMonth"
                               : "",
                       textAlign: TextAlign.center,
                     ),

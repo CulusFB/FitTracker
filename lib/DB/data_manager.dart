@@ -144,7 +144,7 @@ class DataManager {
   Future<List<Workout>> getPoolActivityMonth(int poolActivityId) async {
     DateTime now = DateTime.now();
     return await dbProvider.activityBetweenDate(
-        poolActivityId, DateTime(now.year, now.month, 1), DateTime(now.year, now.month + 1, 0));
+        poolActivityId, DateTime(now.year, now.month - 1, now.day), now);
   }
 
   dynamic getPoolActivityYear(int poolActivityId) async {
