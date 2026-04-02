@@ -139,18 +139,10 @@ class _AddActivityScreen extends State<AddActivityScreen> with TickerProviderSta
                                 poolActivity.label =
                                     labelController.text.isEmpty ? null : labelController.text;
                                 if (dataManager.poolActivities.contains(poolActivity)) {
-                                  dataManager.editActivity(poolActivity);
+                                  await dataManager.editActivity(poolActivity);
                                 } else {
-                                  dataManager.addActivity(poolActivity);
+                                  await dataManager.addActivity(poolActivity);
                                 }
-
-                                // if (poolActivity.id != 0) {
-                                //   poolActivity.nameRu = textController.text;
-                                //   poolActivity.label = labelController.text;
-                                //   await DataManager.instance.updateActivity(poolActivity);
-                                // } else {
-                                //   await DataManager.instance.newActivity(PoolActivity(nameRu: textController.text, label: labelController.text != ''? labelController.text: null, muscleGroupId: muscleGroup.id));
-                                // }
                                 Navigator.pop(context);
                               },
                               child: Text("Сохранить")),
