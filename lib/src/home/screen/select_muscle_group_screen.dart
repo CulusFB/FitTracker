@@ -30,7 +30,7 @@ class _SelectMuscleGroupScreen extends State<SelectMuscleGroupScreen>
                 Text(
                   'Новое упражнение',
                   style: GoogleFonts.roboto(
-                    fontSize: 22,
+                    fontSize: 26,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -47,9 +47,9 @@ class _SelectMuscleGroupScreen extends State<SelectMuscleGroupScreen>
             padding: EdgeInsets.only(bottom: 10, left: 20, right: 20),
             alignment: Alignment.topLeft,
             child: Text(
-              'Выберите упражнение',
+              'Выберите группу мышц',
               style: GoogleFonts.roboto(
-                fontSize: 24,
+                fontSize: 22,
                 fontWeight: FontWeight.bold,
               ),
             ),

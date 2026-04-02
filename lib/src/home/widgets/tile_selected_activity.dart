@@ -21,19 +21,16 @@ class TileSelectedActivity extends StatefulWidget {
 }
 
 class _TileSelectedActivity extends State<TileSelectedActivity> with TickerProviderStateMixin {
-  late final PoolActivity poolActivity;
-  late Workout workout;
-  late final Function onChange;
   bool isSelected = false;
   late final RepetitionWeightRepository repetitionWeightRepository;
-
+  late Workout workout;
+  late final int muscleGroupId;
   @override
   void initState() {
     repetitionWeightRepository = RepetitionWeightRepository();
-    super.initState();
-    poolActivity = widget.poolActivity;
     workout = widget.workout;
-    onChange = widget.onChange;
+    muscleGroupId = widget.poolActivity.muscleGroupId;
+    super.initState();
   }
 
   @override
@@ -61,7 +58,7 @@ class _TileSelectedActivity extends State<TileSelectedActivity> with TickerProvi
         },
         key: UniqueKey(),
         onDismissed: (direction) {
-          DataManager.instance.delWorkout(workout.id);
+          DataManager.instance.delWorkout(widget.workout.id);
         },
         background: Container(
           color: Colors.red,
@@ -77,13 +74,13 @@ class _TileSelectedActivity extends State<TileSelectedActivity> with TickerProvi
           children: [
             ListTile(
               splashColor: Colors.transparent,
-              leading: IconWidget(muscleGroupId: poolActivity.muscleGroupId),
+              leading: IconWidget(muscleGroupId: muscleGroupId),
               selected: isSelected,
               onTap: () {
                 isSelected = !isSelected;
                 setState(() {});
               },
-              title: Text(poolActivity.nameRu as String),
+              title: Text(widget.poolActivity.nameRu as String),
               trailing: isSelected
                   ? Transform.rotate(angle: 33, child: Icon(Icons.arrow_back_ios_rounded))
                   : Transform.rotate(
@@ -117,12 +114,13 @@ class _TileSelectedActivity extends State<TileSelectedActivity> with TickerProvi
                                                 RepetitionWeightBloc(repetitionWeightRepository),
                                             child: RepetitionWeightScreen(
                                               workout: workout,
-                                              activityName: poolActivity.nameRu.toString(),
+                                              activityName: widget.poolActivity.nameRu.toString(),
                                               repetitionWeight:
                                                   workout.approachesList as List<RepetitionWeight>,
                                             ));
                                       }).whenComplete(() async {
-                                    workout = await DataManager.instance.getWorkoutId(workout.id);
+                                    workout =
+                                        await DataManager.instance.getWorkoutId(widget.workout.id);
                                     setState(() {});
                                   });
                                 },

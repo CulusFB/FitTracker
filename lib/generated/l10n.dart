@@ -26,9 +26,7 @@ class S {
   static const AppLocalizationDelegate delegate = AppLocalizationDelegate();
 
   static Future<S> load(Locale locale) {
-    final name = (locale.countryCode?.isEmpty ?? false)
-        ? locale.languageCode
-        : locale.toString();
+    final name = (locale.countryCode?.isEmpty ?? false) ? locale.languageCode : locale.toString();
     final localeName = Intl.canonicalizedLocale(name);
     return initializeMessages(localeName).then((_) {
       Intl.defaultLocale = localeName;
@@ -95,6 +93,15 @@ class S {
     return Intl.message(
       'Label',
       name: 'label',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get history {
+    return Intl.message(
+      'History',
+      name: 'history',
       desc: '',
       args: [],
     );

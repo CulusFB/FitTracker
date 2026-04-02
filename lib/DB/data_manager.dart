@@ -35,24 +35,20 @@ class DataManager {
     return true;
   }
 
-  dynamic getPoolActivityMuscleGroup(int id) {
+  List<PoolActivity> getPoolActivityMuscleGroup(int id) {
     return poolActivities.where((poolActivity) => poolActivity.muscleGroupId == id).toList();
   }
 
   dynamic addActivity(PoolActivity poolActivity) async {
-    // var id = await newPoolActivity(poolActivity, dbProvider);
     var id = await dbProvider.addPoolActivity(poolActivity);
     poolActivity.id = id;
     poolActivities.add(poolActivity);
   }
 
-  // Тут что-то происходит странное
   dynamic editActivity(PoolActivity poolActivity) async {
-    var activity = await dbProvider.editPoolActivity(poolActivity);
-    // PoolActivity activity = await updatePoolActivity(poolActivity, dbProvider);
-    poolActivities.removeWhere((poolActivity) => poolActivity.id == activity.id);
-    poolActivities.add(activity);
-    return activity;
+    await dbProvider.editPoolActivity(poolActivity);
+    poolActivities.removeWhere((activity) => activity.id == poolActivity.id);
+    poolActivities.add(poolActivity);
   }
 
   String getPoolActivityName(int id) {
@@ -61,14 +57,13 @@ class DataManager {
 
   dynamic removeActivity(int id) async {
     await dbProvider.removePoolActivity(id);
-    // await deletePoolActivity(id, dbProvider);
     poolActivities.removeWhere((poolActivity) => poolActivity.id == id);
   }
 
-  dynamic getWorkoutDay(DateTime date) async {
+  Future<List<Workout>> getWorkoutDay(DateTime date) async {
     // workouts = await getWorkoutAtDay(dbProvider, date);
     workouts = await dbProvider.workoutAtDay(date);
-    return workouts;
+    return workouts.isNotEmpty ? workouts : <Workout>[];
   }
 
   dynamic swapWorkoutPosition(List<Workout> workoutList) async {
@@ -160,8 +155,4 @@ class DataManager {
         .sort((a, b) => format.parse(a.date as String).compareTo(format.parse(b.date as String)));
     return workouts;
   }
-
-  //load data method-> load all data in db
-  //getters method for get data
-  //methods for add, edit, remove data
 }

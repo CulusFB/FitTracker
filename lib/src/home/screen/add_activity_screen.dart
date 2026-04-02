@@ -8,8 +8,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 // ignore: must_be_immutable
 class AddActivityScreen extends StatefulWidget {
-  AddActivityScreen(
-      {super.key, required this.muscleGroup, PoolActivity? poolActivity})
+  AddActivityScreen({super.key, required this.muscleGroup, PoolActivity? poolActivity})
       : poolActivity = poolActivity ?? PoolActivity();
   final MuscleGroup muscleGroup;
   PoolActivity poolActivity;
@@ -17,8 +16,7 @@ class AddActivityScreen extends StatefulWidget {
   State<AddActivityScreen> createState() => _AddActivityScreen();
 }
 
-class _AddActivityScreen extends State<AddActivityScreen>
-    with TickerProviderStateMixin {
+class _AddActivityScreen extends State<AddActivityScreen> with TickerProviderStateMixin {
   late PoolActivity poolActivity;
   TextEditingController textController = TextEditingController();
   TextEditingController labelController = TextEditingController();
@@ -26,14 +24,13 @@ class _AddActivityScreen extends State<AddActivityScreen>
 
   @override
   void initState() {
-    if (poolActivity.id != 0) {
-      textController.text = poolActivity.nameRu as String;
-      labelController.text =
-          poolActivity.label != null ? poolActivity.label as String : '';
-    }
-    super.initState();
     poolActivity = widget.poolActivity;
     muscleGroup = widget.muscleGroup;
+    if (poolActivity.id != 0) {
+      textController.text = poolActivity.nameRu as String;
+      labelController.text = poolActivity.label != null ? poolActivity.label as String : '';
+    }
+    super.initState();
   }
 
   @override
@@ -95,8 +92,7 @@ class _AddActivityScreen extends State<AddActivityScreen>
                                     ),
                                     TextButton(
                                       onPressed: () async {
-                                        //TODO Проверить работоспособность Удалил await на след. строчке
-                                        DataManager.instance.removeActivity(poolActivity.id);
+                                        await DataManager.instance.removeActivity(poolActivity.id);
                                         Navigator.of(context).pop();
                                         Navigator.of(context).pop();
                                       },
@@ -135,26 +131,18 @@ class _AddActivityScreen extends State<AddActivityScreen>
                           child: FilledButton(
                               style: FilledButtonStyle(),
                               onPressed: () async {
-
                                 final dataManager = DataManager.instance;
                                 poolActivity = PoolActivity();
                                 poolActivity.nameRu = textController.text;
-                                poolActivity.label = labelController.text.isEmpty ? null: labelController.text;
-
-                                if (dataManager.poolActivities.contains(poolActivity)) {
-                                  dataManager.editActivity(poolActivity);
+                                poolActivity.muscleGroupId = muscleGroup.id;
+                                poolActivity.label =
+                                    labelController.text.isEmpty ? null : labelController.text;
+                                if (widget.poolActivity.id != 0) {
+                                  poolActivity.id = widget.poolActivity.id;
+                                  await dataManager.editActivity(poolActivity);
                                 } else {
-                                  dataManager.addActivity(poolActivity);
+                                  await dataManager.addActivity(poolActivity);
                                 }
-
-
-                                // if (poolActivity.id != 0) {
-                                //   poolActivity.nameRu = textController.text;
-                                //   poolActivity.label = labelController.text;
-                                //   await DataManager.instance.updateActivity(poolActivity);
-                                // } else {
-                                //   await DataManager.instance.newActivity(PoolActivity(nameRu: textController.text, label: labelController.text != ''? labelController.text: null, muscleGroupId: muscleGroup.id));
-                                // }
                                 Navigator.pop(context);
                               },
                               child: Text("Сохранить")),
