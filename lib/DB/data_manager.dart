@@ -40,9 +40,13 @@ class DataManager {
   }
 
   dynamic addActivity(PoolActivity poolActivity) async {
+    print(poolActivity.toJson());
     // var id = await newPoolActivity(poolActivity, dbProvider);
     var id = await dbProvider.addPoolActivity(poolActivity);
+    print(id);
     poolActivity.id = id;
+    print(poolActivity.toJson());
+    print(poolActivity.id);
     poolActivities.add(poolActivity);
   }
 
@@ -160,8 +164,4 @@ class DataManager {
         .sort((a, b) => format.parse(a.date as String).compareTo(format.parse(b.date as String)));
     return workouts;
   }
-
-  //load data method-> load all data in db
-  //getters method for get data
-  //methods for add, edit, remove data
 }

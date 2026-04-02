@@ -12,14 +12,11 @@ class IconWidget extends StatefulWidget {
 }
 
 class IconWidgetState extends State<IconWidget> with TickerProviderStateMixin {
-  late final int muscleGroupId;
-
   late String pathTheme;
 
   @override
   void initState() {
     super.initState();
-    muscleGroupId = widget.muscleGroupId;
   }
 
   @override
@@ -30,7 +27,8 @@ class IconWidgetState extends State<IconWidget> with TickerProviderStateMixin {
         width: 60,
         height: 60,
         child: FutureBuilder<String>(
-            future: rootBundle.loadString('assets/icons/MuscleGroup/$pathTheme/$muscleGroupId.svg'),
+            future: rootBundle
+                .loadString('assets/icons/MuscleGroup/$pathTheme/${widget.muscleGroupId}.svg'),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 return SvgPicture.string(

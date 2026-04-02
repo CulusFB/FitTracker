@@ -1,5 +1,6 @@
 import 'package:fit_tracker/DB/data_manager.dart';
 import 'package:fit_tracker/DB/models/workout.dart';
+import 'package:fit_tracker/generated/l10n.dart';
 import 'package:fit_tracker/src/home/widgets/graphs/graphs_all.dart';
 import 'package:fit_tracker/src/home/widgets/graphs/graphs_month.dart';
 import 'package:fit_tracker/src/home/widgets/graphs/graphs_week.dart';
@@ -156,7 +157,7 @@ class _StatisticsScreen extends State<StatisticScreen> with TickerProviderStateM
                             ],
                           ),
                           SizedBox(height: 250, child: getTonnageGraph(selection.first)),
-                          Text("История",
+                          Text(S.of(context).history,
                               style: GoogleFonts.roboto(fontSize: 22, fontWeight: FontWeight.bold)),
                           HistoryStatisticWidget(workouts: workouts)
                         ],

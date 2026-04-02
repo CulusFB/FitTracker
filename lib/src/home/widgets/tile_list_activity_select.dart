@@ -8,20 +8,17 @@ class TileListActivitySelect extends StatefulWidget {
   const TileListActivitySelect({super.key, required this.muscleGroup});
   final MuscleGroup muscleGroup;
   @override
-  State<TileListActivitySelect> createState() =>
-      _TileListActivitySelect();
+  State<TileListActivitySelect> createState() => _TileListActivitySelect();
 }
 
-class _TileListActivitySelect extends State<TileListActivitySelect>
-    with TickerProviderStateMixin {
+class _TileListActivitySelect extends State<TileListActivitySelect> with TickerProviderStateMixin {
   late final MuscleGroup muscleGroup;
   late List<PoolActivity> idPoolActivity;
   @override
   void initState() {
-    idPoolActivity =
-        DataManager.instance.getPoolActivityMuscleGroup(muscleGroup.id);
-    super.initState();
     muscleGroup = widget.muscleGroup;
+    idPoolActivity = DataManager.instance.getPoolActivityMuscleGroup(muscleGroup.id);
+    super.initState();
   }
 
   void exit() {
@@ -52,7 +49,7 @@ class _TileListActivitySelect extends State<TileListActivitySelect>
               SizedBox(
                 width: 10,
               ),
-              Text(muscleGroup.nameRu as String),
+              Text(muscleGroup.nameRu.toString()),
             ],
           ),
           Row(
