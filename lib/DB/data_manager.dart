@@ -40,13 +40,8 @@ class DataManager {
   }
 
   dynamic addActivity(PoolActivity poolActivity) async {
-    print(poolActivity.toJson());
-    // var id = await newPoolActivity(poolActivity, dbProvider);
     var id = await dbProvider.addPoolActivity(poolActivity);
-    print(id);
     poolActivity.id = id;
-    print(poolActivity.toJson());
-    print(poolActivity.id);
     poolActivities.add(poolActivity);
   }
 

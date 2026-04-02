@@ -20,11 +20,11 @@ class _TileListActivity extends State<TileListActivity> with TickerProviderState
   void initState() {
     super.initState();
     muscleGroup = widget.muscleGroup;
-    idPoolActivity = DataManager.instance.getPoolActivityMuscleGroup(muscleGroup.id);
   }
 
   @override
   Widget build(BuildContext context) {
+    idPoolActivity = DataManager.instance.getPoolActivityMuscleGroup(muscleGroup.id);
     return ListTile(
       onTap: () {
         showModalBottomSheet(
@@ -33,7 +33,7 @@ class _TileListActivity extends State<TileListActivity> with TickerProviderState
             context: context,
             builder: (context) {
               return ActivityScreen(muscleGroup: muscleGroup);
-            }).whenComplete(() {
+            }).whenComplete(() async {
           idPoolActivity = DataManager.instance.getPoolActivityMuscleGroup(muscleGroup.id);
           setState(() {});
         });
