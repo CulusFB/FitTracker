@@ -78,7 +78,8 @@ class DatabaseManager {
 
   dynamic editPoolActivity(PoolActivity activity) async {
     var db = await database;
-    return await db.update(_poolActivityTable, activity.toJson());
+    return await db.update(
+        _poolActivityTable, where: 'id = ?', whereArgs: [activity.id], activity.toJson());
   }
 
   dynamic removePoolActivity(int id) async {

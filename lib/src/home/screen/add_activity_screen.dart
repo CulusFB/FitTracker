@@ -92,8 +92,7 @@ class _AddActivityScreen extends State<AddActivityScreen> with TickerProviderSta
                                     ),
                                     TextButton(
                                       onPressed: () async {
-                                        //TODO Проверить работоспособность Удалил await на след. строчке
-                                        DataManager.instance.removeActivity(poolActivity.id);
+                                        await DataManager.instance.removeActivity(poolActivity.id);
                                         Navigator.of(context).pop();
                                         Navigator.of(context).pop();
                                       },
@@ -138,7 +137,8 @@ class _AddActivityScreen extends State<AddActivityScreen> with TickerProviderSta
                                 poolActivity.muscleGroupId = muscleGroup.id;
                                 poolActivity.label =
                                     labelController.text.isEmpty ? null : labelController.text;
-                                if (dataManager.poolActivities.contains(poolActivity)) {
+                                if (widget.poolActivity.id != 0) {
+                                  poolActivity.id = widget.poolActivity.id;
                                   await dataManager.editActivity(poolActivity);
                                 } else {
                                   await dataManager.addActivity(poolActivity);

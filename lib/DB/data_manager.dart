@@ -35,7 +35,7 @@ class DataManager {
     return true;
   }
 
-  dynamic getPoolActivityMuscleGroup(int id) {
+  List<PoolActivity> getPoolActivityMuscleGroup(int id) {
     return poolActivities.where((poolActivity) => poolActivity.muscleGroupId == id).toList();
   }
 
@@ -45,13 +45,10 @@ class DataManager {
     poolActivities.add(poolActivity);
   }
 
-  // Тут что-то происходит странное
   dynamic editActivity(PoolActivity poolActivity) async {
-    var activity = await dbProvider.editPoolActivity(poolActivity);
-    // PoolActivity activity = await updatePoolActivity(poolActivity, dbProvider);
-    poolActivities.removeWhere((poolActivity) => poolActivity.id == activity.id);
-    poolActivities.add(activity);
-    return activity;
+    await dbProvider.editPoolActivity(poolActivity);
+    poolActivities.removeWhere((activity) => activity.id == poolActivity.id);
+    poolActivities.add(poolActivity);
   }
 
   String getPoolActivityName(int id) {
@@ -60,14 +57,13 @@ class DataManager {
 
   dynamic removeActivity(int id) async {
     await dbProvider.removePoolActivity(id);
-    // await deletePoolActivity(id, dbProvider);
     poolActivities.removeWhere((poolActivity) => poolActivity.id == id);
   }
 
-  dynamic getWorkoutDay(DateTime date) async {
+  Future<List<Workout>> getWorkoutDay(DateTime date) async {
     // workouts = await getWorkoutAtDay(dbProvider, date);
     workouts = await dbProvider.workoutAtDay(date);
-    return workouts;
+    return workouts.isNotEmpty ? workouts : <Workout>[];
   }
 
   dynamic swapWorkoutPosition(List<Workout> workoutList) async {

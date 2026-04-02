@@ -36,7 +36,6 @@ class _TileListActivitySelect extends State<TileListActivitySelect> with TickerP
             builder: (context) {
               return AddActivityScreen(muscleGroup: muscleGroup);
             }).whenComplete(exit);
-        // Navigator.pop(context);
       },
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,

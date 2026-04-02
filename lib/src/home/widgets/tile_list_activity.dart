@@ -47,7 +47,7 @@ class _TileListActivity extends State<TileListActivity> with TickerProviderState
               SizedBox(
                 width: 10,
               ),
-              Text(muscleGroup.nameRu as String),
+              Text(muscleGroup.nameRu.toString()),
             ],
           ),
           Row(
