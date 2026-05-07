@@ -1,7 +1,7 @@
 import 'package:fit_tracker/DB/data_manager.dart';
 import 'package:fit_tracker/DB/models/workout.dart';
-import 'package:fit_tracker/generated/l10n.dart';
 import 'package:fit_tracker/src/home/screen/new_activity_screen.dart';
+import 'package:fit_tracker/src/home/screen/settings_screen.dart';
 import 'package:fit_tracker/src/home/widgets/tile_selected_activity.dart';
 import 'package:fit_tracker/src/themes/filled_button_theme.dart';
 import 'package:fit_tracker/src/themes/theme_dark.dart';
@@ -97,9 +97,19 @@ class _HomeScreen extends State<Homescreen> with TickerProviderStateMixin {
                 spacing: 5,
                 children: [
                   IconButton.filledTonal(
-                      onPressed: () {}, icon: Icon(Icons.settings), iconSize: 35),
+                      onPressed: () => {
+                            showModalBottomSheet(
+                                context: context,
+                                useSafeArea: true,
+                                isScrollControlled: true,
+                                builder: (context) {
+                                  return SettingsScreen();
+                                })
+                          },
+                      icon: Icon(Icons.settings),
+                      iconSize: 35),
                   SizedBox(
-                    width: 110,
+                    width: 120,
                     child: IconButton.filled(
                       iconSize: 35,
                       style: FilledButtonStyle(),
