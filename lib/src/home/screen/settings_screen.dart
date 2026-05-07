@@ -1,3 +1,4 @@
+import 'package:fit_tracker/DB/backup_service.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -26,13 +27,17 @@ class SettingsScreenState extends State<SettingsScreen> {
             leading: Icon(Icons.backup),
             title: Text("Создать резервную копию"),
             trailing: Icon(Icons.arrow_forward_ios),
-            onTap: () {},
+            onTap: () async {
+              BackupService().exportDatabase();
+            },
           ),
           ListTile(
             leading: Icon(Icons.cloud_download_rounded),
             title: Text("Восстановить данные"),
             trailing: Icon(Icons.arrow_forward_ios),
-            onTap: () {},
+            onTap: () {
+              BackupService().importDatabase();
+            },
           ),
         ],
       ),

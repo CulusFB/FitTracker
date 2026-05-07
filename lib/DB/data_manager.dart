@@ -15,7 +15,7 @@ class DataManager {
   late DatabaseManager dbProvider;
   late List<MuscleGroup> muscleGroups;
   late List<PoolActivity> poolActivities;
-  late List<Workout> workouts = []; //TODO: Fix it when bloc
+  late List<Workout> workouts = [];
   DateFormat format = DateFormat("yyyy-MM-dd HH:mm:ss.SSS");
   DataManager._() {
     initDbProvider();
