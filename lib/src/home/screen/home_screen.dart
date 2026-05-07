@@ -44,8 +44,7 @@ class _HomeScreen extends State<Homescreen> with TickerProviderStateMixin {
   }
 
   bool isDark() {
-    var brightness =
-        SchedulerBinding.instance.platformDispatcher.platformBrightness;
+    var brightness = SchedulerBinding.instance.platformDispatcher.platformBrightness;
     return brightness == Brightness.dark;
   }
 
@@ -87,18 +86,24 @@ class _HomeScreen extends State<Homescreen> with TickerProviderStateMixin {
                           workout: workout,
                           key: ValueKey(workout.id),
                           poolActivity: DataManager.instance.poolActivities
-                              .firstWhere(
-                                  (el) => el.id == workout.poolActivityId),
+                              .firstWhere((el) => el.id == workout.poolActivityId),
                           onChange: () {}))
                       .toList()),
             ),
             Container(
-              padding: EdgeInsets.all(10),
-              width: MediaQuery.of(context).size.width,
-              height: 80,
-              child: FilledButton(
-                  style: FilledButtonStyle(),
-                  onPressed: () => {
+              padding: EdgeInsets.only(left: 10, right: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                spacing: 5,
+                children: [
+                  IconButton.filledTonal(
+                      onPressed: () {}, icon: Icon(Icons.settings), iconSize: 35),
+                  SizedBox(
+                    width: 110,
+                    child: IconButton.filled(
+                      iconSize: 35,
+                      style: FilledButtonStyle(),
+                      onPressed: () => {
                         showModalBottomSheet(
                             useSafeArea: true,
                             isScrollControlled: true,
@@ -109,7 +114,11 @@ class _HomeScreen extends State<Homescreen> with TickerProviderStateMixin {
                           calendarListener();
                         })
                       },
-                  child: Text(S.of(context).add_activity)),
+                      icon: Icon(Icons.add),
+                    ),
+                  ),
+                ],
+              ),
             )
           ],
         ),
