@@ -28,7 +28,7 @@ class _ActivityScreen extends State<ActivityScreen> with TickerProviderStateMixi
     super.initState();
     tileController = TileController();
     muscleGroup = widget.muscleGroup;
-    poolActivityList = DataManager.instance.getPoolActivityMuscleGroup(muscleGroup.id);
+    poolActivityList = DataManager().getPoolActivityMuscleGroup(muscleGroup.id);
     super.initState();
   }
 
@@ -68,8 +68,7 @@ class _ActivityScreen extends State<ActivityScreen> with TickerProviderStateMixi
                           );
                         }).whenComplete(() {
                       setState(() {
-                        poolActivityList =
-                            DataManager.instance.getPoolActivityMuscleGroup(muscleGroup.id);
+                        poolActivityList = DataManager().getPoolActivityMuscleGroup(muscleGroup.id);
                       });
                     });
                   },
@@ -113,7 +112,7 @@ class _ActivityScreen extends State<ActivityScreen> with TickerProviderStateMixi
                           onPressed: () {
                             //TODO: maybe refactoring
                             List<Workout> workouts = [];
-                            DateTime now = DataManager.instance.calendarController.value;
+                            DateTime now = DataManager().calendarController.value;
                             DateTime date = DateTime(now.year, now.month, now.day);
                             List<RepetitionWeight> repetitionWeight = [
                               RepetitionWeight(repetition: 0, weight: 0)
@@ -124,7 +123,7 @@ class _ActivityScreen extends State<ActivityScreen> with TickerProviderStateMixi
                                   poolActivityId: activity.id,
                                   approaches: repetitionWeight));
                             });
-                            DataManager.instance.newWorkout(workouts);
+                            DataManager().newWorkout(workouts);
                             Navigator.pop(context);
                             Navigator.pop(context);
                           },
@@ -155,7 +154,7 @@ class _ActivityScreen extends State<ActivityScreen> with TickerProviderStateMixi
                                         }).whenComplete(() {
                                       setState(() {
                                         tileController.enableActivity.clear();
-                                        poolActivityList = DataManager.instance
+                                        poolActivityList = DataManager()
                                             .getPoolActivityMuscleGroup(muscleGroup.id);
                                       });
                                     });

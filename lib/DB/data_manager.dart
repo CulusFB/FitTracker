@@ -8,31 +8,44 @@ import 'package:flutter_advanced_calendar/flutter_advanced_calendar.dart';
 import 'package:intl/intl.dart';
 
 class DataManager {
-  static final DataManager _instance = DataManager._();
-  static DataManager get instance => _instance;
+  static final DataManager _instance = DataManager._internal();
+
+  factory DataManager() => _instance;
+
+  DataManager._internal();
+
+  static bool _initialized = false;
 
   AdvancedCalendarController calendarController = AdvancedCalendarController.today();
   late DatabaseManager dbProvider;
   late List<MuscleGroup> muscleGroups;
   late List<PoolActivity> poolActivities;
-  late List<Workout> workouts = []; //TODO: Fix it when bloc
+  late List<Workout> workouts = [];
   DateFormat format = DateFormat("yyyy-MM-dd HH:mm:ss.SSS");
-  DataManager._() {
-    initDbProvider();
-    initDataManager();
+
+  Future<void> init() async {
+    if (_initialized) return;
+
+    await _initialization();
+
+    _initialized = true;
   }
 
-  dynamic initDbProvider() async {
+  Future<void> reinit() async {
     dbProvider = DatabaseManager();
+    await dbProvider.reinitConnection;
+    await _initialization();
   }
 
-  Future<bool> initDataManager() async {
+  Future<void> _initialization() async {
+    dbProvider = DatabaseManager();
+
     DateTime now = DateTime.now();
     DateTime date = DateTime(now.year, now.month, now.day);
+
     workouts = await dbProvider.workoutAtDay(date);
     muscleGroups = await dbProvider.muscleGroups();
     poolActivities = await dbProvider.poolActivities();
-    return true;
   }
 
   List<PoolActivity> getPoolActivityMuscleGroup(int id) {

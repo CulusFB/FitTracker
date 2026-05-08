@@ -44,18 +44,15 @@ class _RepetitionWeightScreen extends State<RepetitionWeightScreen> {
   }
 
   dynamic getLastWorkouts() async {
-    lastWorkout =
-        await DataManager.instance.getWorkoutLast(workout.poolActivityId);
+    lastWorkout = await DataManager().getWorkoutLast(workout.poolActivityId);
     setState(() {});
   }
 
   void checkFocus(FocusNode weightFocus, FocusNode repetitionFocus) {
     if (weightFocus.hasFocus || repetitionFocus.hasFocus) {
-      BlocProvider.of<RepetitionWeightBloc>(context)
-          .add(RepetitionWeightSaveEvent());
+      BlocProvider.of<RepetitionWeightBloc>(context).add(RepetitionWeightSaveEvent());
     } else {
-      BlocProvider.of<RepetitionWeightBloc>(context)
-          .add(RepetitionWeightDefaultEvent());
+      BlocProvider.of<RepetitionWeightBloc>(context).add(RepetitionWeightDefaultEvent());
     }
   }
 
@@ -69,8 +66,7 @@ class _RepetitionWeightScreen extends State<RepetitionWeightScreen> {
             alignment: Alignment.topLeft,
             child: Text(
               activityName,
-              style:
-                  GoogleFonts.roboto(fontSize: 24, fontWeight: FontWeight.bold),
+              style: GoogleFonts.roboto(fontSize: 24, fontWeight: FontWeight.bold),
             ),
           ),
           SizedBox(
@@ -114,8 +110,7 @@ class _RepetitionWeightScreen extends State<RepetitionWeightScreen> {
                         enableDismissed: e.key == 0 ? false : true,
                         onTap: () {},
                         onDismissed: () async {
-                          await DataManager.instance
-                              .delReptitioonWeight(e.key, workout);
+                          await DataManager().delReptitioonWeight(e.key, workout);
                           lastId = repetitionWeight.length + 1;
                           setState(() {});
                         },
@@ -133,16 +128,13 @@ class _RepetitionWeightScreen extends State<RepetitionWeightScreen> {
                             child: FilledButton(
                                 style: FilledButtonStyle(),
                                 onPressed: () async {
-                                  RepetitionWeight newRepetitionWeight =
-                                      RepetitionWeight(
-                                          weight: repetitionWeight.last.weight,
-                                          repetition:
-                                              repetitionWeight.last.repetition);
+                                  RepetitionWeight newRepetitionWeight = RepetitionWeight(
+                                      weight: repetitionWeight.last.weight,
+                                      repetition: repetitionWeight.last.repetition);
                                   repetitionWeight.add(newRepetitionWeight);
                                   lastId++;
-                                  await DataManager.instance
-                                      .addRepetitionWeight(
-                                          newRepetitionWeight, workout.id);
+                                  await DataManager()
+                                      .addRepetitionWeight(newRepetitionWeight, workout.id);
                                   setState(() {});
                                 },
                                 child: Text("Добавить подход")),
@@ -162,24 +154,19 @@ class _RepetitionWeightScreen extends State<RepetitionWeightScreen> {
                                   height: 60,
                                   child: FilledButton(
                                       onPressed: () async {
-                                        Workout lastWorkout = await DataManager
-                                            .instance
-                                            .getWorkoutLast(
-                                                workout.poolActivityId);
+                                        Workout lastWorkout = await DataManager()
+                                            .getWorkoutLast(workout.poolActivityId);
 
                                         setState(() {
                                           repetitionWeight =
-                                              lastWorkout.approachesList
-                                                  as List<RepetitionWeight>;
-                                          DataManager.instance
-                                              .updAllRepetitionWeight(
-                                                  repetitionWeight, workout.id);
+                                              lastWorkout.approachesList as List<RepetitionWeight>;
+                                          DataManager()
+                                              .updAllRepetitionWeight(repetitionWeight, workout.id);
                                         });
                                       },
                                       style: FilledButtonStyle(),
                                       child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
+                                        mainAxisAlignment: MainAxisAlignment.center,
                                         children: [
                                           Icon(
                                             Icons.copy_outlined,
@@ -203,8 +190,7 @@ class _RepetitionWeightScreen extends State<RepetitionWeightScreen> {
           SizedBox(
             height: 10,
           ),
-          BlocBuilder<RepetitionWeightBloc, RepetitionWeightState>(
-              builder: (context, state) {
+          BlocBuilder<RepetitionWeightBloc, RepetitionWeightState>(builder: (context, state) {
             if (state is RepetitionWeightDefaultState) {
               return Container(
                 padding: EdgeInsets.only(bottom: 40),
@@ -238,8 +224,7 @@ class _RepetitionWeightScreen extends State<RepetitionWeightScreen> {
                                 Expanded(
                                   child: Text(
                                     style: GoogleFonts.roboto(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 17),
+                                        fontWeight: FontWeight.bold, fontSize: 17),
                                     'Статистика',
                                   ),
                                 )
@@ -272,8 +257,7 @@ class _RepetitionWeightScreen extends State<RepetitionWeightScreen> {
                   child: FilledButton(
                       onPressed: () {
                         onFocus = false;
-                        DataManager.instance.updAllRepetitionWeight(
-                            repetitionWeight, workout.id);
+                        DataManager().updAllRepetitionWeight(repetitionWeight, workout.id);
                         setState(() {});
                         BlocProvider.of<RepetitionWeightBloc>(context)
                             .add(RepetitionWeightDefaultEvent());

@@ -18,9 +18,8 @@ class _MaterialContextApp extends State<MaterialContextApp> {
   @override
   void initState() {
     super.initState();
-    DataManager dataManager = DataManager.instance;
-    dataManager.initDbProvider().whenComplete(() {});
-    dataManager.initDataManager().whenComplete(() {});
+    DataManager dataManager = DataManager();
+    dataManager.init();
   }
 
   @override

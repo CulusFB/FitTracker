@@ -26,12 +26,12 @@ class _StatisticsScreen extends State<StatisticScreen> with TickerProviderStateM
   late TonnageWeightChartData tonnage;
   Set<DateRange> selection = {DateRange.month};
   late String poolActivityName;
-  final dataManager = DataManager.instance;
+  final dataManager = DataManager();
 
   @override
   void initState() {
     poolActivityId = widget.poolActivityId;
-    poolActivityName = DataManager.instance.getPoolActivityName(poolActivityId);
+    poolActivityName = DataManager().getPoolActivityName(poolActivityId);
     getStatistics();
     super.initState();
   }

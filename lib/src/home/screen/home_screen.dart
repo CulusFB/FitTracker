@@ -1,7 +1,7 @@
 import 'package:fit_tracker/DB/data_manager.dart';
 import 'package:fit_tracker/DB/models/workout.dart';
-import 'package:fit_tracker/generated/l10n.dart';
 import 'package:fit_tracker/src/home/screen/new_activity_screen.dart';
+import 'package:fit_tracker/src/home/screen/settings_screen.dart';
 import 'package:fit_tracker/src/home/widgets/tile_selected_activity.dart';
 import 'package:fit_tracker/src/themes/filled_button_theme.dart';
 import 'package:fit_tracker/src/themes/theme_dark.dart';
@@ -25,11 +25,15 @@ class _HomeScreen extends State<Homescreen> with TickerProviderStateMixin {
 
   @override
   void initState() {
-    workouts = DataManager.instance.workouts;
-    _controller = DataManager.instance.calendarController;
+    _initLateVarible();
+    super.initState();
+  }
+
+  void _initLateVarible() {
+    workouts = DataManager().workouts;
+    _controller = DataManager().calendarController;
     workoutCalendar(_controller.value);
     _controller.addListener(() => calendarListener());
-    super.initState();
   }
 
   void calendarListener() {
@@ -37,15 +41,14 @@ class _HomeScreen extends State<Homescreen> with TickerProviderStateMixin {
   }
 
   void workoutCalendar(DateTime date) async {
-    events = await DataManager.instance.dateWorkouts();
+    events = await DataManager().dateWorkouts();
     DateTime updateDate = DateTime(date.year, date.month, date.day);
-    workouts = await DataManager.instance.getWorkoutDay(updateDate);
+    workouts = await DataManager().getWorkoutDay(updateDate);
     setState(() {});
   }
 
   bool isDark() {
-    var brightness =
-        SchedulerBinding.instance.platformDispatcher.platformBrightness;
+    var brightness = SchedulerBinding.instance.platformDispatcher.platformBrightness;
     return brightness == Brightness.dark;
   }
 
@@ -79,26 +82,45 @@ class _HomeScreen extends State<Homescreen> with TickerProviderStateMixin {
                     for (var i = 0; i < workouts.length; i++) {
                       workouts[i].position = i;
                     }
-                    DataManager.instance.swapWorkoutPosition(workouts);
+                    DataManager().swapWorkoutPosition(workouts);
                     setState(() {});
                   },
                   children: workouts
                       .map((workout) => TileSelectedActivity(
                           workout: workout,
                           key: ValueKey(workout.id),
-                          poolActivity: DataManager.instance.poolActivities
-                              .firstWhere(
-                                  (el) => el.id == workout.poolActivityId),
+                          poolActivity: DataManager()
+                              .poolActivities
+                              .firstWhere((el) => el.id == workout.poolActivityId),
                           onChange: () {}))
                       .toList()),
             ),
             Container(
-              padding: EdgeInsets.all(10),
-              width: MediaQuery.of(context).size.width,
-              height: 80,
-              child: FilledButton(
-                  style: FilledButtonStyle(),
-                  onPressed: () => {
+              padding: EdgeInsets.only(left: 10, right: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                spacing: 5,
+                children: [
+                  IconButton.filledTonal(
+                      onPressed: () => {
+                            showModalBottomSheet(
+                                context: context,
+                                useSafeArea: true,
+                                isScrollControlled: true,
+                                builder: (context) {
+                                  return SettingsScreen();
+                                }).whenComplete(() {
+                              _initLateVarible();
+                            })
+                          },
+                      icon: Icon(Icons.settings),
+                      iconSize: 35),
+                  SizedBox(
+                    width: 120,
+                    child: IconButton.filled(
+                      iconSize: 35,
+                      style: FilledButtonStyle(),
+                      onPressed: () => {
                         showModalBottomSheet(
                             useSafeArea: true,
                             isScrollControlled: true,
@@ -109,7 +131,11 @@ class _HomeScreen extends State<Homescreen> with TickerProviderStateMixin {
                           calendarListener();
                         })
                       },
-                  child: Text(S.of(context).add_activity)),
+                      icon: Icon(Icons.add),
+                    ),
+                  ),
+                ],
+              ),
             )
           ],
         ),
