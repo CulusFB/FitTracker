@@ -10,7 +10,7 @@ import 'package:sqflite/sqflite.dart';
 class BackupService {
   static const String dbName = 'TestDB.fittracker';
 
-  Future<void> exportDatabase() async {
+  Future<bool> exportDatabase() async {
     final dbPath = await getDatabasesPath();
     final sourcePath = join(dbPath, dbName);
 
@@ -36,14 +36,15 @@ class BackupService {
       files: [XFile(backupFile.path)],
     );
     await SharePlus.instance.share(params);
+    return true;
   }
 
-  Future<void> importDatabase() async {
+  Future<bool> importDatabase() async {
     final result =
         await FilePicker.pickFiles(type: FileType.custom, allowedExtensions: ["fittracker"]);
 
     if (result == null) {
-      return;
+      return false;
     }
 
     final pickedFile = File(result.files.single.path!);
@@ -56,5 +57,6 @@ class BackupService {
     }
     await pickedFile.copy(targetPath);
     await DataManager().reinit();
+    return true;
   }
 }

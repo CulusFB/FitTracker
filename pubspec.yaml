@@ -1,7 +1,7 @@
 name: fit_tracker
 description: "App for recording workouts."
 publish_to: "none"
-version: 0.28.0
+version: 0.29.0
 
 environment:
   sdk: ^3.6.0
@@ -26,6 +26,7 @@ dependencies:
   file_picker: ^11.0.2
   path_provider: ^2.1.5
   share_plus: ^12.0.2
+  top_snackbar_flutter: ^3.3.0
 
 dependency_overrides:
   intl: any
