@@ -84,7 +84,7 @@ class _ActivityScreen extends State<ActivityScreen> with TickerProviderStateMixi
                 child: Column(
                   children: poolActivityList
                       .map((poolActivity) => TileActivity(
-                            key: UniqueKey(),
+                            key: Key(poolActivity.id.toString()),
                             poolActivity: poolActivity,
                             tileController: tileController,
                             onChange: () {
