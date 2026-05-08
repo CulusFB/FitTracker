@@ -17,6 +17,12 @@ class DatabaseManager {
 
   Future<Database> get _initConnection async {
     if (_database != null) return _database!;
+
+    _database = await initDB();
+    return _database!;
+  }
+
+  Future<Database> get reinitConnection async {
     _database = await initDB();
     return _database!;
   }
@@ -29,7 +35,7 @@ class DatabaseManager {
 
   dynamic initDB() async {
     var databasesPath = await getDatabasesPath();
-    var path = join(databasesPath, "TestDB.db");
+    var path = join(databasesPath, "TestDB.fittracker");
     var exists = await databaseExists(path);
 
     if (!exists) {
@@ -41,7 +47,7 @@ class DatabaseManager {
         await Directory(dirname(path)).create(recursive: true);
       } catch (_) {}
       // Copy from asset
-      ByteData data = await rootBundle.load(url.join("assets/database", "TestDB.db"));
+      ByteData data = await rootBundle.load(url.join("assets/database", "TestDB.fittracker"));
       List<int> bytes = data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
 
       // Write and flush the bytes written

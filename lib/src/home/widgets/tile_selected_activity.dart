@@ -58,7 +58,7 @@ class _TileSelectedActivity extends State<TileSelectedActivity> with TickerProvi
         },
         key: UniqueKey(),
         onDismissed: (direction) {
-          DataManager.instance.delWorkout(widget.workout.id);
+          DataManager().delWorkout(widget.workout.id);
         },
         background: Container(
           color: Colors.red,
@@ -119,8 +119,7 @@ class _TileSelectedActivity extends State<TileSelectedActivity> with TickerProvi
                                                   workout.approachesList as List<RepetitionWeight>,
                                             ));
                                       }).whenComplete(() async {
-                                    workout =
-                                        await DataManager.instance.getWorkoutId(widget.workout.id);
+                                    workout = await DataManager().getWorkoutId(widget.workout.id);
                                     setState(() {});
                                   });
                                 },

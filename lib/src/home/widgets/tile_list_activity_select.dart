@@ -17,7 +17,7 @@ class _TileListActivitySelect extends State<TileListActivitySelect> with TickerP
   @override
   void initState() {
     muscleGroup = widget.muscleGroup;
-    idPoolActivity = DataManager.instance.getPoolActivityMuscleGroup(muscleGroup.id);
+    idPoolActivity = DataManager().getPoolActivityMuscleGroup(muscleGroup.id);
     super.initState();
   }
 

@@ -92,7 +92,7 @@ class _AddActivityScreen extends State<AddActivityScreen> with TickerProviderSta
                                     ),
                                     TextButton(
                                       onPressed: () async {
-                                        await DataManager.instance.removeActivity(poolActivity.id);
+                                        await DataManager().removeActivity(poolActivity.id);
                                         Navigator.of(context).pop();
                                         Navigator.of(context).pop();
                                       },
@@ -131,7 +131,7 @@ class _AddActivityScreen extends State<AddActivityScreen> with TickerProviderSta
                           child: FilledButton(
                               style: FilledButtonStyle(),
                               onPressed: () async {
-                                final dataManager = DataManager.instance;
+                                final dataManager = DataManager();
                                 poolActivity = PoolActivity();
                                 poolActivity.nameRu = textController.text;
                                 poolActivity.muscleGroupId = muscleGroup.id;

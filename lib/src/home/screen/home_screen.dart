@@ -25,11 +25,15 @@ class _HomeScreen extends State<Homescreen> with TickerProviderStateMixin {
 
   @override
   void initState() {
-    workouts = DataManager.instance.workouts;
-    _controller = DataManager.instance.calendarController;
+    _initLateVarible();
+    super.initState();
+  }
+
+  void _initLateVarible() {
+    workouts = DataManager().workouts;
+    _controller = DataManager().calendarController;
     workoutCalendar(_controller.value);
     _controller.addListener(() => calendarListener());
-    super.initState();
   }
 
   void calendarListener() {
@@ -37,9 +41,9 @@ class _HomeScreen extends State<Homescreen> with TickerProviderStateMixin {
   }
 
   void workoutCalendar(DateTime date) async {
-    events = await DataManager.instance.dateWorkouts();
+    events = await DataManager().dateWorkouts();
     DateTime updateDate = DateTime(date.year, date.month, date.day);
-    workouts = await DataManager.instance.getWorkoutDay(updateDate);
+    workouts = await DataManager().getWorkoutDay(updateDate);
     setState(() {});
   }
 
@@ -78,14 +82,15 @@ class _HomeScreen extends State<Homescreen> with TickerProviderStateMixin {
                     for (var i = 0; i < workouts.length; i++) {
                       workouts[i].position = i;
                     }
-                    DataManager.instance.swapWorkoutPosition(workouts);
+                    DataManager().swapWorkoutPosition(workouts);
                     setState(() {});
                   },
                   children: workouts
                       .map((workout) => TileSelectedActivity(
                           workout: workout,
                           key: ValueKey(workout.id),
-                          poolActivity: DataManager.instance.poolActivities
+                          poolActivity: DataManager()
+                              .poolActivities
                               .firstWhere((el) => el.id == workout.poolActivityId),
                           onChange: () {}))
                       .toList()),
@@ -104,7 +109,9 @@ class _HomeScreen extends State<Homescreen> with TickerProviderStateMixin {
                                 isScrollControlled: true,
                                 builder: (context) {
                                   return SettingsScreen();
-                                })
+                                }).whenComplete(() {
+                              _initLateVarible();
+                            })
                           },
                       icon: Icon(Icons.settings),
                       iconSize: 35),

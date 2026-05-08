@@ -1,13 +1,14 @@
 import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
+import 'package:fit_tracker/DB/data_manager.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:sqflite/sqflite.dart';
 
 class BackupService {
-  static const String dbName = 'TestDB.db';
+  static const String dbName = 'TestDB.fittracker';
 
   Future<void> exportDatabase() async {
     final dbPath = await getDatabasesPath();
@@ -24,24 +25,22 @@ class BackupService {
 
     final backupPath = join(
       tempDir.path,
-      'backup_${DateTime.now().millisecondsSinceEpoch}.db',
+      'backup_${DateTime.now().millisecondsSinceEpoch}.fittracker',
     );
 
     // Создаем копию БД
     final backupFile = await sourceFile.copy(backupPath);
 
     // Открываем share sheet
-    await Share.shareXFiles(
-      [XFile(backupFile.path)],
-      text: 'Database backup',
+    final params = ShareParams(
+      files: [XFile(backupFile.path)],
     );
+    await SharePlus.instance.share(params);
   }
 
   Future<void> importDatabase() async {
-    final result = await FilePicker.pickFiles(
-      type: FileType.custom,
-      allowedExtensions: ['db'],
-    );
+    final result =
+        await FilePicker.pickFiles(type: FileType.custom, allowedExtensions: ["fittracker"]);
 
     if (result == null) {
       return;
@@ -52,9 +51,10 @@ class BackupService {
     final dbPath = await getDatabasesPath();
     final targetPath = join(dbPath, dbName);
 
-    // Закрыть текущую БД
-    await deleteDatabase(targetPath);
-
+    if (await File(targetPath).exists()) {
+      await deleteDatabase(targetPath);
+    }
     await pickedFile.copy(targetPath);
+    await DataManager().reinit();
   }
 }
