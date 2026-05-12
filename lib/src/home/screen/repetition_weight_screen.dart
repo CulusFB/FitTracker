@@ -59,142 +59,141 @@ class _RepetitionWeightScreen extends State<RepetitionWeightScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        padding: EdgeInsets.only(top: 20, left: 20, right: 20),
-        child: Column(children: [
-          Align(
-            alignment: Alignment.topLeft,
-            child: Text(
-              activityName,
-              style: GoogleFonts.roboto(fontSize: 24, fontWeight: FontWeight.bold),
+      body: SafeArea(
+        child: Container(
+          padding: EdgeInsets.only(top: 20, left: 20, right: 20),
+          child: Column(children: [
+            Align(
+              alignment: Alignment.topLeft,
+              child: Text(
+                activityName,
+                style: GoogleFonts.roboto(fontSize: 24, fontWeight: FontWeight.bold),
+              ),
             ),
-          ),
-          SizedBox(
-            height: 30,
-          ),
-          Row(
-            children: [
-              SizedBox(
-                width: 30,
-              ),
-              Text('Вес'),
-              SizedBox(
-                width: 150,
-              ),
-              Text("Повторы")
-            ],
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Expanded(
-            child: SingleChildScrollView(
-              child: Column(
-                children: <Widget>[] +
-                    repetitionWeight.asMap().entries.map((e) {
-                      FocusNode weightFocus = FocusNode();
-                      FocusNode repetitionFocus = FocusNode();
-                      weightFocus.addListener(() {
-                        checkFocus(weightFocus, repetitionFocus);
-                      });
-                      repetitionFocus.addListener(() {
-                        checkFocus(weightFocus, repetitionFocus);
-                      });
-                      return RepetitionWeigthTile(
-                        key: UniqueKey(),
-                        enableTextEdit: true,
-                        weightFocus: weightFocus,
-                        repetitionFocus: repetitionFocus,
-                        id: e.key + 1,
-                        repetitionWeight: e.value,
-                        enableDismissed: e.key == 0 ? false : true,
-                        onTap: () {},
-                        onDismissed: () async {
-                          await DataManager().delReptitioonWeight(e.key, workout);
-                          lastId = repetitionWeight.length + 1;
-                          setState(() {});
-                        },
-                      );
-                    }).toList() +
-                    [
-                      Row(
-                        children: [
-                          // Text(lastId.toString()),
-                          SizedBox(width: 10),
-                          Expanded(
-                              child: Container(
-                            padding: EdgeInsets.only(left: 10),
-                            height: 60,
-                            child: FilledButton(
-                                style: FilledButtonStyle(),
-                                onPressed: () async {
-                                  RepetitionWeight newRepetitionWeight = RepetitionWeight(
-                                      weight: repetitionWeight.last.weight,
-                                      repetition: repetitionWeight.last.repetition);
-                                  repetitionWeight.add(newRepetitionWeight);
-                                  lastId++;
-                                  await DataManager()
-                                      .addRepetitionWeight(newRepetitionWeight, workout.id);
-                                  setState(() {});
-                                },
-                                child: Text("Добавить подход")),
-                          ))
-                        ],
-                      ),
-                      if (repetitionWeight.first.repetition == 0 &&
-                          repetitionWeight.first.weight == 0 &&
-                          lastWorkout != 0)
-                        Container(
-                          padding: EdgeInsets.only(top: 10),
-                          child: Row(
-                            children: [
-                              Expanded(
+            SizedBox(
+              height: 30,
+            ),
+            Row(
+              children: [
+                SizedBox(
+                  width: 30,
+                ),
+                Text('Вес'),
+                SizedBox(
+                  width: 150,
+                ),
+                Text("Повторы")
+              ],
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  children: <Widget>[] +
+                      repetitionWeight.asMap().entries.map((e) {
+                        FocusNode weightFocus = FocusNode();
+                        FocusNode repetitionFocus = FocusNode();
+                        weightFocus.addListener(() {
+                          checkFocus(weightFocus, repetitionFocus);
+                        });
+                        repetitionFocus.addListener(() {
+                          checkFocus(weightFocus, repetitionFocus);
+                        });
+                        return RepetitionWeigthTile(
+                          key: UniqueKey(),
+                          enableTextEdit: true,
+                          weightFocus: weightFocus,
+                          repetitionFocus: repetitionFocus,
+                          id: e.key + 1,
+                          repetitionWeight: e.value,
+                          enableDismissed: e.key == 0 ? false : true,
+                          onTap: () {},
+                          onDismissed: () async {
+                            await DataManager().delReptitioonWeight(e.key, workout);
+                            lastId = repetitionWeight.length + 1;
+                            setState(() {});
+                          },
+                        );
+                      }).toList() +
+                      [
+                        Row(
+                          children: [
+                            // Text(lastId.toString()),
+                            SizedBox(width: 10),
+                            Expanded(
                                 child: Container(
-                                  padding: EdgeInsets.only(left: 20),
-                                  height: 60,
-                                  child: FilledButton(
-                                      onPressed: () async {
-                                        Workout lastWorkout = await DataManager()
-                                            .getWorkoutLast(workout.poolActivityId);
+                              padding: EdgeInsets.only(left: 10),
+                              height: 60,
+                              child: FilledButton(
+                                  style: FilledButtonStyle(),
+                                  onPressed: () async {
+                                    RepetitionWeight newRepetitionWeight = RepetitionWeight(
+                                        weight: repetitionWeight.last.weight,
+                                        repetition: repetitionWeight.last.repetition);
+                                    repetitionWeight.add(newRepetitionWeight);
+                                    lastId++;
+                                    await DataManager()
+                                        .addRepetitionWeight(newRepetitionWeight, workout.id);
+                                    setState(() {});
+                                  },
+                                  child: Text("Добавить подход")),
+                            ))
+                          ],
+                        ),
+                        if (repetitionWeight.first.repetition == 0 &&
+                            repetitionWeight.first.weight == 0 &&
+                            lastWorkout != 0)
+                          Container(
+                            padding: EdgeInsets.only(top: 10),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: Container(
+                                    padding: EdgeInsets.only(left: 20),
+                                    height: 60,
+                                    child: FilledButton(
+                                        onPressed: () async {
+                                          Workout lastWorkout = await DataManager()
+                                              .getWorkoutLast(workout.poolActivityId);
 
-                                        setState(() {
-                                          repetitionWeight =
-                                              lastWorkout.approachesList as List<RepetitionWeight>;
-                                          DataManager()
-                                              .updAllRepetitionWeight(repetitionWeight, workout.id);
-                                        });
-                                      },
-                                      style: FilledButtonStyle(),
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          Icon(
-                                            Icons.copy_outlined,
-                                            size: 25,
-                                          ),
-                                          SizedBox(
-                                            width: 10,
-                                          ),
-                                          Text("Копировать прошлое")
-                                        ],
-                                      )),
+                                          setState(() {
+                                            repetitionWeight = lastWorkout.approachesList
+                                                as List<RepetitionWeight>;
+                                            DataManager().updAllRepetitionWeight(
+                                                repetitionWeight, workout.id);
+                                          });
+                                        },
+                                        style: FilledButtonStyle(),
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            Icon(
+                                              Icons.copy_outlined,
+                                              size: 25,
+                                            ),
+                                            SizedBox(
+                                              width: 10,
+                                            ),
+                                            Text("Копировать прошлое")
+                                          ],
+                                        )),
+                                  ),
                                 ),
-                              ),
-                            ],
-                          ),
-                        )
-                    ],
+                              ],
+                            ),
+                          )
+                      ],
+                ),
               ),
             ),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          BlocBuilder<RepetitionWeightBloc, RepetitionWeightState>(builder: (context, state) {
-            if (state is RepetitionWeightDefaultState) {
-              return Container(
-                padding: EdgeInsets.only(bottom: 40),
-                child: Row(
+            SizedBox(
+              height: 10,
+            ),
+            BlocBuilder<RepetitionWeightBloc, RepetitionWeightState>(builder: (context, state) {
+              if (state is RepetitionWeightDefaultState) {
+                return Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Expanded(
@@ -246,27 +245,26 @@ class _RepetitionWeightScreen extends State<RepetitionWeightScreen> {
                       ),
                     )
                   ],
-                ),
-              );
-            }
-            if (state is RepetitionWeightSaveState) {
-              return Container(
-                  padding: EdgeInsets.only(bottom: 10),
-                  height: 60,
-                  width: MediaQuery.sizeOf(context).width,
-                  child: FilledButton(
-                      onPressed: () {
-                        onFocus = false;
-                        DataManager().updAllRepetitionWeight(repetitionWeight, workout.id);
-                        setState(() {});
-                        BlocProvider.of<RepetitionWeightBloc>(context)
-                            .add(RepetitionWeightDefaultEvent());
-                      },
-                      child: Text('Сохранить')));
-            }
-            return SizedBox();
-          }),
-        ]),
+                );
+              }
+              if (state is RepetitionWeightSaveState) {
+                return SizedBox(
+                    height: 50,
+                    width: MediaQuery.sizeOf(context).width,
+                    child: FilledButton(
+                        onPressed: () {
+                          onFocus = false;
+                          DataManager().updAllRepetitionWeight(repetitionWeight, workout.id);
+                          setState(() {});
+                          BlocProvider.of<RepetitionWeightBloc>(context)
+                              .add(RepetitionWeightDefaultEvent());
+                        },
+                        child: Text('Сохранить')));
+              }
+              return SizedBox();
+            }),
+          ]),
+        ),
       ),
     );
   }

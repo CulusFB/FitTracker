@@ -56,7 +56,7 @@ class _TileSelectedActivity extends State<TileSelectedActivity> with TickerProvi
             },
           );
         },
-        key: UniqueKey(),
+        key: Key(widget.workout.id.toString()),
         onDismissed: (direction) {
           DataManager().delWorkout(widget.workout.id);
         },

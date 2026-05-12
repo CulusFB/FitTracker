@@ -24,8 +24,8 @@ class IconWidgetState extends State<IconWidget> with TickerProviderStateMixin {
     var brightness = SchedulerBinding.instance.platformDispatcher.platformBrightness;
     pathTheme = brightness == Brightness.dark ? 'dark' : 'white';
     return SizedBox(
-        width: 60,
-        height: 60,
+        width: 50,
+        height: 50,
         child: FutureBuilder<String>(
             future: rootBundle
                 .loadString('assets/icons/MuscleGroup/$pathTheme/${widget.muscleGroupId}.svg'),
