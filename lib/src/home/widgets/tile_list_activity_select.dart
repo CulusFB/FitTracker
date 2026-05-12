@@ -2,6 +2,7 @@ import 'package:fit_tracker/DB/data_manager.dart';
 import 'package:fit_tracker/DB/models/muscle_group.dart';
 import 'package:fit_tracker/DB/models/pool_activity.dart';
 import 'package:fit_tracker/src/home/screen/add_activity_screen.dart';
+import 'package:fit_tracker/src/home/widgets/icon_widget.dart';
 import 'package:flutter/material.dart';
 
 class TileListActivitySelect extends StatefulWidget {
@@ -42,9 +43,7 @@ class _TileListActivitySelect extends State<TileListActivitySelect> with TickerP
         children: [
           Row(
             children: [
-              Icon(
-                Icons.local_activity,
-              ),
+              IconWidget(muscleGroupId: muscleGroup.id),
               SizedBox(
                 width: 10,
               ),

@@ -56,6 +56,7 @@ class _AddActivityScreen extends State<AddActivityScreen> with TickerProviderSta
                 )),
             Divider(),
             TextField(
+              textCapitalization: TextCapitalization.sentences,
               onChanged: (value) {
                 setState(() {});
               },
