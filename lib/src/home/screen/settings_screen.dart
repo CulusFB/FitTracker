@@ -1,6 +1,7 @@
 import 'package:fit_tracker/DB/backup_service.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
@@ -11,6 +12,20 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class SettingsScreenState extends State<SettingsScreen> {
+  String version = '';
+  @override
+  void initState() {
+    super.initState();
+    initPackageInfo();
+  }
+
+  Future<void> initPackageInfo() async {
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    setState(() {
+      version = packageInfo.version;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,6 +73,11 @@ class SettingsScreenState extends State<SettingsScreen> {
               }
             },
           ),
+          Spacer(),
+          Center(
+              child: Opacity(
+                  opacity: 0.5,
+                  child: Text("Версия приложения: $version", style: GoogleFonts.roboto())))
         ],
       ),
     )));
