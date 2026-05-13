@@ -1,6 +1,7 @@
 import 'package:fit_tracker/DB/data_manager.dart';
 import 'package:fit_tracker/DB/models/muscle_group.dart';
 import 'package:fit_tracker/src/home/screen/list_activity_screen.dart';
+import 'package:fit_tracker/src/home/widgets/search_activity.dart';
 import 'package:flutter/material.dart';
 
 class NewActivityScreen extends StatefulWidget {
@@ -35,20 +36,32 @@ class _NewActivityScreen extends State<NewActivityScreen> with TickerProviderSta
                 });
               }),
         ),
-        TabBar.secondary(controller: _tabController, tabs: <Widget>[
-          Tab(
-            text: "Упражнения",
+        if (search != "")
+          SearchActivity(
+            key: Key(search),
+            search: search,
+          )
+        else
+          Expanded(
+            child: Column(
+              children: [
+                TabBar.secondary(controller: _tabController, tabs: <Widget>[
+                  Tab(
+                    text: "Упражнения",
+                  ),
+                  Tab(text: "Программы")
+                ]),
+                Expanded(
+                  child: TabBarView(controller: _tabController, children: [
+                    ListActivityScreen(poolMuscleGroup: poolMuscleGroup),
+                    Column(
+                      children: [Text('test2')],
+                    )
+                  ]),
+                ),
+              ],
+            ),
           ),
-          Tab(text: "Программы")
-        ]),
-        Expanded(
-          child: TabBarView(controller: _tabController, children: [
-            ListActivityScreen(poolMuscleGroup: poolMuscleGroup),
-            Column(
-              children: [Text('test2')],
-            )
-          ]),
-        ),
       ],
     );
   }
