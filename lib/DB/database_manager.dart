@@ -119,7 +119,7 @@ class DatabaseManager {
     return await db.delete(_workoutTable, where: 'id = ?', whereArgs: [id]);
   }
 
-  dynamic workout(int id) async {
+  Future workout(int id) async {
     var db = await _initConnection;
     var result = await db.query(_workoutTable, where: 'id = ?', whereArgs: [id]);
     return result.isNotEmpty ? Workout.fromJson(result.first) : Null;

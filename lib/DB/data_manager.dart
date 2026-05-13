@@ -103,7 +103,7 @@ class DataManager {
     workouts.removeWhere((el) => el.id == workoutId);
   }
 
-  dynamic getWorkoutId(int workoutId) async {
+  Future getWorkoutId(int workoutId) async {
     return await dbProvider.workout(workoutId);
   }
 
@@ -119,7 +119,8 @@ class DataManager {
     await dbProvider.editRepetitionWeight(workout);
   }
 
-  dynamic updAllRepetitionWeight(List<RepetitionWeight> repetitionWeight, int workoutId) async {
+  Future<void> updAllRepetitionWeight(
+      List<RepetitionWeight> repetitionWeight, int workoutId) async {
     var workout = await dbProvider.workout(workoutId);
     workout.approachesList = repetitionWeight;
     await dbProvider.editRepetitionWeight(workout);

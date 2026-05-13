@@ -29,7 +29,7 @@ class _RepetitionWeightScreen extends State<RepetitionWeightScreen> {
   late final String activityName;
   late List<RepetitionWeight> repetitionWeight;
   late int lastId;
-  late final Workout workout;
+  late Workout workout;
   bool onFocus = false;
   dynamic lastWorkout = 0;
 
@@ -113,7 +113,11 @@ class _RepetitionWeightScreen extends State<RepetitionWeightScreen> {
                           onDismissed: () async {
                             await DataManager().delReptitioonWeight(e.key, workout);
                             lastId = repetitionWeight.length + 1;
-                            setState(() {});
+                            workout = await DataManager().getWorkoutId(workout.id);
+                            repetitionWeight = workout.approachesList as List<RepetitionWeight>;
+                            setState(() {
+                              repetitionWeight;
+                            });
                           },
                         );
                       }).toList() +
@@ -157,12 +161,14 @@ class _RepetitionWeightScreen extends State<RepetitionWeightScreen> {
                                         onPressed: () async {
                                           Workout lastWorkout = await DataManager()
                                               .getWorkoutLast(workout.poolActivityId);
-
+                                          repetitionWeight =
+                                              lastWorkout.approachesList as List<RepetitionWeight>;
+                                          await DataManager()
+                                              .updAllRepetitionWeight(repetitionWeight, workout.id);
+                                          workout = await DataManager().getWorkoutId(workout.id);
                                           setState(() {
-                                            repetitionWeight = lastWorkout.approachesList
-                                                as List<RepetitionWeight>;
-                                            DataManager().updAllRepetitionWeight(
-                                                repetitionWeight, workout.id);
+                                            repetitionWeight;
+                                            workout;
                                           });
                                         },
                                         style: FilledButtonStyle(),
