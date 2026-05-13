@@ -7,13 +7,19 @@ import 'package:fit_tracker/src/themes/filled_button_theme.dart';
 import 'package:flutter/material.dart';
 
 class ListActivityScreen extends StatefulWidget {
-  const ListActivityScreen({super.key});
+  const ListActivityScreen({super.key, required this.poolMuscleGroup});
+  final List<MuscleGroup> poolMuscleGroup;
   @override
   State<ListActivityScreen> createState() => _ListActivityScreen();
 }
 
 class _ListActivityScreen extends State<ListActivityScreen> with TickerProviderStateMixin {
-  List<MuscleGroup> poolMuscleGroup = DataManager().muscleGroups;
+  late List<MuscleGroup> poolMuscleGroup;
+  @override
+  void initState() {
+    poolMuscleGroup = widget.poolMuscleGroup;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

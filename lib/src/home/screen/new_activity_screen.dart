@@ -1,3 +1,5 @@
+import 'package:fit_tracker/DB/data_manager.dart';
+import 'package:fit_tracker/DB/models/muscle_group.dart';
 import 'package:fit_tracker/src/home/screen/list_activity_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -9,7 +11,8 @@ class NewActivityScreen extends StatefulWidget {
 
 class _NewActivityScreen extends State<NewActivityScreen> with TickerProviderStateMixin {
   late final TabController _tabController;
-  
+  String search = '';
+  List<MuscleGroup> poolMuscleGroup = DataManager().muscleGroups;
   @override
   void initState() {
     super.initState();
@@ -23,10 +26,14 @@ class _NewActivityScreen extends State<NewActivityScreen> with TickerProviderSta
         Container(
           padding: EdgeInsets.all(10),
           child: SearchBar(
-            elevation: WidgetStatePropertyAll(0),
-            leading: Icon(Icons.search),
-            hintText: 'Поиск',
-          ),
+              elevation: WidgetStatePropertyAll(0),
+              leading: Icon(Icons.search),
+              hintText: 'Поиск',
+              onChanged: (value) {
+                setState(() {
+                  search = value;
+                });
+              }),
         ),
         TabBar.secondary(controller: _tabController, tabs: <Widget>[
           Tab(
@@ -36,12 +43,12 @@ class _NewActivityScreen extends State<NewActivityScreen> with TickerProviderSta
         ]),
         Expanded(
           child: TabBarView(controller: _tabController, children: [
-            ListActivityScreen(),
+            ListActivityScreen(poolMuscleGroup: poolMuscleGroup),
             Column(
               children: [Text('test2')],
             )
           ]),
-        )
+        ),
       ],
     );
   }
