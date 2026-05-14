@@ -26,20 +26,6 @@ class IconWidgetState extends State<IconWidget> with TickerProviderStateMixin {
     return SizedBox(
         width: 50,
         height: 50,
-        child: FutureBuilder<String>(
-            future: rootBundle
-                .loadString('assets/icons/MuscleGroup/$pathTheme/${widget.muscleGroupId}.svg'),
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return SvgPicture.string(
-                  snapshot.data!,
-                );
-              } else {
-                if (kDebugMode) {
-                  print("Ошибка при загрузке SVG: ${snapshot.error}");
-                }
-                return Icon(Icons.abc);
-              }
-            }));
+        child: SvgPicture.asset('assets/icons/MuscleGroup/$pathTheme/${widget.muscleGroupId}.svg'));
   }
 }
