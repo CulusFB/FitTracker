@@ -10,10 +10,12 @@ class TileActivity extends StatefulWidget {
       {super.key,
       required this.poolActivity,
       required this.tileController,
-      required this.onChange});
+      required this.onChange,
+      this.icon});
   final TileController tileController;
   final PoolActivity poolActivity;
   final Function onChange;
+  final Widget? icon;
   @override
   State<TileActivity> createState() => _TileActivity();
 }
@@ -34,6 +36,7 @@ class _TileActivity extends State<TileActivity> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      leading: widget.icon,
       internalAddSemanticForOnTap: false,
       splashColor: Colors.transparent,
       selected: isSelected,

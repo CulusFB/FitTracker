@@ -2,6 +2,7 @@ import 'package:fit_tracker/DB/data_manager.dart';
 import 'package:fit_tracker/DB/models/pool_activity.dart';
 import 'package:fit_tracker/DB/models/repetition_weigth.dart';
 import 'package:fit_tracker/DB/models/workout.dart';
+import 'package:fit_tracker/src/home/widgets/icon_widget.dart';
 import 'package:fit_tracker/src/home/widgets/tile_activity.dart';
 import 'package:flutter/material.dart';
 
@@ -47,6 +48,7 @@ class SearchAcvtivityState extends State<SearchActivity> {
                       .map((el) => TileActivity(
                           poolActivity: el,
                           tileController: tileController,
+                          icon: IconWidget(muscleGroupId: el.muscleGroupId),
                           onChange: () {
                             setState(() {});
                           }))
